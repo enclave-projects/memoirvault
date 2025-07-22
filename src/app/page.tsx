@@ -1,102 +1,305 @@
-import Image from "next/image";
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
+import { AuthRedirect } from "@/components/AuthRedirect";
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+    <div className="min-h-screen bg-white">
+      <AuthRedirect />
+      {/* Header */}
+      <header className="px-6 py-4 flex justify-between items-center max-w-7xl mx-auto">
+        <div className="flex items-center space-x-2">
+          <div className="w-8 h-8 bg-gradient-to-br from-[#004838] to-[#073127] rounded-lg flex items-center justify-center">
+            <span className="text-[#E2FB6C] font-bold text-sm">M</span>
+          </div>
+          <span className="font-serif text-xl font-semibold text-[#333F3C]">MemoirVault</span>
+        </div>
+        <div className="flex items-center space-x-4">
+          <SignedOut>
+            <SignInButton 
+              mode="modal"
+              forceRedirectUrl="/dashboard"
+            >
+              <button className="text-[#333F3C] hover:text-[#004838] transition-colors font-medium">
+                Login
+              </button>
+            </SignInButton>
+            <SignUpButton 
+              mode="modal"
+              forceRedirectUrl="/dashboard"
+            >
+              <button className="gradient-cta text-[#E2FB6C] px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition-all duration-200">
+                Get Started
+              </button>
+            </SignUpButton>
+          </SignedOut>
+          <SignedIn>
+            <a
+              href="/dashboard"
+              className="text-[#333F3C] hover:text-[#004838] transition-colors font-medium"
+            >
+              Dashboard
+            </a>
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: "w-8 h-8"
+                }
+              }}
             />
-            Deploy now
-          </a>
+          </SignedIn>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <section className="px-6 py-20 text-center max-w-6xl mx-auto">
+        <h1 className="font-serif text-5xl md:text-6xl font-semibold text-[#333F3C] mb-6 leading-tight">
+          Your Life Story,<br />
+          <span className="text-[#004838]">Completely Private</span>
+        </h1>
+        <p className="text-xl text-[#333F3C] mb-8 max-w-2xl mx-auto leading-relaxed">
+          Record, preserve, and own your autobiography with complete privacy and control.
+          Multi-media journaling that keeps your memories safe and secure.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+          <SignedOut>
+            <SignUpButton 
+              mode="modal"
+              forceRedirectUrl="/dashboard"
+            >
+              <button className="gradient-cta text-[#E2FB6C] px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1">
+                Start Your Journey
+              </button>
+            </SignUpButton>
+          </SignedOut>
+          <SignedIn>
+            <a
+              href="/dashboard"
+              className="gradient-cta text-[#E2FB6C] px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1"
+            >
+              Go to Dashboard
+            </a>
+          </SignedIn>
           <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#how-it-works"
+            className="border-2 border-[#E2FB6C] text-[#004838] px-8 py-4 rounded-xl font-semibold text-lg hover:bg-[#E2FB6C] hover:text-[#004838] transition-all duration-200"
           >
-            Read our docs
+            See How It Works
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+        {/* Trust Indicators */}
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-8 text-[#333F3C]">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">🔒</span>
+            <span className="font-medium">End-to-end encrypted</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">📱</span>
+            <span className="font-medium">All devices</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">🌍</span>
+            <span className="font-medium">Your data, your control</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Grid */}
+      <section className="px-6 py-20 bg-[#EBEDE8]">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="font-serif text-4xl font-semibold text-[#333F3C] text-center mb-16">
+            Everything you need to preserve your story
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+              <div className="text-4xl mb-4">🎙️</div>
+              <h3 className="font-serif text-xl font-semibold text-[#333F3C] mb-3">
+                Multi-media Journaling
+              </h3>
+              <p className="text-[#333F3C] leading-relaxed">
+                Capture your memories with text, audio recordings, photos, and videos.
+                Rich formatting tools make your stories come alive.
+              </p>
+            </div>
+            <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+              <div className="text-4xl mb-4">🔐</div>
+              <h3 className="font-serif text-xl font-semibold text-[#333F3C] mb-3">
+                Privacy-First
+              </h3>
+              <p className="text-[#333F3C] leading-relaxed">
+                Your data stays yours, always. End-to-end encryption ensures only you
+                can access your personal stories and memories.
+              </p>
+            </div>
+            <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+              <div className="text-4xl mb-4">📚</div>
+              <h3 className="font-serif text-xl font-semibold text-[#333F3C] mb-3">
+                Smart Organization
+              </h3>
+              <p className="text-[#333F3C] leading-relaxed">
+                Timeline views, intelligent tagging, and powerful search help you
+                navigate your life story with ease.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section id="how-it-works" className="px-6 py-20">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="font-serif text-4xl font-semibold text-[#333F3C] text-center mb-16">
+            Simple, secure, and completely yours
+          </h2>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <div className="space-y-8">
+                <div className="flex gap-4">
+                  <div className="w-8 h-8 bg-[#004838] text-[#E2FB6C] rounded-full flex items-center justify-center font-bold flex-shrink-0 mt-1">
+                    1
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-[#333F3C] text-lg mb-2">Create Your Private Space</h3>
+                    <p className="text-[#333F3C]">Sign up with secure authentication and optional biometric login for maximum privacy.</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="w-8 h-8 bg-[#004838] text-[#E2FB6C] rounded-full flex items-center justify-center font-bold flex-shrink-0 mt-1">
+                    2
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-[#333F3C] text-lg mb-2">Record Your Memories</h3>
+                    <p className="text-[#333F3C]">Write, record audio, capture photos, or film videos. Mix and match media types in each entry.</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="w-8 h-8 bg-[#004838] text-[#E2FB6C] rounded-full flex items-center justify-center font-bold flex-shrink-0 mt-1">
+                    3
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-[#333F3C] text-lg mb-2">Stay in Control</h3>
+                    <p className="text-[#333F3C]">Export your data anytime, delete permanently when you want, and always know where your information is stored.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="bg-gradient-to-br from-[#004838] to-[#073127] p-8 rounded-2xl text-white">
+              <h3 className="font-serif text-2xl font-semibold mb-4">Built by privacy advocates, for privacy advocates</h3>
+              <p className="mb-6 opacity-90">
+                We believe your personal stories deserve the highest level of protection.
+                That's why we built MemoirVault with privacy as the foundation, not an afterthought.
+              </p>
+              <div className="space-y-3 text-sm">
+                <div className="flex items-center gap-2">
+                  <span className="text-[#E2FB6C]">✓</span>
+                  <span>No tracking or analytics</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[#E2FB6C]">✓</span>
+                  <span>No data selling, ever</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[#E2FB6C]">✓</span>
+                  <span>Complete data sovereignty</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[#E2FB6C]">✓</span>
+                  <span>Open source transparency</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="px-6 py-20 bg-[#EBEDE8]">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="font-serif text-4xl font-semibold text-[#333F3C] mb-6">
+            Ready to start your digital autobiography?
+          </h2>
+          <p className="text-xl text-[#333F3C] mb-8 max-w-2xl mx-auto">
+            Join thousands who trust MemoirVault to preserve their most precious memories
+            with complete privacy and security.
+          </p>
+          <SignedOut>
+            <SignUpButton 
+              mode="modal"
+              forceRedirectUrl="/dashboard"
+            >
+              <button className="gradient-cta text-[#E2FB6C] px-10 py-4 rounded-xl font-semibold text-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1 inline-block">
+                Start Your Journey Today
+              </button>
+            </SignUpButton>
+          </SignedOut>
+          <SignedIn>
+            <a
+              href="/dashboard"
+              className="gradient-cta text-[#E2FB6C] px-10 py-4 rounded-xl font-semibold text-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1 inline-block"
+            >
+              Go to Your Dashboard
+            </a>
+          </SignedIn>
+          <p className="text-sm text-[#333F3C] mt-4 opacity-75">
+            Free to start • No credit card required • Cancel anytime
+          </p>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="px-6 py-12 bg-[#333F3C] text-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div>
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="w-8 h-8 bg-gradient-to-br from-[#004838] to-[#073127] rounded-lg flex items-center justify-center">
+                  <span className="text-[#E2FB6C] font-bold text-sm">M</span>
+                </div>
+                <span className="font-serif text-xl font-semibold">MemoirVault</span>
+              </div>
+              <p className="text-sm opacity-75 leading-relaxed">
+                Your life story, completely private. Built with privacy-first principles
+                for the modern digital age.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Product</h4>
+              <ul className="space-y-2 text-sm opacity-75">
+                <li><a href="/features" className="hover:opacity-100 transition-opacity">Features</a></li>
+                <li><a href="/pricing" className="hover:opacity-100 transition-opacity">Pricing</a></li>
+                <li><a href="/security" className="hover:opacity-100 transition-opacity">Security</a></li>
+                <li><a href="/roadmap" className="hover:opacity-100 transition-opacity">Roadmap</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Support</h4>
+              <ul className="space-y-2 text-sm opacity-75">
+                <li><a href="/help" className="hover:opacity-100 transition-opacity">Help Center</a></li>
+                <li><a href="/contact" className="hover:opacity-100 transition-opacity">Contact Us</a></li>
+                <li><a href="/community" className="hover:opacity-100 transition-opacity">Community</a></li>
+                <li><a href="/status" className="hover:opacity-100 transition-opacity">Status</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Legal</h4>
+              <ul className="space-y-2 text-sm opacity-75">
+                <li><a href="/privacy" className="hover:opacity-100 transition-opacity">Privacy Policy</a></li>
+                <li><a href="/terms" className="hover:opacity-100 transition-opacity">Terms of Service</a></li>
+                <li><a href="/cookies" className="hover:opacity-100 transition-opacity">Cookie Policy</a></li>
+                <li><a href="/gdpr" className="hover:opacity-100 transition-opacity">GDPR</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-gray-600 mt-8 pt-8 text-center text-sm opacity-75">
+            <p>&copy; 2025 MemoirVault. All rights reserved. Built with privacy in mind.</p>
+          </div>
+        </div>
       </footer>
     </div>
   );

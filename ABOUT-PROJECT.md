@@ -39,7 +39,7 @@ The application will be developed using the **Next.js framework** to deliver a p
 | Component               | Description                                              | Technology/Tool                  |
 |-------------------------|----------------------------------------------------------|--------------------------------|
 | Frontend Framework      | Server-side React web app capable of rendering fast pages | Next.js                        |
-| User Authentication    | Secure login/identity management                         | NextAuth.js or custom OAuth2   |
+| User Authentication    | Secure login/identity management                         | Clerk Authentication   |
 | Object Storage         | Multimedia file storage with global edge delivery        | Cloudflare R2 (S3 compatible SDK) |
 | Database               | Serverless relational DB for metadata and journaling info | NeonDB                        |
 | Backend APIs           | RESTful and/or GraphQL API endpoints for app logic       | Next.js API routes             |
