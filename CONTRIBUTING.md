@@ -19,7 +19,7 @@ By participating in this project, you agree to abide by our Code of Conduct. Ple
 
 1. **Fork the repository**
    ```bash
-   git clone https://github.com/your-username/memoirvault.git
+   git clone https://github.com/enclave-projects/memoirvault.git
    cd memoirvault
    ```
 
