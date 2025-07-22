@@ -59,14 +59,7 @@ export default function Timeline({ onClose }: TimelineProps) {
     });
   };
 
-  const getMediaIcon = (fileType: string) => {
-    switch (fileType) {
-      case 'image': return '🖼️';
-      case 'video': return '🎥';
-      case 'audio': return '🎵';
-      default: return '📄';
-    }
-  };
+  // Removed unused getMediaIcon function
 
   if (loading) {
     return (
@@ -193,11 +186,14 @@ function MediaItem({ media }: MediaItemProps) {
         onClick={handleMediaClick}
       >
         {media.fileType === 'image' && (
-          <img
-            src={media.publicUrl}
-            alt={media.originalName}
-            className="w-full h-48 object-cover"
-          />
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={media.publicUrl}
+              alt={media.originalName}
+              className="w-full h-48 object-cover"
+            />
+          </>
         )}
         
         {media.fileType === 'video' && (
@@ -254,11 +250,14 @@ function MediaItem({ media }: MediaItemProps) {
           className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[60] p-4"
           onClick={() => setIsFullscreen(false)}
         >
-          <img
-            src={media.publicUrl}
-            alt={media.originalName}
-            className="max-w-full max-h-full object-contain"
-          />
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={media.publicUrl}
+              alt={media.originalName}
+              className="max-w-full max-h-full object-contain"
+            />
+          </>
           <button
             onClick={() => setIsFullscreen(false)}
             className="absolute top-4 right-4 text-white text-3xl hover:opacity-75"

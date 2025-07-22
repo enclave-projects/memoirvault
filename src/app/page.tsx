@@ -193,7 +193,7 @@ export default function Home() {
               <h3 className="font-serif text-2xl font-semibold mb-4">Built by privacy advocates, for privacy advocates</h3>
               <p className="mb-6 opacity-90">
                 We believe your personal stories deserve the highest level of protection.
-                That's why we built MemoirVault with privacy as the foundation, not an afterthought.
+                That&apos;s why we built MemoirVault with privacy as the foundation, not an afterthought.
               </p>
               <div className="space-y-3 text-sm">
                 <div className="flex items-center gap-2">

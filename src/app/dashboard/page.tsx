@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
-import { UserButton, SignedIn } from "@clerk/nextjs";
+// Dashboard page - server component that redirects to client component
 import { redirect } from "next/navigation";
 import DashboardClient from "@/components/DashboardClient";
 

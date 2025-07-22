@@ -5,12 +5,17 @@ import { UserButton, SignedIn } from "@clerk/nextjs";
 import NewEntryForm from './NewEntryForm';
 import Timeline from './Timeline';
 
+interface MediaItem {
+  id: string;
+  fileType: string;
+}
+
 interface Entry {
   id: string;
   title: string;
   description: string | null;
   createdAt: string;
-  media: any[];
+  media: MediaItem[];
 }
 
 export default function DashboardClient() {

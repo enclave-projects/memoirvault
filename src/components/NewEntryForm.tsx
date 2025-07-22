@@ -241,11 +241,14 @@ function FilePreviewCard({ file, index, onRemove, getFilePreview, getFileIcon }:
       </button>
       
       {preview ? (
-        <img
-          src={preview}
-          alt={file.name}
-          className="w-full h-32 object-cover rounded-lg mb-2"
-        />
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={preview}
+            alt={file.name}
+            className="w-full h-32 object-cover rounded-lg mb-2"
+          />
+        </>
       ) : (
         <div className="w-full h-32 flex items-center justify-center text-4xl rounded-lg mb-2">
           {getFileIcon(file)}
