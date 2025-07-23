@@ -21,7 +21,7 @@ export default function Home() {
         </div>
         <div className="flex items-center space-x-4">
           <SignedOut>
-            <SignInButton 
+            <SignInButton
               mode="modal"
               forceRedirectUrl="/dashboard"
             >
@@ -29,7 +29,7 @@ export default function Home() {
                 Login
               </button>
             </SignInButton>
-            <SignUpButton 
+            <SignUpButton
               mode="modal"
               forceRedirectUrl="/dashboard"
             >
@@ -68,7 +68,7 @@ export default function Home() {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
           <SignedOut>
-            <SignUpButton 
+            <SignUpButton
               mode="modal"
               forceRedirectUrl="/dashboard"
             >
@@ -229,7 +229,7 @@ export default function Home() {
             with complete privacy and security.
           </p>
           <SignedOut>
-            <SignUpButton 
+            <SignUpButton
               mode="modal"
               forceRedirectUrl="/dashboard"
             >

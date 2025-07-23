@@ -37,7 +37,7 @@ export default function DashboardClient() {
       const response = await fetch('/api/entries');
       if (response.ok) {
         const entries: Entry[] = await response.json();
-        
+
         const totalEntries = entries.length;
         const wordsWritten = entries.reduce((total, entry) => {
           return total + (entry.description?.split(' ').length || 0);
@@ -45,7 +45,7 @@ export default function DashboardClient() {
         const photosAdded = entries.reduce((total, entry) => {
           return total + entry.media.filter(m => m.fileType === 'image').length;
         }, 0);
-        
+
         // Calculate days active (unique days with entries)
         const uniqueDays = new Set(
           entries.map(entry => new Date(entry.createdAt).toDateString())
@@ -113,7 +113,7 @@ export default function DashboardClient() {
             <p className="text-[#333F3C] opacity-75 mb-4">
               Start writing your next chapter
             </p>
-            <button 
+            <button
               onClick={() => setShowNewEntryForm(true)}
               className="gradient-cta text-[#E2FB6C] px-4 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-200"
             >
@@ -130,7 +130,7 @@ export default function DashboardClient() {
             <p className="text-[#333F3C] opacity-75 mb-4">
               Continue where you left off
             </p>
-            <button 
+            <button
               onClick={() => setShowTimeline(true)}
               className="border-2 border-[#E2FB6C] text-[#004838] px-4 py-2 rounded-lg font-medium hover:bg-[#E2FB6C] transition-all duration-200"
             >
