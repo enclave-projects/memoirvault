@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
 import MediaCarousel from './MediaCarousel';
 
@@ -33,10 +33,11 @@ export default function NewEntryForm({ onClose, onSuccess }: NewEntryFormProps) 
     setFiles(prev => prev.filter((_, i) => i !== index));
   };
 
-  // Add a ref to track submission status
-  const isSubmittingRef = useCallback((isSubmitting: boolean) => {
-    return isSubmitting;
-  }, []);
+  // Use useRef to track submission status
+  const submissionRef = useRef(false);
+  const submissionInProgress = useCallback(() => {
+    return isSubmitting || submissionRef.current;
+  }, [isSubmitting]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,13 +49,14 @@ export default function NewEntryForm({ onClose, onSuccess }: NewEntryFormProps) 
     }
     
     // Prevent double submission
-    if (isSubmitting || isSubmittingRef(true)) {
+    if (submissionInProgress()) {
       console.log('Submission already in progress, preventing duplicate');
       return;
     }
     
     // Disable the form immediately
     setIsSubmitting(true);
+    submissionRef.current = true;
     
     // Generate a unique submission ID to prevent duplicates
     const submissionId = `${Date.now()}-${Math.random().toString(36).substring(2, 10)}`;
@@ -110,6 +112,7 @@ export default function NewEntryForm({ onClose, onSuccess }: NewEntryFormProps) 
       }
     } finally {
       setIsSubmitting(false);
+      submissionRef.current = false;
     }
   };
 
