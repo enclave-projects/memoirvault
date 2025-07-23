@@ -15,18 +15,17 @@ You need to add the following environment variables in your Vercel dashboard:
 
 ```bash
 # Clerk Authentication
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_c2hhcmluZy1jYXRmaXNoLTc3LmNsZXJrLmFjY291bnRzLmRldiQ
-CLERK_SECRET_KEY=sk_test_UAq5ZPX6vNhTAuyp6vqeSpzGZQB91LTazAGmcziyJw
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+CLERK_SECRET_KEY=your_clerk_secret_key
 
-# Cloudflare R2 Storage
-BUCKET_NAME=memoirvault-bucket
-REGION=auto
-ACCESS_KEY_ID=0b3db10ff9c250db859eab0f8b0baba4
-SECRET_ACCESS_KEY=d9686c4f10b261eaba65f989e13ffaf27cd3393f37f235de598c8ae1ca5f0bd6
-PUBLIC_DEVELOPMENT_URL=https://pub-0279a0f01ec243faa4f9ba8fb92ba35b.r2.dev
+# Cloudflare R2
+BUCKET_NAME=your_bucket_name
+ACCESS_KEY_ID=your_r2_access_key
+SECRET_ACCESS_KEY=your_r2_secret_key
+PUBLIC_DEVELOPMENT_URL=https://pub-your-bucket-id.r2.dev
 
-# NeonDB Database
-DATABASE_URL=postgresql://neondb_owner:npg_o0GXqUT2SFiE@ep-orange-fog-a1eufcpj-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+# NeonDB
+DATABASE_URL=your_neon_database_url
 ```
 
 ### 2. Clerk Domain Configuration
