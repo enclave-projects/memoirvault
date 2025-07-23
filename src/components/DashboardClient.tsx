@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { UserButton, SignedIn } from "@clerk/nextjs";
 import NewEntryForm from './NewEntryForm';
 import Timeline from './Timeline';
+import Settings from './Settings';
+import StorageUsage from './StorageUsage';
 
 interface MediaItem {
   id: string;
@@ -21,6 +23,7 @@ interface Entry {
 export default function DashboardClient() {
   const [showNewEntryForm, setShowNewEntryForm] = useState(false);
   const [showTimeline, setShowTimeline] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [stats, setStats] = useState({
     totalEntries: 0,
     wordsWritten: 0,
@@ -28,8 +31,24 @@ export default function DashboardClient() {
     daysActive: 0,
   });
 
+  const [showUpgradeMessage, setShowUpgradeMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+
   useEffect(() => {
     fetchStats();
+    
+    // Check for upgrade success or error in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('upgraded') === 'true') {
+      setShowUpgradeMessage(true);
+      // Hide message after 5 seconds
+      setTimeout(() => setShowUpgradeMessage(false), 5000);
+    }
+    if (urlParams.get('error') === 'true') {
+      setShowErrorMessage(true);
+      // Hide message after 5 seconds
+      setTimeout(() => setShowErrorMessage(false), 5000);
+    }
   }, []);
 
   const fetchStats = async () => {
@@ -68,18 +87,41 @@ export default function DashboardClient() {
     fetchStats(); // Refresh stats after creating new entry
   };
 
+  const handleDataCleared = () => {
+    // Reset stats and refresh the page after data is cleared
+    setStats({
+      totalEntries: 0,
+      wordsWritten: 0,
+      photosAdded: 0,
+      daysActive: 0,
+    });
+    fetchStats();
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="px-6 py-4 flex justify-between items-center max-w-7xl mx-auto border-b border-[#EBEDE8]">
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-[#004838] to-[#073127] rounded-lg flex items-center justify-center">
-            <span className="text-[#E2FB6C] font-bold text-sm">M</span>
-          </div>
+          <img 
+            src="/logo/memoirvault.png" 
+            alt="MemoirVault Logo" 
+            className="w-8 h-8"
+          />
           <span className="font-serif text-xl font-semibold text-[#333F3C]">MemoirVault</span>
         </div>
         <div className="flex items-center space-x-4">
           <SignedIn>
+            <button
+              onClick={() => setShowSettings(true)}
+              className="p-2 text-[#333F3C] hover:text-[#004838] hover:bg-[#EBEDE8] rounded-lg transition-all duration-200"
+              title="Settings"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </button>
             <UserButton
               appearance={{
                 elements: {
@@ -100,10 +142,30 @@ export default function DashboardClient() {
           <p className="text-[#333F3C] opacity-75">
             Start documenting your life story with complete privacy and control.
           </p>
+          
+          {/* Success Message */}
+          {showUpgradeMessage && (
+            <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+              <p className="text-green-800 flex items-center">
+                <span className="mr-2">✓</span>
+                Your plan has been successfully upgraded! Your new storage limit is now available.
+              </p>
+            </div>
+          )}
+          
+          {/* Error Message */}
+          {showErrorMessage && (
+            <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-red-800 flex items-center">
+                <span className="mr-2">⚠️</span>
+                There was an error updating your plan. Please try again or contact support.
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Dashboard Grid */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
           {/* Quick Entry Card */}
           <div className="bg-white p-6 rounded-xl shadow-sm border border-[#EBEDE8] hover:shadow-md transition-shadow">
             <div className="text-3xl mb-4">✍️</div>
@@ -137,6 +199,9 @@ export default function DashboardClient() {
               View All
             </button>
           </div>
+
+          {/* Storage Usage */}
+          <StorageUsage />
         </div>
 
         {/* Stats Section */}
@@ -200,6 +265,13 @@ export default function DashboardClient() {
       {showTimeline && (
         <Timeline
           onClose={() => setShowTimeline(false)}
+        />
+      )}
+
+      {showSettings && (
+        <Settings
+          onClose={() => setShowSettings(false)}
+          onDataCleared={handleDataCleared}
         />
       )}
     </div>

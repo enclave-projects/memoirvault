@@ -3,7 +3,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { NodeHttpHandler } from '@smithy/node-http-handler';
 import https from 'https';
 
-const r2Client = new S3Client({
+export const r2Client = new S3Client({
     region: 'auto',
     endpoint: 'https://264f6d64d30e423773358f553ad62463.r2.cloudflarestorage.com',
     credentials: {

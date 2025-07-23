@@ -38,9 +38,11 @@ export default function Home() {
         {/* Header */}
         <header className="relative z-10 px-6 py-4 flex justify-between items-center max-w-7xl mx-auto backdrop-blur-sm bg-white/80 rounded-xl mt-4">
           <div className="flex items-center space-x-2 cursor-target">
-            <div className="w-8 h-8 bg-gradient-to-br from-[#004838] to-[#073127] rounded-lg flex items-center justify-center transform hover:scale-110 transition-transform duration-200">
-              <span className="text-[#E2FB6C] font-bold text-sm">M</span>
-            </div>
+            <img 
+              src="/logo/memoirvault.png" 
+              alt="MemoirVault Logo" 
+              className="w-8 h-8 transform hover:scale-110 transition-transform duration-200"
+            />
             <span className="font-serif text-xl font-semibold text-[#333F3C]">MemoirVault</span>
           </div>
           <div className="flex items-center space-x-4">
@@ -282,9 +284,11 @@ export default function Home() {
             <div className="grid md:grid-cols-4 gap-8">
               <div className="cursor-target transform hover:scale-105 transition-all duration-200">
                 <div className="flex items-center space-x-2 mb-4">
-                  <div className="w-8 h-8 bg-gradient-to-br from-[#004838] to-[#073127] rounded-lg flex items-center justify-center animate-pulse-glow">
-                    <span className="text-[#E2FB6C] font-bold text-sm">M</span>
-                  </div>
+                  <img 
+                    src="/logo/memoirvault.png" 
+                    alt="MemoirVault Logo" 
+                    className="w-8 h-8 animate-pulse-glow"
+                  />
                   <span className="font-serif text-xl font-semibold">MemoirVault</span>
                 </div>
                 <p className="text-sm opacity-75 leading-relaxed">
@@ -295,8 +299,8 @@ export default function Home() {
               <div className="cursor-target transform hover:scale-105 transition-all duration-200">
                 <h4 className="font-semibold mb-4">Product</h4>
                 <ul className="space-y-2 text-sm opacity-75">
-                  <li><a href="/features" className="cursor-target hover:opacity-100 hover:scale-105 transition-all duration-200 inline-block">Features</a></li>
                   <li><a href="/pricing" className="cursor-target hover:opacity-100 hover:scale-105 transition-all duration-200 inline-block">Pricing</a></li>
+                  <li><a href="/features" className="cursor-target hover:opacity-100 hover:scale-105 transition-all duration-200 inline-block">Features</a></li>
                   <li><a href="/security" className="cursor-target hover:opacity-100 hover:scale-105 transition-all duration-200 inline-block">Security</a></li>
                   <li><a href="/roadmap" className="cursor-target hover:opacity-100 hover:scale-105 transition-all duration-200 inline-block">Roadmap</a></li>
                 </ul>

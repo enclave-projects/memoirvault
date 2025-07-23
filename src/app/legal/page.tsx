@@ -13,9 +13,11 @@ export default function LegalPage() {
       <header className="px-6 py-4 border-b border-[#EBEDE8]">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-[#004838] to-[#073127] rounded-lg flex items-center justify-center">
-              <span className="text-[#E2FB6C] font-bold text-sm">M</span>
-            </div>
+            <img 
+              src="/logo/memoirvault.png" 
+              alt="MemoirVault Logo" 
+              className="w-8 h-8"
+            />
             <span className="font-serif text-xl font-semibold text-[#333F3C]">MemoirVault</span>
           </Link>
           <Link href="/" className="text-[#333F3C] hover:text-[#004838] transition-colors">

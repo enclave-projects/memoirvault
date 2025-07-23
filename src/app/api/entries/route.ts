@@ -3,7 +3,9 @@ import { auth } from '@clerk/nextjs/server';
 import { db } from '@/lib/db';
 import { entries, media } from '@/lib/db/schema';
 import { uploadToR2, deleteFromR2 } from '@/lib/r2';
-import { eq, desc } from 'drizzle-orm';
+import { eq, desc, sql } from 'drizzle-orm';
+import { formatBytes } from '@/lib/utils';
+import { canUploadFile, updateStorageUsage, initializeUserStorage } from '@/lib/storage';
 
 // Create a Map to store recent submissions to prevent duplicates
 const recentSubmissions = new Map<string, { userId: string, timestamp: number }>();
@@ -34,6 +36,37 @@ export async function POST(request: NextRequest) {
 
         if (!title) {
             return NextResponse.json({ error: 'Title is required' }, { status: 400 });
+        }
+
+        // Initialize user storage if not exists
+        await initializeUserStorage(userId);
+
+        // Check storage limits for all files
+        const totalFileSize = files.reduce((total, file) => total + file.size, 0);
+        if (totalFileSize > 0) {
+            // Calculate current storage usage
+            let currentUsage = 0;
+            try {
+                const result = await db.execute(sql`
+                    SELECT SUM(file_size) as total
+                    FROM media
+                    WHERE user_id = ${userId}
+                `);
+                currentUsage = Number(result.rows[0]?.total || 0);
+            } catch (error) {
+                console.error('Error calculating storage usage:', error);
+            }
+            
+            // Fixed 2GB storage limit
+            const storageLimit = 2 * 1024 * 1024 * 1024; // 2GB
+            const availableStorage = storageLimit - currentUsage;
+            
+            if (totalFileSize > availableStorage) {
+                return NextResponse.json({ 
+                    error: 'Storage limit exceeded', 
+                    message: `File size (${formatBytes(totalFileSize)}) exceeds available space (${formatBytes(availableStorage)})` 
+                }, { status: 413 });
+            }
         }
         
         // Check for duplicate submission
@@ -106,12 +139,13 @@ export async function POST(request: NextRequest) {
                         // Create media record
                         const [mediaRecord] = await db.insert(media).values({
                             entryId: entry.id,
+                            userId, // Add userId for easier querying
                             fileName,
                             originalName: file.name,
                             fileType,
                             mimeType: file.type,
                             fileSize: file.size,
-                            r2Key: fileName,
+                            filePath: fileName, // Use filePath instead of r2Key
                             publicUrl,
                         }).returning();
     
@@ -149,6 +183,9 @@ export async function POST(request: NextRequest) {
             throw error; // Re-throw to be caught by the outer try/catch
         }
 
+        // Update user storage usage after successful upload
+        await updateStorageUsage(userId);
+
         return NextResponse.json({
             entry,
             media: mediaRecords
@@ -172,13 +209,65 @@ export async function GET() {
             .where(eq(entries.userId, userId))
             .orderBy(desc(entries.createdAt));
 
+        // Check if media table has user_id column
+        let hasUserIdColumn = true;
+        try {
+            await db.select().from(media).limit(1);
+        } catch (error) {
+            // If error contains "column user_id does not exist", set hasUserIdColumn to false
+            if (error.message && error.message.includes("column \"user_id\" does not exist")) {
+                hasUserIdColumn = false;
+            }
+        }
+
         // Get media for each entry
         const entriesWithMedia = await Promise.all(
             userEntries.map(async (entry) => {
-                const entryMedia = await db
-                    .select()
-                    .from(media)
-                    .where(eq(media.entryId, entry.id));
+                let entryMedia = [];
+                try {
+                    if (hasUserIdColumn) {
+                        entryMedia = await db
+                            .select({
+                                id: media.id,
+                                entryId: media.entryId,
+                                fileName: media.fileName,
+                                originalName: media.originalName,
+                                fileType: media.fileType,
+                                mimeType: media.mimeType,
+                                fileSize: media.fileSize,
+                                publicUrl: media.publicUrl,
+                                metadata: media.metadata,
+                                createdAt: media.createdAt
+                            })
+                            .from(media)
+                            .where(eq(media.entryId, entry.id));
+                    } else {
+                        // If user_id column doesn't exist, use a raw query
+                        const result = await db.execute(sql`
+                            SELECT id, entry_id, file_name, original_name, file_type, 
+                                   mime_type, file_size, public_url, metadata, created_at
+                            FROM media
+                            WHERE entry_id = ${entry.id}
+                        `);
+                        
+                        entryMedia = result.rows.map(row => ({
+                            id: row.id,
+                            entryId: row.entry_id,
+                            fileName: row.file_name,
+                            originalName: row.original_name,
+                            fileType: row.file_type,
+                            mimeType: row.mime_type,
+                            fileSize: row.file_size,
+                            publicUrl: row.public_url,
+                            metadata: row.metadata,
+                            createdAt: row.created_at
+                        }));
+                    }
+                } catch (error) {
+                    console.error(`Error fetching media for entry ${entry.id}:`, error);
+                    // Return empty media array on error
+                    entryMedia = [];
+                }
 
                 return {
                     ...entry,

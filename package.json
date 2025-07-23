@@ -10,7 +10,10 @@
     "lint": "next lint",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:push": "drizzle-kit push"
+    "db:push": "drizzle-kit push",
+    "db:custom-migrate": "node src/scripts/migrate.js",
+    "db:fix-storage": "node src/scripts/fix-storage-types.js",
+    "db:fix-media": "node src/scripts/fix-media-types.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.716.0",
@@ -19,6 +22,7 @@
     "@neondatabase/serverless": "^1.0.1",
     "@smithy/node-http-handler": "^4.1.0",
     "@types/pg": "^8.15.4",
+    "dotenv": "^17.2.0",
     "drizzle-orm": "^0.44.3",
     "framer-motion": "^12.23.6",
     "gsap": "^3.13.0",
@@ -40,6 +44,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.4.2",
     "tailwindcss": "^4",
+    "tsx": "^4.20.3",
     "typescript": "^5"
   }
 }
