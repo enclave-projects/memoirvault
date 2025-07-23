@@ -33,34 +33,81 @@ export default function NewEntryForm({ onClose, onSuccess }: NewEntryFormProps) 
     setFiles(prev => prev.filter((_, i) => i !== index));
   };
 
+  // Add a ref to track submission status
+  const isSubmittingRef = useCallback((isSubmitting: boolean) => {
+    return isSubmitting;
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title.trim()) return;
-
+    
+    // Enhanced validation
+    if (!title.trim()) {
+      alert('Please enter a title');
+      return;
+    }
+    
+    // Prevent double submission
+    if (isSubmitting || isSubmittingRef(true)) {
+      console.log('Submission already in progress, preventing duplicate');
+      return;
+    }
+    
+    // Disable the form immediately
     setIsSubmitting(true);
+    
+    // Generate a unique submission ID to prevent duplicates
+    const submissionId = `${Date.now()}-${Math.random().toString(36).substring(2, 10)}`;
+    
     try {
       const formData = new FormData();
       formData.append('title', title);
       formData.append('description', description);
+      formData.append('submissionId', submissionId); // Add submission ID to detect duplicates
       
       files.forEach(file => {
         formData.append('files', file);
       });
 
+      // Add a timeout to prevent hanging submissions
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+      
       const response = await fetch('/api/entries', {
         method: 'POST',
         body: formData,
+        signal: controller.signal,
+        // Prevent browser caching
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
       });
+      
+      clearTimeout(timeoutId);
 
       if (response.ok) {
-        onSuccess();
-        onClose();
+        const result = await response.json();
+        console.log('Entry created successfully:', result);
+        
+        // Small delay to ensure UI updates properly
+        setTimeout(() => {
+          onSuccess();
+          onClose();
+        }, 300);
       } else {
-        throw new Error('Failed to create entry');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create entry');
       }
     } catch (error) {
       console.error('Error creating entry:', error);
-      alert('Failed to create entry. Please try again.');
+      
+      // More user-friendly error message
+      if (error instanceof Error && error.name === 'AbortError') {
+        alert('Request timed out. Please try again.');
+      } else {
+        alert(`Failed to create entry: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      }
     } finally {
       setIsSubmitting(false);
     }
