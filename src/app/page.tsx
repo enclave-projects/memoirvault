@@ -316,12 +316,20 @@ export default function Home() {
                   <li><a href="/privacy" className="cursor-target hover:opacity-100 hover:scale-105 transition-all duration-200 inline-block">Privacy Policy</a></li>
                   <li><a href="/terms" className="cursor-target hover:opacity-100 hover:scale-105 transition-all duration-200 inline-block">Terms of Service</a></li>
                   <li><a href="/cookies" className="cursor-target hover:opacity-100 hover:scale-105 transition-all duration-200 inline-block">Cookie Policy</a></li>
-                  <li><a href="/gdpr" className="cursor-target hover:opacity-100 hover:scale-105 transition-all duration-200 inline-block">GDPR</a></li>
+                  <li><a href="/refund" className="cursor-target hover:opacity-100 hover:scale-105 transition-all duration-200 inline-block">Refund Policy</a></li>
                 </ul>
               </div>
           </div>
-          <div className="border-t border-gray-600 mt-8 pt-8 text-center text-sm opacity-75">
-            <p>&copy; 2025 MemoirVault. All rights reserved. Built with privacy in mind.</p>
+          <div className="border-t border-gray-600 mt-8 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center text-sm opacity-75">
+              <p>&copy; 2025 MemoirVault. All rights reserved. Built with privacy in mind.</p>
+              <div className="flex space-x-4 mt-4 md:mt-0">
+                <a href="/privacy" className="cursor-target hover:opacity-100 transition-opacity">Privacy</a>
+                <a href="/terms" className="cursor-target hover:opacity-100 transition-opacity">Terms</a>
+                <a href="/cookies" className="cursor-target hover:opacity-100 transition-opacity">Cookies</a>
+                <a href="/refund" className="cursor-target hover:opacity-100 transition-opacity">Refunds</a>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
