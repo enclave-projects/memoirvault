@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect, useCallback } from "react";
+import React, { useRef, useEffect, useCallback, useState } from "react";
 
 interface ClickSparkProps {
     sparkColor?: string;
@@ -33,6 +33,21 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const sparksRef = useRef<Spark[]>([]);
     const startTimeRef = useRef<number | null>(null);
+    const [isMobile, setIsMobile] = useState(false);
+
+    // Check if device is mobile or tablet
+    useEffect(() => {
+        const checkDevice = () => {
+            const userAgent = navigator.userAgent;
+            const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            setIsMobile(mobileRegex.test(userAgent) || window.innerWidth < 768 || isTouchDevice);
+        };
+        
+        checkDevice();
+        window.addEventListener('resize', checkDevice);
+        return () => window.removeEventListener('resize', checkDevice);
+    }, []);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -134,6 +149,11 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
             cancelAnimationFrame(animationId);
         };
     }, [sparkColor, sparkSize, sparkRadius, sparkCount, duration, easeFunc, extraScale]);
+
+    // For mobile/tablet, just render children without click effects
+    if (isMobile) {
+        return <>{children}</>;
+    }
 
     const handleClick = (e: React.MouseEvent<HTMLDivElement>): void => {
         const canvas = canvasRef.current;

@@ -32,7 +32,7 @@ export default function CookiePolicy() {
         <div className="bg-[#E2FB6C] bg-opacity-20 border border-[#E2FB6C] rounded-lg p-6 mb-8">
           <h3 className="font-semibold text-[#004838] mb-2">Privacy-First Approach</h3>
           <p className="text-[#004838]">
-            MemoirVault uses minimal cookies and similar technologies, only what's necessary for the service to function. 
+            MemoirVault uses minimal cookies and similar technologies, only what's necessary for the service to function.
             We do not use tracking cookies or share data with advertising networks.
           </p>
         </div>
@@ -41,11 +41,11 @@ export default function CookiePolicy() {
           <section className="mb-8">
             <h2 className="font-serif text-2xl font-semibold text-[#333F3C] mb-4">1. What Are Cookies?</h2>
             <p className="text-[#333F3C] leading-relaxed mb-4">
-              Cookies are small text files that are stored on your device when you visit a website. They help websites 
+              Cookies are small text files that are stored on your device when you visit a website. They help websites
               remember information about your visit, such as your preferences and login status.
             </p>
             <p className="text-[#333F3C] leading-relaxed mb-4">
-              Similar technologies include local storage, session storage, and other browser storage mechanisms that 
+              Similar technologies include local storage, session storage, and other browser storage mechanisms that
               serve similar purposes.
             </p>
           </section>
@@ -85,11 +85,11 @@ export default function CookiePolicy() {
 
           <section className="mb-8">
             <h2 className="font-serif text-2xl font-semibold text-[#333F3C] mb-4">3. What We DON'T Use</h2>
-            
+
             <div className="bg-red-50 border border-red-200 rounded-lg p-6 mb-4">
               <h3 className="font-semibold text-red-800 mb-2">❌ No Tracking or Analytics Cookies</h3>
               <p className="text-red-700">
-                We do not use Google Analytics, Facebook Pixel, or any other tracking technologies that 
+                We do not use Google Analytics, Facebook Pixel, or any other tracking technologies that
                 monitor your behavior across websites.
               </p>
             </div>
@@ -146,7 +146,7 @@ export default function CookiePolicy() {
 
           <section className="mb-8">
             <h2 className="font-serif text-2xl font-semibold text-[#333F3C] mb-4">5. Managing Your Cookie Preferences</h2>
-            
+
             <h3 className="font-semibold text-[#333F3C] mb-2">Browser Settings</h3>
             <p className="text-[#333F3C] leading-relaxed mb-4">
               You can control cookies through your browser settings:
@@ -170,7 +170,7 @@ export default function CookiePolicy() {
 
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
               <p className="text-yellow-800">
-                <strong>Note:</strong> Disabling essential cookies may prevent you from using certain features 
+                <strong>Note:</strong> Disabling essential cookies may prevent you from using certain features
                 of MemoirVault, including logging in and accessing your account.
               </p>
             </div>
@@ -179,7 +179,7 @@ export default function CookiePolicy() {
           <section className="mb-8">
             <h2 className="font-serif text-2xl font-semibold text-[#333F3C] mb-4">6. Cookie Consent</h2>
             <p className="text-[#333F3C] leading-relaxed mb-4">
-              By using MemoirVault, you consent to our use of essential cookies required for the service to function. 
+              By using MemoirVault, you consent to our use of essential cookies required for the service to function.
               For non-essential cookies, we will ask for your explicit consent.
             </p>
             <p className="text-[#333F3C] leading-relaxed mb-4">
@@ -195,7 +195,7 @@ export default function CookiePolicy() {
           <section className="mb-8">
             <h2 className="font-serif text-2xl font-semibold text-[#333F3C] mb-4">7. Updates to This Policy</h2>
             <p className="text-[#333F3C] leading-relaxed mb-4">
-              We may update this Cookie Policy from time to time to reflect changes in our practices or 
+              We may update this Cookie Policy from time to time to reflect changes in our practices or
               applicable laws. We will notify you of any material changes by:
             </p>
             <ul className="list-disc list-inside text-[#333F3C] space-y-2 mb-4">
