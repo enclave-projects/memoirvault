@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Cookie Policy - MemoirVault',
@@ -11,15 +12,15 @@ export default function CookiePolicy() {
       {/* Header */}
       <header className="px-6 py-4 border-b border-[#EBEDE8]">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <a href="/" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-gradient-to-br from-[#004838] to-[#073127] rounded-lg flex items-center justify-center">
               <span className="text-[#E2FB6C] font-bold text-sm">M</span>
             </div>
             <span className="font-serif text-xl font-semibold text-[#333F3C]">MemoirVault</span>
-          </a>
-          <a href="/" className="text-[#333F3C] hover:text-[#004838] transition-colors">
+          </Link>
+          <Link href="/" className="text-[#333F3C] hover:text-[#004838] transition-colors">
             ← Back to Home
-          </a>
+          </Link>
         </div>
       </header>
 
@@ -212,7 +213,7 @@ export default function CookiePolicy() {
             <div className="bg-[#EBEDE8] rounded-lg p-4">
               <p className="text-[#333F3C]">
                 <strong>Privacy Team</strong><br />
-                Email: privacy@memoirvault.com<br />
+                Email: pranjal.ai.arena@gmail.com<br />
                 Subject: Cookie Policy Inquiry<br />
                 Response time: Within 48 hours
               </p>

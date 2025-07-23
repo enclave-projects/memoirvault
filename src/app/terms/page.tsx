@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Terms of Service - MemoirVault',
@@ -11,15 +12,15 @@ export default function TermsOfService() {
       {/* Header */}
       <header className="px-6 py-4 border-b border-[#EBEDE8]">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <a href="/" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-gradient-to-br from-[#004838] to-[#073127] rounded-lg flex items-center justify-center">
               <span className="text-[#E2FB6C] font-bold text-sm">M</span>
             </div>
             <span className="font-serif text-xl font-semibold text-[#333F3C]">MemoirVault</span>
-          </a>
-          <a href="/" className="text-[#333F3C] hover:text-[#004838] transition-colors">
+          </Link>
+          <Link href="/" className="text-[#333F3C] hover:text-[#004838] transition-colors">
             ← Back to Home
-          </a>
+          </Link>
         </div>
       </header>
 
@@ -133,8 +134,8 @@ export default function TermsOfService() {
               If you have any questions about these Terms of Service, please contact us at:
             </p>
             <p className="text-[#333F3C] leading-relaxed">
-              Email: legal@memoirvault.com<br />
-              Address: [Company Address]
+              Email: pranjal.ai.arena@gmail.com<br />
+              Address: Prayagraj, Uttar Pradesh, India
             </p>
           </section>
         </div>
