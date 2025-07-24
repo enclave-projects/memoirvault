@@ -9,6 +9,8 @@ export const STORAGE_LIMITS = {
   pro: 50 * 1024 * 1024 * 1024,      // 50GB
 };
 
+export type PlanType = 'free' | 'basic' | 'pro';
+
 export interface StorageCheckResult {
   canUpload: boolean;
   reason?: string;
@@ -18,7 +20,7 @@ export interface StorageCheckResult {
 }
 
 // Initialize user storage record for new users
-export async function initializeUserStorage(userId: string) {
+export async function initializeUserStorage(userId: string, plan: PlanType = 'free') {
   try {
     // Check if user storage record exists
     const existing = await db
@@ -28,11 +30,11 @@ export async function initializeUserStorage(userId: string) {
       .limit(1);
 
     if (existing.length === 0) {
-      // Create default storage record (2GB free tier)
+      // Create storage record with specified plan
       await db.insert(userStorage).values({
         userId,
-        plan: 'free',
-        storageLimit: STORAGE_LIMITS.free,
+        plan,
+        storageLimit: STORAGE_LIMITS[plan],
         storageUsed: 0,
       });
     }
@@ -111,7 +113,7 @@ export async function updateStorageUsage(userId: string) {
 }
 
 // Update user storage plan and limits
-export async function updateUserPlan(userId: string, plan: 'free' | 'basic' | 'pro') {
+export async function updateUserPlan(userId: string, plan: PlanType) {
   try {
     if (!STORAGE_LIMITS[plan]) {
       throw new Error(`Invalid plan: ${plan}`);

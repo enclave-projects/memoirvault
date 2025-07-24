@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { formatBytes, getStoragePercentage } from '@/lib/storage';
+// Storage indicator component - uses API endpoint for storage info
 
 interface StorageInfo {
   plan: string;

@@ -5,7 +5,7 @@ import { entries, media } from '@/lib/db/schema';
 import { uploadToR2, deleteFromR2 } from '@/lib/r2';
 import { eq, desc, sql } from 'drizzle-orm';
 import { formatBytes } from '@/lib/utils';
-import { canUploadFile, updateStorageUsage, initializeUserStorage } from '@/lib/storage';
+import { updateStorageUsage, initializeUserStorage } from '@/lib/storage';
 
 // Create a Map to store recent submissions to prevent duplicates
 const recentSubmissions = new Map<string, { userId: string, timestamp: number }>();

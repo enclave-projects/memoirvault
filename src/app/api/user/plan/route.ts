@@ -1,6 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest } from "next/server";
-import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { userStorage } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";

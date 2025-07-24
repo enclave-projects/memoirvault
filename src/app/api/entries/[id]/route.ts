@@ -7,8 +7,9 @@ import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const params = await context.params;
   try {
     const { userId } = await auth();
     
@@ -74,8 +75,9 @@ export async function DELETE(
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const params = await context.params;
   try {
     const { userId } = await auth();
     
