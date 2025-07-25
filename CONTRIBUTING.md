@@ -1,25 +1,40 @@
-# Contributing to MemoirVault
+# 🤝 Contributing to MemoirVault
 
-Thank you for your interest in contributing to MemoirVault! We welcome contributions from the community and are grateful for your support in making this privacy-first journaling platform better.
+Thank you for your interest in contributing to MemoirVault! We welcome contributions from the community and are grateful for any help you can provide.
 
-## 🤝 Code of Conduct
+## 📋 Table of Contents
 
-By participating in this project, you agree to abide by our Code of Conduct. Please be respectful, inclusive, and constructive in all interactions.
+- [Code of Conduct](#code-of-conduct)
+- [Getting Started](#getting-started)
+- [Development Setup](#development-setup)
+- [How to Contribute](#how-to-contribute)
+- [Pull Request Process](#pull-request-process)
+- [Coding Standards](#coding-standards)
+- [Testing](#testing)
+- [Documentation](#documentation)
+
+## 📜 Code of Conduct
+
+This project and everyone participating in it is governed by our Code of Conduct. By participating, you are expected to uphold this code. Please report unacceptable behavior to pranjal.ai.arena@gmail.com.
+
+### Our Pledge
+
+We pledge to make participation in our project a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js 18 or higher
-- npm or yarn
+- Node.js 18+ and npm
 - Git
+- A code editor (VS Code recommended)
 - Basic knowledge of React, Next.js, and TypeScript
 
 ### Development Setup
 
 1. **Fork the repository**
    ```bash
-   git clone https://github.com/enclave-projects/memoirvault.git
+   git clone https://github.com/YOUR_USERNAME/memoirvault.git
    cd memoirvault
    ```
 
@@ -31,218 +46,230 @@ By participating in this project, you agree to abide by our Code of Conduct. Ple
 3. **Set up environment variables**
    ```bash
    cp .env.example .env.local
-   # Fill in your development credentials
+   # Fill in your development environment variables
    ```
 
 4. **Set up the database**
    ```bash
-   npm run db:push
+   npm run db:generate
+   npm run db:migrate
    ```
 
-5. **Start development server**
+5. **Start the development server**
    ```bash
    npm run dev
    ```
 
-## 📝 How to Contribute
+## 🛠️ How to Contribute
 
-### Reporting Bugs
+### Types of Contributions
 
-1. **Check existing issues** to avoid duplicates
-2. **Use the bug report template** when creating new issues
-3. **Provide detailed information**:
-   - Steps to reproduce
-   - Expected vs actual behavior
-   - Screenshots if applicable
-   - Environment details (OS, browser, etc.)
+We welcome several types of contributions:
 
-### Suggesting Features
+- **🐛 Bug fixes** - Help us squash bugs
+- **✨ New features** - Add new functionality
+- **📚 Documentation** - Improve our docs
+- **🎨 UI/UX improvements** - Make the app more beautiful and usable
+- **🔧 Performance optimizations** - Make the app faster
+- **🧪 Tests** - Improve our test coverage
+- **🌐 Translations** - Help us support more languages
 
-1. **Check the roadmap** and existing feature requests
-2. **Use the feature request template**
-3. **Explain the use case** and potential impact
-4. **Consider privacy implications** for any new features
+### Finding Issues to Work On
 
-### Code Contributions
+- Check our [GitHub Issues](https://github.com/enclave-projects/memoirvault/issues)
+- Look for issues labeled `good first issue` for beginners
+- Issues labeled `help wanted` are great for contributors
+- Feel free to create new issues for bugs or feature requests
 
-#### Types of Contributions Welcome
+## 🔄 Pull Request Process
 
-- 🐛 **Bug fixes**
-- ✨ **New features** (please discuss first in issues)
-- 📚 **Documentation improvements**
-- 🎨 **UI/UX enhancements**
-- ⚡ **Performance optimizations**
-- 🔒 **Security improvements**
-- 🧪 **Test coverage**
+### Before You Start
 
-#### Development Workflow
+1. **Check existing issues** to avoid duplicate work
+2. **Create an issue** if one doesn't exist for your contribution
+3. **Comment on the issue** to let others know you're working on it
+
+### Creating a Pull Request
 
 1. **Create a feature branch**
    ```bash
    git checkout -b feature/your-feature-name
    # or
-   git checkout -b fix/bug-description
+   git checkout -b fix/your-bug-fix
    ```
 
 2. **Make your changes**
-   - Follow the existing code style
-   - Add tests for new functionality
-   - Update documentation as needed
+   - Write clean, readable code
+   - Follow our coding standards
+   - Add tests if applicable
+   - Update documentation if needed
 
 3. **Test your changes**
    ```bash
    npm run lint
    npm run build
-   npm run test # when tests are available
+   # Test manually in the browser
    ```
 
 4. **Commit your changes**
    ```bash
    git add .
-   git commit -m "feat: add new feature description"
+   git commit -m "feat: add amazing new feature"
    # or
-   git commit -m "fix: resolve bug description"
+   git commit -m "fix: resolve issue with file deletion"
    ```
 
-5. **Push and create PR**
+5. **Push to your fork**
    ```bash
    git push origin feature/your-feature-name
    ```
 
-#### Commit Message Convention
+6. **Create a Pull Request**
+   - Go to the original repository
+   - Click "New Pull Request"
+   - Fill out the PR template
+   - Link to the related issue
 
-We follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
+### Pull Request Guidelines
 
-- `feat:` new features
-- `fix:` bug fixes
-- `docs:` documentation changes
-- `style:` formatting, missing semicolons, etc.
-- `refactor:` code refactoring
-- `test:` adding tests
-- `chore:` maintenance tasks
+- **Title**: Use a clear, descriptive title
+- **Description**: Explain what changes you made and why
+- **Screenshots**: Include screenshots for UI changes
+- **Testing**: Describe how you tested your changes
+- **Breaking Changes**: Clearly mark any breaking changes
 
-Examples:
-```
-feat: add audio recording functionality
-fix: resolve file upload timeout issue
-docs: update API documentation
-style: format components with prettier
-refactor: optimize database queries
-test: add unit tests for media upload
-chore: update dependencies
-```
+## 📝 Coding Standards
 
-## 🏗️ Project Structure
+### Code Style
 
-```
-memoirvault/
-├── src/
-│   ├── app/                 # Next.js App Router
-│   │   ├── api/            # API routes
-│   │   ├── dashboard/      # Dashboard pages
-│   │   └── globals.css     # Global styles
-│   ├── components/         # React components
-│   │   ├── ui/            # Reusable UI components
-│   │   └── forms/         # Form components
-│   ├── lib/               # Utilities
-│   │   ├── db/            # Database schema & client
-│   │   ├── auth/          # Authentication helpers
-│   │   └── utils/         # General utilities
-│   └── types/             # TypeScript type definitions
-├── public/                # Static assets
-├── docs/                  # Documentation
-└── tests/                 # Test files
+We use ESLint and Prettier to maintain consistent code style:
+
+```bash
+npm run lint        # Check for linting errors
+npm run lint:fix    # Auto-fix linting errors
 ```
 
-## 🎨 Design Guidelines
+### Naming Conventions
 
-### UI/UX Principles
+- **Files**: Use kebab-case for files (`user-profile.tsx`)
+- **Components**: Use PascalCase (`UserProfile`)
+- **Functions**: Use camelCase (`getUserProfile`)
+- **Constants**: Use UPPER_SNAKE_CASE (`MAX_FILE_SIZE`)
 
-- **Privacy-first**: Always consider user privacy in design decisions
-- **Accessibility**: Follow WCAG 2.1 AA guidelines
-- **Mobile-first**: Design for mobile, enhance for desktop
-- **Consistency**: Use the established design system
-- **Performance**: Optimize for speed and efficiency
+### TypeScript
 
-### Color Palette
+- Use TypeScript for all new code
+- Define proper interfaces and types
+- Avoid `any` type when possible
+- Use proper type imports: `import type { User } from './types'`
 
-- **Primary Deep Green**: `#004838`
-- **Accent Lime**: `#E2FB6C`
-- **Secondary Forest**: `#073127`
-- **Neutral Charcoal**: `#333F3C`
-- **Light Gray**: `#EBEDE8`
-- **Pure White**: `#FFFFFF`
+### React Best Practices
 
-### Typography
+- Use functional components with hooks
+- Implement proper error boundaries
+- Use proper key props in lists
+- Follow React accessibility guidelines
+- Use semantic HTML elements
 
-- **Primary**: Inter (body text, UI elements)
-- **Secondary**: Crimson Text (headings, emotional content)
-- **Monospace**: Fira Code (code, technical elements)
+### Database
 
-## 🔒 Security Guidelines
-
-### Privacy Considerations
-
-- **Data minimization**: Only collect necessary data
-- **Encryption**: Encrypt sensitive data at rest and in transit
-- **Access control**: Implement proper authorization
-- **Audit logging**: Log security-relevant events
-- **Third-party services**: Evaluate privacy implications
-
-### Security Best Practices
-
-- **Input validation**: Sanitize all user inputs
-- **SQL injection**: Use parameterized queries
-- **XSS prevention**: Escape output properly
-- **CSRF protection**: Implement CSRF tokens
-- **Rate limiting**: Prevent abuse and DoS attacks
+- Use Drizzle ORM for all database operations
+- Create proper migrations for schema changes
+- Use transactions for multi-step operations
+- Follow proper indexing practices
 
 ## 🧪 Testing
-
-### Testing Strategy
-
-- **Unit tests**: Test individual functions and components
-- **Integration tests**: Test API endpoints and database operations
-- **E2E tests**: Test complete user workflows
-- **Security tests**: Test for common vulnerabilities
 
 ### Running Tests
 
 ```bash
-# Run all tests
-npm test
+npm run test        # Run all tests
+npm run test:watch  # Run tests in watch mode
+npm run test:coverage # Run tests with coverage
+```
 
-# Run tests in watch mode
-npm run test:watch
+### Writing Tests
 
-# Run tests with coverage
-npm run test:coverage
+- Write unit tests for utility functions
+- Write integration tests for API routes
+- Write component tests for React components
+- Use meaningful test descriptions
+- Mock external dependencies
 
-# Run E2E tests
-npm run test:e2e
+### Test Structure
+
+```typescript
+describe('Component/Function Name', () => {
+  it('should do something specific', () => {
+    // Arrange
+    const input = 'test input';
+    
+    // Act
+    const result = functionToTest(input);
+    
+    // Assert
+    expect(result).toBe('expected output');
+  });
+});
 ```
 
 ## 📚 Documentation
 
-### Documentation Standards
+### Code Documentation
 
-- **Clear and concise**: Write for your audience
-- **Examples**: Provide code examples where helpful
-- **Up-to-date**: Keep documentation current with code changes
-- **Accessible**: Use clear language and proper formatting
+- Add JSDoc comments for functions and components
+- Include examples in documentation
+- Document complex algorithms or business logic
+- Keep comments up to date with code changes
 
-### Types of Documentation
+### README Updates
 
-- **API documentation**: Document all API endpoints
-- **Component documentation**: Document React components
-- **Setup guides**: Help new contributors get started
-- **Architecture docs**: Explain system design decisions
+- Update README.md for new features
+- Add new environment variables to documentation
+- Update installation instructions if needed
+- Keep the feature list current
+
+## 🏷️ Commit Message Guidelines
+
+We follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### Types
+
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation only changes
+- `style`: Changes that don't affect code meaning (formatting, etc.)
+- `refactor`: Code change that neither fixes a bug nor adds a feature
+- `perf`: Performance improvements
+- `test`: Adding missing tests or correcting existing tests
+- `chore`: Changes to build process or auxiliary tools
+
+### Examples
+
+```bash
+feat: add AI helper bot integration
+fix: resolve R2 file deletion for video files
+docs: update deployment guide with new environment variables
+style: format code with prettier
+refactor: extract file upload logic to separate hook
+perf: optimize database queries for timeline view
+test: add unit tests for R2 client
+chore: update dependencies to latest versions
+```
 
 ## 🚀 Release Process
 
 ### Versioning
 
-We follow [Semantic Versioning](https://semver.org/):
+We use [Semantic Versioning](https://semver.org/):
 
 - **MAJOR**: Breaking changes
 - **MINOR**: New features (backward compatible)
@@ -251,41 +278,53 @@ We follow [Semantic Versioning](https://semver.org/):
 ### Release Checklist
 
 - [ ] All tests pass
-- [ ] Documentation updated
-- [ ] CHANGELOG.md updated
-- [ ] Version bumped in package.json
-- [ ] Security review completed
-- [ ] Performance impact assessed
+- [ ] Documentation is updated
+- [ ] CHANGELOG.md is updated
+- [ ] Version is bumped in package.json
+- [ ] Release notes are prepared
 
-## 💬 Communication
+## 🆘 Getting Help
 
-### Getting Help
+### Where to Ask Questions
 
-- **GitHub Discussions**: For questions and general discussion
+- **GitHub Discussions**: For general questions and ideas
 - **GitHub Issues**: For bug reports and feature requests
-- **Discord**: Real-time chat with the community
-- **Email**: security@memoirvault.com for security issues
+- **Discord/Slack**: For real-time chat (if available)
+- **Email**: pranjal.ai.arena@gmail.com for direct contact
 
-### Community Guidelines
+### Debugging Tips
 
-- **Be respectful**: Treat everyone with kindness and respect
-- **Be constructive**: Provide helpful feedback and suggestions
-- **Be patient**: Remember that everyone is learning
-- **Be inclusive**: Welcome newcomers and diverse perspectives
+- Use the `/debug` page to test R2 storage
+- Check browser console for client-side errors
+- Check server logs for API errors
+- Use React Developer Tools for component debugging
 
-## 🏆 Recognition
+## 🎉 Recognition
 
-Contributors will be recognized in:
+### Contributors
 
-- **README.md**: Listed in the contributors section
-- **CHANGELOG.md**: Credited for their contributions
-- **Release notes**: Highlighted for significant contributions
-- **Hall of Fame**: Special recognition for outstanding contributors
+All contributors will be recognized in:
+
+- README.md contributors section
+- CHANGELOG.md for their contributions
+- GitHub contributors page
+- Special mentions in release notes
+
+### Hall of Fame
+
+Outstanding contributors may be featured in our Hall of Fame with:
+
+- Profile picture and bio
+- List of major contributions
+- Special contributor badge
 
 ## 📞 Contact
 
-- **Maintainers**: @enclave-projects
-- **Security**: security@memoirvault.com
-- **General**: hello@memoirvault.com
+- **Project Maintainer**: Pranjal (pranjal.ai.arena@gmail.com)
+- **GitHub**: [@enclave-projects](https://github.com/enclave-projects)
+- **Issues**: [GitHub Issues](https://github.com/enclave-projects/memoirvault/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/enclave-projects/memoirvault/discussions)
 
-Thank you for contributing to MemoirVault! Together, we're building a better, more private way to preserve life stories. 🙏
+---
+
+Thank you for contributing to MemoirVault! Your help makes this project better for everyone. 🙏

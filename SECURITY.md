@@ -39,8 +39,9 @@ We appreciate the security research community's efforts to help keep MemoirVault
 **Please DO NOT report security vulnerabilities through public GitHub issues.**
 
 Instead, please report security vulnerabilities to:
-- **Email**: pranjal.ai.arena@gmail.com
+- **Email**: security@memoirvault.com (or pranjal.ai.arena@gmail.com)
 - **Subject**: [SECURITY] Brief description of the issue
+- **GitHub Security Advisories**: Use our private vulnerability reporting feature
 
 ### What to Include
 
@@ -78,6 +79,7 @@ We provide security updates for the following versions:
 
 | Version | Supported          |
 | ------- | ------------------ |
+| 1.1.x   | ✅ Yes             |
 | 1.0.x   | ✅ Yes             |
 | < 1.0   | ❌ No              |
 
@@ -149,14 +151,15 @@ We will notify users of security incidents that may affect them:
 ## 📞 Contact Information
 
 ### Security Team
-- **Email**: pranjal.ai.arena@gmail.com
+- **Email**: security@memoirvault.com (or pranjal.ai.arena@gmail.com)
 - **PGP Key**: Available upon request
 - **Response Time**: 24 hours for critical issues
 
 ### General Support
-- **Email**: pranjal.ai.arena
+- **Email**: support@memoirvault.com (or pranjal.ai.arena@gmail.com)
 - **GitHub Issues**: For non-security related bugs
 - **GitHub Discussions**: For general questions
+- **In-App Reporting**: Use the AI Helper for bug reports and feedback
 
 ## 📄 Legal
 
@@ -168,6 +171,6 @@ By using MemoirVault, you agree to our [Terms of Service](https://memoirvault.co
 
 ---
 
-**Last Updated**: January 22, 2025
+**Last Updated**: January 25, 2025
 
 Thank you for helping us keep MemoirVault secure! 🙏

@@ -89,6 +89,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] - 2025-01-25
+
+### 🤖 Added
+- **AI Helper Bot** with Google Gemini API integration for writing assistance
+- **GitHub Issue Reporting** system for user feedback and bug reports
+- **Individual Entry Deletion** functionality in Timeline component
+- **Debug Tools** for R2 storage consistency testing (`/debug` page)
+- **Comprehensive Logging** for file upload and deletion processes
+
+### 🔧 Fixed
+- **R2 File Deletion** issues for audio and video files
+- **Environment Variable Consistency** across all R2 operations
+- **File Path Generation** and storage consistency
+- **Modal Backdrop Effects** with improved blur styling
+- **Upload Timeout Handling** for large video files
+
+### 🎨 Improved
+- **Timeline Component** with delete functionality and better UX
+- **Settings Page** with dedicated issue reporting section
+- **Error Handling** throughout the application
+- **File Upload Progress** feedback and user notifications
+- **Storage Usage Tracking** with better percentage calculations
+
+### 🛠️ Technical
+- **Enhanced R2 Client** with file existence checking
+- **Improved API Endpoints** with better error handling and logging
+- **Database Query Optimization** for media file operations
+- **Debug API Endpoints** for storage testing and diagnostics
+
+---
+
 ## [Unreleased]
 
 ### Planned Features

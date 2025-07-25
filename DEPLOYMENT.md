@@ -26,6 +26,14 @@ PUBLIC_DEVELOPMENT_URL=https://pub-your-bucket-id.r2.dev
 
 # NeonDB
 DATABASE_URL=your_neon_database_url
+
+# AI Features (Optional)
+GEMINI_API_KEY=your_gemini_api_key
+
+# GitHub Integration (Optional)
+GITHUB_TOKEN=your_github_personal_access_token
+GITHUB_REPO_OWNER=your_github_username
+GITHUB_REPO_NAME=your_repository_name
 ```
 
 ### 2. Clerk Domain Configuration
@@ -41,9 +49,27 @@ DATABASE_URL=your_neon_database_url
 Make sure your NeonDB is accessible from Vercel:
 1. Check that your DATABASE_URL is correct
 2. Ensure the database allows connections from Vercel's IP ranges
-3. Run database migrations if needed
+3. Run database migrations if needed:
+   ```bash
+   npm run db:migrate
+   ```
 
-### 4. Redeploy
+### 4. AI Features Setup (Optional)
+
+For AI helper functionality:
+1. Get a Google Gemini API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. Add `GEMINI_API_KEY` to your environment variables
+
+### 5. GitHub Integration Setup (Optional)
+
+For issue reporting functionality:
+1. Create a GitHub Personal Access Token with `repo` permissions
+2. Add the following environment variables:
+   - `GITHUB_TOKEN`: Your personal access token
+   - `GITHUB_REPO_OWNER`: Your GitHub username
+   - `GITHUB_REPO_NAME`: Your repository name
+
+### 6. Redeploy
 
 After adding environment variables:
 1. Go to **Deployments** tab in Vercel
@@ -68,6 +94,16 @@ After adding environment variables:
    - Verify DATABASE_URL format
    - Check NeonDB connection limits
    - Ensure SSL mode is correctly configured
+
+4. **AI Features Not Working**
+   - Check GEMINI_API_KEY is correctly set
+   - Verify API key has proper permissions
+   - Check API usage limits
+
+5. **GitHub Integration Issues**
+   - Verify GITHUB_TOKEN has repo permissions
+   - Check repository owner and name are correct
+   - Ensure token hasn't expired
 
 ### Debug Steps:
 
@@ -108,5 +144,8 @@ vercel logs [deployment-url]
 - [ ] Cloudflare R2 bucket configured and accessible
 - [ ] SSL certificates valid
 - [ ] Custom domain configured (if applicable)
+- [ ] AI features tested (if enabled)
+- [ ] GitHub integration tested (if enabled)
+- [ ] Debug endpoints secured for production
 - [ ] Performance monitoring enabled
 - [ ] Error tracking configured

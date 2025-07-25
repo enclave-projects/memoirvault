@@ -10,29 +10,38 @@ The application will be developed using the **Next.js framework** to deliver a p
 ### 2. Core Features
 
 - **User Authentication and Security**  
-  - Secure sign-up/login flows with modern authentication (OAuth2, JWT)  
+  - Secure sign-up/login flows with Clerk authentication (OAuth2, JWT)  
   - Optional biometric or two-factor authentication for enhanced privacy  
-  - End-to-end encryption or client-side encryption considerations for user data
+  - End-to-end encryption considerations for sensitive user data
 
 - **Multimedia Journaling**  
   - Users can add text entries, audio diaries, images, and video clips  
-  - Rich text editor for autobiography content with formatting tools  
-  - Timeline view to browse autobiographical entries chronologically
+  - Drag & drop file upload with real-time preview functionality  
+  - Timeline view to browse autobiographical entries chronologically  
+  - Individual entry deletion with permanent media file cleanup
 
 - **Data Storage and Management**  
   - Cloudflare R2 used as primary storage for multimedia files, leveraging its cost-efficiency and zero egress fees  
   - Integration with AWS S3 SDK for seamless API compatibility with R2  
-  - NeonDB as the scalable, serverless Postgres database managing metadata, user profiles, and entry records
+  - NeonDB as the scalable, serverless Postgres database managing metadata, user profiles, and entry records  
+  - Comprehensive file deletion system ensuring no orphaned files in storage
 
 - **Privacy and Data Control**  
   - User data stays isolated with clear boundaries defined at the backend  
-  - Features allowing users to export, backup, or delete their autobiographical data autonomously  
-  - Transparent data policies with audit logs accessible by users to see access history
+  - Complete data deletion features for individual entries and bulk operations  
+  - Storage usage tracking and management with 2GB free tier  
+  - Transparent data policies with full user control over personal content
+
+- **AI-Powered Assistance**  
+  - Integrated AI helper bot using Google Gemini API for writing assistance  
+  - Context-aware suggestions for memoir writing and storytelling  
+  - GitHub issue reporting system for user feedback and bug reports
 
 - **Responsive Design and UX**  
   - Mobile-first responsive design using Next.js dynamic routing and API routes  
-  - Intuitive UI/UX inspired by personal journaling platforms yet focused on private autobiography use cases  
-  - Accessibility considerations for users with disabilities
+  - Intuitive UI/UX with backdrop blur effects and modern modal designs  
+  - Accessibility considerations for users with disabilities  
+  - Real-time upload progress and comprehensive error handling
 
 ### 3. Technical Architecture
 
@@ -52,13 +61,22 @@ The application will be developed using the **Next.js framework** to deliver a p
 - **User Empowerment**: Clear mechanisms for data export and deletion empower users, enhancing trust and compliance with privacy regulations.
 - **Potential for AI Integration**: Future versions can integrate AI-powered summarization and timeline analysis using vector search capabilities in NeonDB.
 
-### 6. Future Enhancements
+### 6. Recent Enhancements
 
-- **AI-powered autobiography insights**: Use large language models for personalized story summarization and content suggestions.
-- **Offline mode**: Allow users to draft entries without internet, syncing securely once reconnected.
-- **Collaboration & Sharing**: Optional features for sharing parts of stories with trusted friends or family.
-- **Mobile Apps**: Build native or progressive web app versions for accessibility on all devices.
+- **AI Helper Integration**: Implemented Google Gemini API for writing assistance and memoir suggestions
+- **Enhanced File Management**: Comprehensive deletion system for individual entries with R2 storage cleanup
+- **Debug Tools**: Added R2 storage consistency testing and debugging endpoints
+- **Issue Reporting**: Integrated GitHub issue creation for user feedback and bug reports
+- **Improved UX**: Enhanced modal designs with backdrop blur effects and better user interactions
 
-### 7. Conclusion
+### 7. Future Enhancements
+
+- **Advanced AI insights**: Enhanced story summarization and personalized content analysis
+- **Offline mode**: Allow users to draft entries without internet, syncing securely once reconnected
+- **Collaboration & Sharing**: Optional features for sharing parts of stories with trusted friends or family
+- **Mobile Apps**: Build native or progressive web app versions for accessibility on all devices
+- **Advanced Search**: Full-text search across all entries with filtering capabilities
+
+### 8. Conclusion
 
 This project delivers a **unique intersection of privacy, personal storytelling, and modern cloud technologies**. By combining Next.js’ performance and flexibility with Cloudflare R2’s cost-effective storage and NeonDB’s innovative serverless DB, it creates a compelling platform for users to digitally preserve their life stories with full control and security.
