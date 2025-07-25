@@ -29,9 +29,29 @@
 - **ES Modules** - Modern module system (type: "module" in package.json)
 
 ## Key Libraries
-- **react-dropzone** - File upload with drag & drop
-- **swiper** - Touch slider for media carousels
+- **react-dropzone** - File upload with drag & drop functionality
+- **swiper** - Touch slider for media carousels with navigation
 - **@smithy/node-http-handler** - HTTP handling for AWS SDK
+- **@google/generative-ai** - Google Gemini API integration for AI assistance
+- **drizzle-orm** - Type-safe database operations and migrations
+
+## AI Integration
+- **Google Gemini API** - AI writing assistance for memoir creation
+- **Context-aware suggestions** - Personalized writing help based on user content
+- **Privacy-preserving** - AI assistance without compromising user data
+
+## File Management
+- **Cloudflare R2** - Cost-effective object storage with zero egress fees
+- **AWS S3 SDK v3** - S3-compatible API for R2 integration
+- **File existence checking** - Comprehensive R2 file management
+- **Automatic cleanup** - Prevents orphaned files in storage
+- **Dynamic timeouts** - Adaptive upload handling for large files
+
+## Debug & Development Tools
+- **R2 Storage Testing** - Built-in diagnostic tools for storage consistency
+- **GitHub Integration** - Issue reporting system for user feedback
+- **Comprehensive Logging** - Enhanced error handling and debugging
+- **Real-time Monitoring** - Storage usage tracking and management
 
 ## Common Commands
 
@@ -54,6 +74,8 @@ npm run db:push      # Push schema changes directly to database
 - Copy `.env.example` to `.env.local`
 - Configure Clerk, Cloudflare R2, and NeonDB credentials
 - Ensure DATABASE_URL, CLERK keys, and R2 credentials are set
+- Optional: Add GEMINI_API_KEY for AI writing assistance
+- Optional: Add GITHUB_TOKEN, GITHUB_REPO_OWNER, GITHUB_REPO_NAME for issue reporting
 
 ## Build Configuration
 - **Output**: Standalone for Docker deployment
