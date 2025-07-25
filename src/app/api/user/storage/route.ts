@@ -15,22 +15,13 @@ export async function GET() {
     // Calculate storage used from media files
     let storageUsed = 0;
     try {
-      // Check if media table has user_id column
-      const result = await db.execute(sql`
-        SELECT EXISTS (
-          SELECT FROM information_schema.columns 
-          WHERE table_name = 'media' AND column_name = 'user_id'
-        );
-      `);
-
-      if (result.rows[0]?.exists) {
-        const usage = await db
-          .select({ total: sum(media.fileSize) })
-          .from(media)
-          .where(eq(media.userId, userId));
-        
-        storageUsed = Number(usage[0]?.total || 0);
-      }
+      const usage = await db
+        .select({ total: sum(media.fileSize) })
+        .from(media)
+        .where(eq(media.userId, userId));
+      
+      storageUsed = Number(usage[0]?.total || 0);
+      console.log('Storage calculation:', { userId, storageUsed, rawTotal: usage[0]?.total });
     } catch (error) {
       console.error("Error calculating storage usage:", error);
       // Continue with default values
@@ -38,17 +29,23 @@ export async function GET() {
 
     // Fixed 2GB storage limit for all users
     const storageLimit = 2 * 1024 * 1024 * 1024; // 2GB in bytes
+    const usagePercentage = storageUsed > 0 
+      ? Math.max(0.1, Math.round((storageUsed / storageLimit) * 100 * 10) / 10) // Show at least 0.1% if there's any usage
+      : 0;
     
-    return Response.json({
+    const responseData = {
       plan: 'free',
       storageLimit,
       storageUsed,
       storageAvailable: storageLimit - storageUsed,
-      usagePercentage: Math.round((storageUsed / storageLimit) * 100),
+      usagePercentage,
       formattedUsed: formatBytes(storageUsed),
       formattedLimit: formatBytes(storageLimit),
       formattedAvailable: formatBytes(storageLimit - storageUsed),
-    });
+    };
+    
+    console.log('Storage API response:', responseData);
+    return Response.json(responseData);
 
   } catch (error) {
     console.error("Error fetching user storage:", error);

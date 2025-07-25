@@ -26,7 +26,10 @@ export default function StorageUsage() {
       const response = await fetch('/api/user/storage');
       if (response.ok) {
         const data = await response.json();
+        console.log('Storage API response:', data); // Debug log
         setStorageInfo(data);
+      } else {
+        console.error('Storage API failed:', response.status, response.statusText);
       }
     } catch (error) {
       console.error('Error fetching storage info:', error);
@@ -67,6 +70,15 @@ export default function StorageUsage() {
   
   const info = storageInfo || defaultStorageInfo;
 
+  // Debug log to see what values we're using
+  console.log('Storage info being used:', {
+    storageUsed: info.storageUsed,
+    storageLimit: info.storageLimit,
+    usagePercentage: info.usagePercentage,
+    formattedUsed: info.formattedUsed,
+    isUsingDefault: !storageInfo
+  });
+
   return (
     <div className="bg-white p-6 rounded-xl shadow-sm border border-[#EBEDE8] hover:shadow-md transition-shadow">
       <div className="flex items-center justify-between mb-4">
@@ -90,7 +102,7 @@ export default function StorageUsage() {
         </div>
         <div className="text-center mt-2">
           <span className="text-sm text-[#333F3C] opacity-75">
-            {info.usagePercentage}% used
+            {info.usagePercentage === 0 ? '0' : info.usagePercentage}% used
           </span>
         </div>
       </div>

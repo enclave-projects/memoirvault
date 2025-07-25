@@ -125,6 +125,8 @@ export async function POST(request: NextRequest) {
                     // Use a more consistent naming pattern
                     const fileName = `${entry.id}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExtension}`;
                     
+                    console.log(`🔧 Processing file: ${file.name}, extension: ${fileExtension}, generated fileName: ${fileName}`);
+                    
                     try {
                         // Upload to R2
                         const publicUrl = await uploadToR2(buffer, fileName, file.type);
@@ -135,6 +137,8 @@ export async function POST(request: NextRequest) {
                         if (file.type.startsWith('image/')) fileType = 'image';
                         else if (file.type.startsWith('video/')) fileType = 'video';
                         else if (file.type.startsWith('audio/')) fileType = 'audio';
+    
+                        console.log(`📁 Uploading file: ${file.name}, type: ${fileType}, mimeType: ${file.type}, fileName: ${fileName}`);
     
                         // Create media record
                         const [mediaRecord] = await db.insert(media).values({
@@ -148,6 +152,8 @@ export async function POST(request: NextRequest) {
                             filePath: fileName, // Use filePath instead of r2Key
                             publicUrl,
                         }).returning();
+
+                        console.log(`💾 Stored media record: ${mediaRecord.id}, filePath: ${mediaRecord.filePath}, fileType: ${mediaRecord.fileType}`);
     
                         mediaRecords.push(mediaRecord);
                     } catch (uploadError) {

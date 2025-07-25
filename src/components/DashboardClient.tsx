@@ -6,6 +6,7 @@ import NewEntryForm from './NewEntryForm';
 import Timeline from './Timeline';
 import Settings from './Settings';
 import StorageUsage from './StorageUsage';
+import AIHelper from './AIHelper';
 
 interface MediaItem {
   id: string;
@@ -24,6 +25,7 @@ export default function DashboardClient() {
   const [showNewEntryForm, setShowNewEntryForm] = useState(false);
   const [showTimeline, setShowTimeline] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showAIHelper, setShowAIHelper] = useState(false);
   const [stats, setStats] = useState({
     totalEntries: 0,
     wordsWritten: 0,
@@ -112,6 +114,15 @@ export default function DashboardClient() {
         </div>
         <div className="flex items-center space-x-4">
           <SignedIn>
+            <button
+              onClick={() => setShowAIHelper(true)}
+              className="p-2 text-[#333F3C] hover:text-[#004838] hover:bg-[#EBEDE8] rounded-lg transition-all duration-200"
+              title="AI Writing Assistant"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+            </button>
             <button
               onClick={() => setShowSettings(true)}
               className="p-2 text-[#333F3C] hover:text-[#004838] hover:bg-[#EBEDE8] rounded-lg transition-all duration-200"
@@ -274,6 +285,23 @@ export default function DashboardClient() {
           onDataCleared={handleDataCleared}
         />
       )}
+
+      {showAIHelper && (
+        <AIHelper
+          onClose={() => setShowAIHelper(false)}
+        />
+      )}
+
+      {/* Floating AI Helper Button */}
+      <button
+        onClick={() => setShowAIHelper(true)}
+        className="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-[#004838] to-[#073127] text-[#E2FB6C] rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center z-40"
+        title="AI Writing Assistant"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+      </button>
     </div>
   );
 }

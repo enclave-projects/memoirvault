@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useUser } from '@clerk/nextjs';
+import ReportIssue from './ReportIssue';
 
 interface SettingsProps {
   onClose: () => void;
@@ -16,6 +17,7 @@ export default function Settings({ onClose, onDataCleared }: SettingsProps) {
   const [selectedEntryId, setSelectedEntryId] = useState<string | null>(null);
   const [entries, setEntries] = useState<any[]>([]);
   const [showEntryList, setShowEntryList] = useState(false);
+  const [showReportIssue, setShowReportIssue] = useState(false);
 
   // Fetch entries for deletion selection
   const fetchEntries = async () => {
@@ -96,7 +98,7 @@ export default function Settings({ onClose, onDataCleared }: SettingsProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 flex items-center justify-center z-50 p-4" style={{ backdropFilter: 'blur(4px)', backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
       <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="p-6 border-b border-[#EBEDE8] flex justify-between items-center">
@@ -133,6 +135,30 @@ export default function Settings({ onClose, onDataCleared }: SettingsProps) {
                 <p className="text-blue-700 text-sm">
                   Premium plans with additional storage will be available soon.
                 </p>
+              </div>
+
+              {/* Support Section */}
+              <div className="space-y-6">
+                <h3 className="font-serif text-xl font-semibold text-[#333F3C]">Support & Feedback</h3>
+                
+                {/* Report Issue */}
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl">🐛</span>
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-[#333F3C] mb-2">Report an Issue</h4>
+                      <p className="text-sm text-[#333F3C] opacity-75 mb-3">
+                        Found a bug or having trouble with MemoirVault? Let us know so we can fix it.
+                      </p>
+                      <button
+                        onClick={() => setShowReportIssue(true)}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors text-sm"
+                      >
+                        Report Issue
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Data Management Section */}
@@ -308,6 +334,11 @@ export default function Settings({ onClose, onDataCleared }: SettingsProps) {
           )}
         </div>
       </div>
+      
+      {/* Report Issue Modal */}
+      {showReportIssue && (
+        <ReportIssue onClose={() => setShowReportIssue(false)} />
+      )}
     </div>
   );
 }

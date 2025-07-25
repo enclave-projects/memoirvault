@@ -14,6 +14,7 @@ export default function NewEntryForm({ onClose, onSuccess }: NewEntryFormProps) 
   const [description, setDescription] = useState('');
   const [files, setFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState<string>('');
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFiles(prev => [...prev, ...acceptedFiles]);
@@ -41,40 +42,57 @@ export default function NewEntryForm({ onClose, onSuccess }: NewEntryFormProps) 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Enhanced validation
     if (!title.trim()) {
       alert('Please enter a title');
       return;
     }
-    
+
     // Prevent double submission
     if (submissionInProgress()) {
       console.log('Submission already in progress, preventing duplicate');
       return;
     }
-    
+
     // Disable the form immediately
     setIsSubmitting(true);
     submissionRef.current = true;
-    
+    setUploadStatus('Preparing upload...');
+
     // Generate a unique submission ID to prevent duplicates
     const submissionId = `${Date.now()}-${Math.random().toString(36).substring(2, 10)}`;
-    
+
     try {
       const formData = new FormData();
       formData.append('title', title);
       formData.append('description', description);
       formData.append('submissionId', submissionId); // Add submission ID to detect duplicates
-      
+
       files.forEach(file => {
         formData.append('files', file);
       });
 
-      // Add a timeout to prevent hanging submissions
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+      // Calculate dynamic timeout based on file sizes and types
+      const totalFileSize = files.reduce((total, file) => total + file.size, 0);
+      const hasVideoFiles = files.some(file => file.type.startsWith('video/'));
       
+      // More generous timeout: minimum 2 minutes, +1 minute per 10MB, +2 minutes if video files
+      let timeoutDuration = Math.max(120000, 120000 + Math.floor(totalFileSize / (10 * 1024 * 1024)) * 60000);
+      if (hasVideoFiles) {
+        timeoutDuration += 120000; // Add extra 2 minutes for video processing
+      }
+      
+      console.log(`Upload timeout set to ${Math.round(timeoutDuration / 1000)} seconds for ${files.length} files (${(totalFileSize / 1024 / 1024).toFixed(2)} MB total)`);
+      
+      setUploadStatus(`Uploading ${files.length} file${files.length > 1 ? 's' : ''} (${(totalFileSize / 1024 / 1024).toFixed(1)} MB)...`);
+      
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => {
+        setUploadStatus('Upload timed out...');
+        controller.abort();
+      }, timeoutDuration);
+
       const response = await fetch('/api/entries', {
         method: 'POST',
         body: formData,
@@ -85,13 +103,15 @@ export default function NewEntryForm({ onClose, onSuccess }: NewEntryFormProps) 
           'Pragma': 'no-cache'
         }
       });
-      
+
       clearTimeout(timeoutId);
 
       if (response.ok) {
         const result = await response.json();
         console.log('Entry created successfully:', result);
         
+        setUploadStatus('Upload successful! Saving entry...');
+
         // Small delay to ensure UI updates properly
         setTimeout(() => {
           onSuccess();
@@ -103,16 +123,21 @@ export default function NewEntryForm({ onClose, onSuccess }: NewEntryFormProps) 
       }
     } catch (error) {
       console.error('Error creating entry:', error);
-      
+
       // More user-friendly error message
       if (error instanceof Error && error.name === 'AbortError') {
-        alert('Request timed out. Please try again.');
+        alert('Upload timed out. This can happen with large video files. Please try:\n• Using a smaller video file\n• Compressing the video\n• Checking your internet connection');
+      } else if (error instanceof Error && error.message.includes('413')) {
+        alert('File too large. Please try uploading smaller files or compress your videos.');
+      } else if (error instanceof Error && error.message.includes('network')) {
+        alert('Network error. Please check your internet connection and try again.');
       } else {
         alert(`Failed to create entry: ${error instanceof Error ? error.message : 'Unknown error'}`);
       }
     } finally {
       setIsSubmitting(false);
       submissionRef.current = false;
+      setUploadStatus('');
     }
   };
 
@@ -131,140 +156,149 @@ export default function NewEntryForm({ onClose, onSuccess }: NewEntryFormProps) 
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 flex items-center justify-center z-50 p-4" style={{ backdropFilter: 'blur(4px)', backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
       <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="p-6 border-b border-[#EBEDE8]">
-          <div className="flex justify-between items-center">
-            <h2 className="font-serif text-2xl font-semibold text-[#333F3C]">
-              Create New Entry
-            </h2>
-            <button
-              onClick={onClose}
-              className="text-[#333F3C] hover:text-[#004838] text-2xl"
-            >
-              ×
-            </button>
-          </div>
-        </div>
-
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {/* Title */}
-          <div>
-            <label htmlFor="title" className="block text-sm font-medium text-[#333F3C] mb-2">
-              Title *
-            </label>
-            <input
-              type="text"
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-4 py-3 border border-[#EBEDE8] rounded-lg focus:ring-2 focus:ring-[#E2FB6C] focus:border-[#004838] transition-colors"
-              placeholder="Enter a title for your memory..."
-              required
-            />
-          </div>
-
-          {/* Description */}
-          <div>
-            <label htmlFor="description" className="block text-sm font-medium text-[#333F3C] mb-2">
-              Description
-            </label>
-            <textarea
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              rows={4}
-              className="w-full px-4 py-3 border border-[#EBEDE8] rounded-lg focus:ring-2 focus:ring-[#E2FB6C] focus:border-[#004838] transition-colors resize-none"
-              placeholder="Tell your story..."
-            />
-          </div>
-
-          {/* File Upload */}
-          <div>
-            <label className="block text-sm font-medium text-[#333F3C] mb-2">
-              Media Files
-            </label>
-            <div
-            {...getRootProps({
-                className: `border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
-                            isDragActive
-                            ? 'border-[#004838] bg-[#E2FB6C] bg-opacity-10'
-                            : 'border-[#EBEDE8] hover:border-[#E2FB6C]'
-                }`
-            })}
-            >
-              <input {...getInputProps()} />
-              <div className="text-4xl mb-4">📁</div>
-              {isDragActive ? (
-                <p className="text-[#004838] font-medium">Drop files here...</p>
-              ) : (
-                <div>
-                  <p className="text-[#333F3C] font-medium mb-2">
-                    Drag & drop files here, or click to select
-                  </p>
-                  <p className="text-sm text-[#333F3C] opacity-75">
-                    Supports images, videos, and audio files
-                  </p>
-                </div>
-              )}
+          <div className="p-6 border-b border-[#EBEDE8]">
+            <div className="flex justify-between items-center">
+              <h2 className="font-serif text-2xl font-semibold text-[#333F3C]">
+                Create New Entry
+              </h2>
+              <button
+                onClick={onClose}
+                className="text-[#333F3C] hover:text-[#004838] text-2xl"
+              >
+                ×
+              </button>
             </div>
           </div>
 
-          {/* File Preview */}
-          {files.length > 0 && (
+          <form onSubmit={handleSubmit} className="p-6 space-y-6">
+            {/* Title */}
             <div>
-              <h3 className="text-sm font-medium text-[#333F3C] mb-3">
-                Selected Files ({files.length})
-              </h3>
-              {files.length > 3 ? (
-                <MediaCarousel>
-                  {files.map((file, index) => (
-                    <FilePreviewCard 
-                      key={index}
-                      file={file} 
-                      index={index} 
-                      onRemove={removeFile}
-                      getFilePreview={getFilePreview}
-                      getFileIcon={getFileIcon}
-                    />
-                  ))}
-                </MediaCarousel>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {files.map((file, index) => (
-                    <FilePreviewCard 
-                      key={index}
-                      file={file} 
-                      index={index} 
-                      onRemove={removeFile}
-                      getFilePreview={getFilePreview}
-                      getFileIcon={getFileIcon}
-                    />
-                  ))}
-                </div>
-              )}
+              <label htmlFor="title" className="block text-sm font-medium text-[#333F3C] mb-2">
+                Title *
+              </label>
+              <input
+                type="text"
+                id="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="w-full px-4 py-3 border border-[#EBEDE8] rounded-lg focus:ring-2 focus:ring-[#E2FB6C] focus:border-[#004838] transition-colors"
+                placeholder="Enter a title for your memory..."
+                required
+              />
             </div>
-          )}
 
-          {/* Submit Buttons */}
-          <div className="flex gap-4 pt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 px-6 py-3 border-2 border-[#EBEDE8] text-[#333F3C] rounded-lg font-medium hover:bg-[#EBEDE8] transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={!title.trim() || isSubmitting}
-              className="flex-1 gradient-cta text-[#E2FB6C] px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? 'Creating...' : 'Create Entry'}
-            </button>
-          </div>
-        </form>
-      </div>
+            {/* Description */}
+            <div>
+              <label htmlFor="description" className="block text-sm font-medium text-[#333F3C] mb-2">
+                Description
+              </label>
+              <textarea
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                rows={4}
+                className="w-full px-4 py-3 border border-[#EBEDE8] rounded-lg focus:ring-2 focus:ring-[#E2FB6C] focus:border-[#004838] transition-colors resize-none"
+                placeholder="Tell your story..."
+              />
+            </div>
+
+            {/* File Upload */}
+            <div>
+              <label className="block text-sm font-medium text-[#333F3C] mb-2">
+                Media Files
+              </label>
+              <div
+                {...getRootProps({
+                  className: `border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${isDragActive
+                    ? 'border-[#004838] bg-[#E2FB6C] bg-opacity-10'
+                    : 'border-[#EBEDE8] hover:border-[#E2FB6C]'
+                    }`
+                })}
+              >
+                <input {...getInputProps()} />
+                <div className="text-4xl mb-4">📁</div>
+                {isDragActive ? (
+                  <p className="text-[#004838] font-medium">Drop files here...</p>
+                ) : (
+                  <div>
+                    <p className="text-[#333F3C] font-medium mb-2">
+                      Drag & drop files here, or click to select
+                    </p>
+                    <p className="text-sm text-[#333F3C] opacity-75">
+                      Supports images, videos, and audio files
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* File Preview */}
+            {files.length > 0 && (
+              <div>
+                <h3 className="text-sm font-medium text-[#333F3C] mb-3">
+                  Selected Files ({files.length})
+                </h3>
+                {files.length > 3 ? (
+                  <MediaCarousel>
+                    {files.map((file, index) => (
+                      <FilePreviewCard
+                        key={index}
+                        file={file}
+                        index={index}
+                        onRemove={removeFile}
+                        getFilePreview={getFilePreview}
+                        getFileIcon={getFileIcon}
+                      />
+                    ))}
+                  </MediaCarousel>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {files.map((file, index) => (
+                      <FilePreviewCard
+                        key={index}
+                        file={file}
+                        index={index}
+                        onRemove={removeFile}
+                        getFilePreview={getFilePreview}
+                        getFileIcon={getFileIcon}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Submit Buttons */}
+            <div className="flex gap-4 pt-4">
+              <button
+                type="button"
+                onClick={onClose}
+                className="flex-1 px-6 py-3 border-2 border-[#EBEDE8] text-[#333F3C] rounded-lg font-medium hover:bg-[#EBEDE8] transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={!title.trim() || isSubmitting}
+                className="flex-1 gradient-cta text-[#E2FB6C] px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? 'Creating...' : 'Create Entry'}
+              </button>
+            </div>
+            
+            {/* Upload Status */}
+            {uploadStatus && (
+              <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                  <span className="text-blue-800 text-sm">{uploadStatus}</span>
+                </div>
+              </div>
+            )}
+          </form>
+        </div>
     </div>
   );
 }
@@ -279,7 +313,7 @@ interface FilePreviewCardProps {
 
 function FilePreviewCard({ file, index, onRemove, getFilePreview, getFileIcon }: FilePreviewCardProps) {
   const preview = getFilePreview(file);
-  
+
   return (
     <div className="relative bg-[#EBEDE8] rounded-lg p-4">
       <button
@@ -289,7 +323,7 @@ function FilePreviewCard({ file, index, onRemove, getFilePreview, getFileIcon }:
       >
         ×
       </button>
-      
+
       {preview ? (
         <>
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -304,7 +338,7 @@ function FilePreviewCard({ file, index, onRemove, getFilePreview, getFileIcon }:
           {getFileIcon(file)}
         </div>
       )}
-      
+
       <p className="text-sm font-medium text-[#333F3C] truncate">
         {file.name}
       </p>

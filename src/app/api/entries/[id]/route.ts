@@ -2,8 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { entries, media } from "@/lib/db/schema";
 import { eq, and } from "drizzle-orm";
-import { r2Client } from "@/lib/r2";
-import { DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { deleteFromR2 } from "@/lib/r2";
 
 export async function DELETE(
   request: Request,
@@ -36,21 +35,53 @@ export async function DELETE(
       .from(media)
       .where(and(eq(media.entryId, entryId), eq(media.userId, userId)));
 
+    // Debug: Log all media files found
+    console.log(`Media files found for entry ${entryId}:`, entryMedia.map(m => ({
+      id: m.id,
+      fileName: m.fileName,
+      originalName: m.originalName,
+      fileType: m.fileType,
+      mimeType: m.mimeType,
+      filePath: m.filePath
+    })));
+
+    // Separate files by type for debugging
+    const imageFiles = entryMedia.filter(m => m.fileType === 'image');
+    const videoFiles = entryMedia.filter(m => m.fileType === 'video');
+    const audioFiles = entryMedia.filter(m => m.fileType === 'audio');
+    
+    console.log(`File breakdown - Images: ${imageFiles.length}, Videos: ${videoFiles.length}, Audio: ${audioFiles.length}`);
+
     // Delete all media files from R2 storage
+    console.log(`Found ${entryMedia.length} media files to delete for entry ${entryId}`);
+    
     const deletePromises = entryMedia.map(async (mediaItem) => {
       try {
-        const deleteCommand = new DeleteObjectCommand({
-          Bucket: process.env.CLOUDFLARE_R2_BUCKET_NAME!,
-          Key: mediaItem.filePath,
-        });
-        await r2Client.send(deleteCommand);
+        console.log(`Attempting to delete file from R2: ${mediaItem.filePath}`);
+        await deleteFromR2(mediaItem.filePath);
+        console.log(`Successfully deleted file from R2: ${mediaItem.filePath}`);
+        return { success: true, filePath: mediaItem.filePath };
       } catch (error) {
-        console.error(`Failed to delete file ${mediaItem.filePath}:`, error);
-        // Continue with other deletions even if one fails
+        console.error(`Failed to delete file ${mediaItem.filePath} from R2:`, error);
+        return { success: false, filePath: mediaItem.filePath, error: error.message };
       }
     });
 
-    await Promise.allSettled(deletePromises);
+    const deleteResults = await Promise.allSettled(deletePromises);
+    
+    // Log results for debugging
+    deleteResults.forEach((result, index) => {
+      if (result.status === 'fulfilled') {
+        const { success, filePath, error } = result.value;
+        if (success) {
+          console.log(`✅ Successfully deleted: ${filePath}`);
+        } else {
+          console.log(`❌ Failed to delete: ${filePath} - ${error}`);
+        }
+      } else {
+        console.log(`❌ Promise rejected for file ${index}:`, result.reason);
+      }
+    });
 
     // Delete media records from database
     await db.delete(media).where(and(eq(media.entryId, entryId), eq(media.userId, userId)));
