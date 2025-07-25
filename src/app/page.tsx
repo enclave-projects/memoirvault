@@ -89,8 +89,8 @@ export default function Home() {
             <span className="text-[#004838] cursor-target">Completely Private</span>
           </h1>
           <p className="text-xl text-[#333F3C] mb-8 max-w-2xl mx-auto leading-relaxed opacity-90">
-            Record, preserve, and own your autobiography with complete privacy and control.
-            Multi-media journaling that keeps your memories safe and secure.
+            A new way to record and preserve your autobiography with complete privacy and control.
+            Multi-media journaling designed for the privacy-conscious individual.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <SignedOut>
@@ -251,8 +251,8 @@ export default function Home() {
               Ready to start your digital autobiography?
             </h2>
             <p className="text-xl text-[#333F3C] mb-8 max-w-2xl mx-auto">
-              Join thousands who trust MemoirVault to preserve their most precious memories
-              with complete privacy and security.
+              Take control of your personal stories with a platform built for privacy,
+              security, and complete data ownership.
             </p>
             <SignedOut>
               <SignUpButton
