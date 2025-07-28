@@ -120,6 +120,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.1] - 2025-01-28
+
+### 🔧 Fixed
+- **AI Helper Deployment Issues** - Fixed environment variable configuration for production
+- **Gemini API Integration** - Corrected API endpoint and model name (`gemma-3n-e2b-it`)
+- **Environment Variables** - Updated from `GOOGLE_GEMINI_API_KEY` to `GEMINI_API_KEY`
+- **Error Handling** - Improved user-friendly error messages for AI service failures
+- **TypeScript Issues** - Fixed component warnings and deprecated method usage
+
+### 🎨 Improved
+- **AI Helper Component** - Simplified implementation by removing complex streaming logic
+- **Error Messages** - More specific and actionable error feedback for users
+- **Loading States** - Better visual feedback during AI response generation
+- **API Debugging** - Added `/api/test-ai` endpoint for configuration testing
+- **Documentation** - Updated `.env.example` with correct variable names
+
+### 🛠️ Technical
+- **API Error Logging** - Enhanced debugging information for production issues
+- **Component Optimization** - Removed unused code and improved performance
+- **Environment Configuration** - Standardized variable naming across all services
+- **Production Compatibility** - Ensured AI features work correctly in Vercel deployment
+
+### 📚 Documentation
+- **YouTube Content** - Added comprehensive documentation folder for video creation
+- **Workflow Diagrams** - Created detailed Mermaid diagrams for system explanation
+- **Database Schema** - Complete SQL schema documentation with examples
+- **API Documentation** - Detailed endpoint documentation with request/response examples
+- **Feature Overview** - Comprehensive feature breakdown for educational content
+
+---
+
 ## [Unreleased]
 
 ### Planned Features

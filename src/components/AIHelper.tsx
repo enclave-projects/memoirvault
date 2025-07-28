@@ -209,8 +209,8 @@ export default function AIHelper({ onClose }: AIHelperProps) {
                   <span className="text-sm">Thinking...</span>
                 </div>
               </div>
-            </div> */}
-          )}
+            </div>
+          )} */}
           <div ref={messagesEndRef} />
         </div>
 
