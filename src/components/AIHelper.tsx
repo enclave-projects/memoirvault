@@ -1,12 +1,15 @@
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface Message {
   id: string;
   text: string;
   isUser: boolean;
   timestamp: Date;
+
 }
 
 interface AIHelperProps {
@@ -24,6 +27,7 @@ export default function AIHelper({ onClose }: AIHelperProps) {
   ]);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -54,6 +58,17 @@ export default function AIHelper({ onClose }: AIHelperProps) {
     setInputMessage('');
     setIsLoading(true);
 
+    // Create initial AI message
+    const aiMessageId = (Date.now() + 1).toString();
+    const initialAiMessage: Message = {
+      id: aiMessageId,
+      text: '',
+      isUser: false,
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, initialAiMessage]);
+
     try {
       const response = await fetch('/api/ai-helper', {
         method: 'POST',
@@ -71,29 +86,37 @@ export default function AIHelper({ onClose }: AIHelperProps) {
         throw new Error(data.message || data.error || 'Failed to get response');
       }
 
-      const aiMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: data.response,
-        isUser: false,
-        timestamp: new Date()
-      };
-
-      setMessages(prev => [...prev, aiMessage]);
+      setMessages(prev => prev.map(msg =>
+        msg.id === aiMessageId
+          ? { ...msg, text: data.response }
+          : msg
+      ));
     } catch (error) {
       console.error('Error sending message:', error);
-      const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: "I'm sorry, I'm having trouble responding right now. Please try again in a moment.",
-        isUser: false,
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, errorMessage]);
+
+      let errorMessage = "I'm sorry, I'm having trouble responding right now. Please try again in a moment.";
+
+      if (error instanceof Error) {
+        if (error.message.includes('AI service temporarily unavailable')) {
+          errorMessage = "The AI assistant is currently unavailable. This might be due to missing configuration. Please contact support if this persists.";
+        } else if (error.message.includes('authentication failed')) {
+          errorMessage = "There's an authentication issue with the AI service. Please contact support.";
+        } else if (error.message.includes('busy')) {
+          errorMessage = "The AI service is busy right now. Please wait a moment and try again.";
+        }
+      }
+
+      setMessages(prev => prev.map(msg =>
+        msg.id === aiMessageId
+          ? { ...msg, text: errorMessage }
+          : msg
+      ));
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
@@ -155,7 +178,17 @@ export default function AIHelper({ onClose }: AIHelperProps) {
                   : 'bg-[#EBEDE8] text-[#333F3C]'
                   }`}
               >
-                <p className="whitespace-pre-wrap">{message.text}</p>
+                {message.isUser ? (
+                  <p className="whitespace-pre-wrap">{message.text}</p>
+                ) : (
+                  <div className="ai-message-content">
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                    >
+                      {message.text || ''}
+                    </ReactMarkdown>
+                  </div>
+                )}
                 <p className={`text-xs mt-1 ${message.isUser ? 'text-[#E2FB6C]' : 'text-gray-500'
                   }`}>
                   {formatTime(message.timestamp)}
@@ -164,7 +197,7 @@ export default function AIHelper({ onClose }: AIHelperProps) {
             </div>
           ))}
 
-          {isLoading && (
+          {/* {isLoading && (
             <div className="flex justify-start">
               <div className="bg-[#EBEDE8] text-[#333F3C] p-3 rounded-lg">
                 <div className="flex items-center gap-2">
@@ -176,7 +209,7 @@ export default function AIHelper({ onClose }: AIHelperProps) {
                   <span className="text-sm">Thinking...</span>
                 </div>
               </div>
-            </div>
+            </div> */}
           )}
           <div ref={messagesEndRef} />
         </div>
@@ -211,7 +244,7 @@ export default function AIHelper({ onClose }: AIHelperProps) {
               type="text"
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyDown}
               placeholder="Ask me anything about memoir writing or MemoirVault..."
               className="flex-1 p-3 border border-[#EBEDE8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004838] focus:border-transparent"
               disabled={isLoading}

@@ -121,3 +121,6 @@ temp/
 *.sln
 *.sw?
 .vercel
+
+# YouTube content documentation (for video creation)
+youtube-content/

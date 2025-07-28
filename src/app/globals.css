@@ -99,3 +99,109 @@ html {
 .cursor-target:hover {
   filter: brightness(1.1);
 }
+
+/* AI Helper Markdown Styling */
+.ai-message-content {
+  color: var(--neutral-charcoal);
+}
+
+.ai-message-content h1,
+.ai-message-content h2,
+.ai-message-content h3,
+.ai-message-content h4,
+.ai-message-content h5,
+.ai-message-content h6 {
+  color: var(--primary-deep-green);
+  font-weight: 600;
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.ai-message-content p {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.ai-message-content ul,
+.ai-message-content ol {
+  margin-bottom: 0.5rem;
+  padding-left: 1rem;
+}
+
+.ai-message-content li {
+  margin-bottom: 0.25rem;
+  line-height: 1.4;
+}
+
+.ai-message-content code {
+  background-color: var(--light-gray);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-family: 'Courier New', monospace;
+}
+
+.ai-message-content pre {
+  background-color: var(--light-gray);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.ai-message-content pre code {
+  background: none;
+  padding: 0;
+}
+
+.ai-message-content blockquote {
+  border-left: 4px solid var(--accent-lime);
+  padding-left: 0.75rem;
+  margin: 0.5rem 0;
+  font-style: italic;
+  color: var(--neutral-charcoal);
+  opacity: 0.8;
+}
+
+.ai-message-content strong {
+  font-weight: 600;
+  color: var(--primary-deep-green);
+}
+
+.ai-message-content em {
+  font-style: italic;
+}
+
+.ai-message-content a {
+  color: var(--primary-deep-green);
+  text-decoration: underline;
+}
+
+.ai-message-content a:hover {
+  color: var(--secondary-forest);
+}
+
+/* Streaming indicator */
+.streaming-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: 0.25rem;
+}
+
+.streaming-dots div {
+  width: 0.25rem;
+  height: 0.25rem;
+  background-color: var(--primary-deep-green);
+  border-radius: 50%;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.streaming-dots div:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.streaming-dots div:nth-child(3) {
+  animation-delay: 0.4s;
+}
