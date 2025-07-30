@@ -14,7 +14,7 @@
 - **End-to-end encryption** for sensitive data
 - **No tracking or analytics** - your data stays yours
 - **GDPR compliant** with full data export/deletion rights
-- **Secure authentication** with Clerk (OAuth2, biometric support)
+- **Secure authentication** with Clerk (OAuth2)
 
 ### 📝 Rich Multimedia Journaling
 - **Text entries** with rich formatting
