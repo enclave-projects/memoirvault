@@ -14,10 +14,11 @@ export async function POST(_request: NextRequest) {
 
         let fixedProfiles = 0;
         const errors: string[] = [];
+        let allProfiles: any[] = [];
 
         try {
             // Get all public profiles
-            const allProfiles = await db
+            allProfiles = await db
                 .select()
                 .from(publicProfiles);
 

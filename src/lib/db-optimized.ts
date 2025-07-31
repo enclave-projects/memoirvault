@@ -2,14 +2,8 @@ import { drizzle } from 'drizzle-orm/neon-http';
 import { neon } from '@neondatabase/serverless';
 import { cache, cacheUtils } from './cache';
 
-// Create connection with optimized settings
-const sql = neon(process.env.DATABASE_URL!, {
-  // Connection pooling settings
-  connectionTimeoutMillis: 5000,
-  idleTimeoutMillis: 30000,
-  // Enable connection reuse
-  fetchConnectionCache: true,
-});
+// Create connection
+const sql = neon(process.env.DATABASE_URL!);
 
 export const db = drizzle(sql);
 
@@ -49,9 +43,9 @@ export const optimizedQueries = {
       WHERE p.user_id = ANY(${userIds})
     `;
 
-    const result = await db.execute(query);
-    cache.set(cacheKey, result.rows, 180); // 3 minutes cache
-    return result.rows;
+    const result = await query;
+    cache.set(cacheKey, result, 180); // 3 minutes cache
+    return result;
   },
 
   // Get follow status for multiple users at once
@@ -69,14 +63,14 @@ export const optimizedQueries = {
         AND following_user_id = ANY(${targetUserIds})
     `;
 
-    const result = await db.execute(query);
+    const result = await query;
     const followMap = new Map();
     
     // Initialize all as false
     targetUserIds.forEach(id => followMap.set(id, false));
     
     // Set true for actual follows
-    result.rows.forEach((row: any) => {
+    result.forEach((row: any) => {
       followMap.set(row.following_user_id, row.is_following);
     });
 
@@ -107,7 +101,7 @@ export const optimizedQueries = {
       RETURNING *
     `;
 
-    return await db.execute(query);
+    return await query;
   },
 
   // Fast count updates using single query
@@ -135,7 +129,7 @@ export const optimizedQueries = {
     // Invalidate cache
     cacheUtils.invalidateProfile(userId);
     
-    return await db.execute(query);
+    return await query;
   }
 };
 
