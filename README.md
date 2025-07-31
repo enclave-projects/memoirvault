@@ -176,6 +176,23 @@ memoirvault/
 2. Copy the connection string to your environment variables
 3. Run migrations to set up the schema
 
+## 🚀 Deployment
+
+Deploy MemoirVault to Vercel for full Next.js functionality:
+
+```bash
+# Deploy to Vercel
+vercel deploy --prod
+```
+
+**Features:**
+- Full Next.js features with serverless functions
+- Automatic deployments from Git
+- Edge functions and middleware support
+- Built-in analytics and monitoring
+
+For detailed deployment instructions, see [Deployment Guide](DEPLOYMENT.md)
+
 ## 🤝 Contributing
 
 We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
