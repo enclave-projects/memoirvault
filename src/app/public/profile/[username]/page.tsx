@@ -48,17 +48,19 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
       .orderBy(desc(entries.createdAt));
 
     // Get media for each entry
+    const entriesWithMedia = [];
     for (const entry of specificPublicEntries) {
       const entryMedia = await db
         .select()
         .from(media)
         .where(eq(media.entryId, entry.id));
 
-      publicEntries.push({
+      entriesWithMedia.push({
         ...entry,
         media: entryMedia,
       });
     }
+    publicEntries = entriesWithMedia;
   } else if (publicProfile.isJourneyPublic) {
     // If all entries are public (and specific control is disabled), fetch all entries for this user
     const allEntries = await db
@@ -74,17 +76,19 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
       .orderBy(desc(entries.createdAt));
 
     // Get media for each entry
+    const entriesWithMedia = [];
     for (const entry of allEntries) {
       const entryMedia = await db
         .select()
         .from(media)
         .where(eq(media.entryId, entry.id));
 
-      publicEntries.push({
+      entriesWithMedia.push({
         ...entry,
         media: entryMedia,
       });
     }
+    publicEntries = entriesWithMedia;
   }
 
   return (
