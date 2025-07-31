@@ -4,7 +4,7 @@ import { db } from '@/lib/db';
 import { publicProfiles, userFollows, publicEntryVisibility } from '@/lib/db/schema';
 import { eq, sql } from 'drizzle-orm';
 
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
     try {
         const { userId } = await auth();
         
@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
         }
 
         let fixedProfiles = 0;
-        let errors = [];
+        const errors: string[] = [];
 
         try {
             // Get all public profiles

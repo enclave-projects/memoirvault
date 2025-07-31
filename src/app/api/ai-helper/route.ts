@@ -123,10 +123,8 @@ User message: ${message}`;
                 async start(controller) {
                     try {
                         const words = fullResponse.split(' ');
-                        let currentText = '';
                         
                         for (let i = 0; i < words.length; i++) {
-                            currentText += (i > 0 ? ' ' : '') + words[i];
                             
                             controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text: words[i] + (i < words.length - 1 ? ' ' : '') })}\n\n`));
                             

@@ -3,7 +3,7 @@ import { db } from '@/lib/db';
 import { publicProfiles, entries, publicEntryVisibility } from '@/lib/db/schema';
 import { eq, desc, count } from 'drizzle-orm';
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     // Get all active public profiles
     const profiles = await db

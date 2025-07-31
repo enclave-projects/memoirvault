@@ -4,7 +4,7 @@ import { db } from '@/lib/db';
 import { entries, media, publicEntryVisibility, publicProfiles } from '@/lib/db/schema';
 import { eq, and, sql } from 'drizzle-orm';
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
     try {
         const { userId } = await auth();
         

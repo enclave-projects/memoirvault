@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { db } from '@/lib/db';
 import { publicProfiles, userFollows, publicEntryVisibility } from '@/lib/db/schema';
-import { eq, sql, inArray } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 
 export async function POST(request: NextRequest) {
     try {

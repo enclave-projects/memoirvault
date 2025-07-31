@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { db } from '@/lib/db';
 import { publicProfiles, userFollows, publicEntryVisibility, entries } from '@/lib/db/schema';
-import { eq, sql, notInArray } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
     try {
         const { userId } = await auth();
         
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        let cleanupResults = {
+        const cleanupResults = {
             orphanedFollows: 0,
             orphanedVisibility: 0,
             updatedCounts: 0,
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
 
             if (existingUserIds.length > 0) {
                 // Clean up orphaned follow relationships (where either user doesn't have a public profile)
-                const orphanedFollowsResult = await db
+                await db
                     .delete(userFollows)
                     .where(
                         sql`${userFollows.followerUserId} NOT IN (${sql.join(existingUserIds.map(id => sql`${id}`), sql`, `)}) OR ${userFollows.followingUserId} NOT IN (${sql.join(existingUserIds.map(id => sql`${id}`), sql`, `)})`
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
 
                 if (existingEntryIds.length > 0) {
                     // Clean up orphaned entry visibility records (where entry doesn't exist)
-                    const orphanedVisibilityResult = await db
+                    await db
                         .delete(publicEntryVisibility)
                         .where(
                             sql`${publicEntryVisibility.entryId} NOT IN (${sql.join(existingEntryIds.map(id => sql`${id}`), sql`, `)})`

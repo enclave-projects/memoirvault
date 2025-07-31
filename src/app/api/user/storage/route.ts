@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { media } from "@/lib/db/schema";
-import { eq, sum, sql } from "drizzle-orm";
+import { eq, sum } from "drizzle-orm";
 
 // Get user storage information
 export async function GET() {

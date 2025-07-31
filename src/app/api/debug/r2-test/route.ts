@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { media } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { r2Client } from "@/lib/r2";
-import { ListObjectsV2Command, HeadObjectCommand } from "@aws-sdk/client-s3";
+import { HeadObjectCommand } from "@aws-sdk/client-s3";
 
 export async function GET() {
   try {

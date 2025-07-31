@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { db } from '@/lib/db';
 import { publicProfiles, userFollows, publicEntryVisibility } from '@/lib/db/schema';
-import { eq, or, sql } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 
-export async function DELETE(request: NextRequest) {
+export async function DELETE(_request: NextRequest) {
     try {
         const { userId } = await auth();
         
@@ -25,7 +25,7 @@ export async function DELETE(request: NextRequest) {
                 return NextResponse.json({ error: 'Profile not found' }, { status: 404 });
             }
 
-            const profile = profileToDelete[0];
+            // const profile = profileToDelete[0]; // Unused variable removed
 
             // Get all users who follow this user (to update their following count)
             const followers = await db

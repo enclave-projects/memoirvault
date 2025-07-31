@@ -25,8 +25,8 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
   const publicProfile = profile[0];
 
   // Fetch public entries
-  let publicEntries = [];
-  
+  let publicEntries: any[] = [];
+
   if (publicProfile.allowSpecificEntries) {
     // If specific entry control is enabled, show only specifically marked public entries
     const specificPublicEntries = await db
@@ -53,7 +53,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
         .select()
         .from(media)
         .where(eq(media.entryId, entry.id));
-      
+
       publicEntries.push({
         ...entry,
         media: entryMedia,
@@ -79,7 +79,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
         .select()
         .from(media)
         .where(eq(media.entryId, entry.id));
-      
+
       publicEntries.push({
         ...entry,
         media: entryMedia,
@@ -88,8 +88,12 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
   }
 
   return (
-    <PublicProfileClient 
-      profile={publicProfile} 
+    <PublicProfileClient
+      profile={{
+        ...publicProfile,
+        createdAt: publicProfile.createdAt.toISOString(),
+        updatedAt: publicProfile.updatedAt.toISOString(),
+      }}
       entries={publicEntries}
     />
   );
