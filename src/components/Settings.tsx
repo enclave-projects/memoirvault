@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
 import ReportIssue from './ReportIssue';
 
@@ -18,6 +18,29 @@ export default function Settings({ onClose, onDataCleared }: SettingsProps) {
   const [entries, setEntries] = useState<any[]>([]);
   const [showEntryList, setShowEntryList] = useState(false);
   const [showReportIssue, setShowReportIssue] = useState(false);
+  const [publicProfile, setPublicProfile] = useState<any>(null);
+  const [loadingProfile, setLoadingProfile] = useState(true);
+
+  // Check for existing public profile on component mount
+  useEffect(() => {
+    checkPublicProfile();
+  }, []);
+
+  const checkPublicProfile = async () => {
+    try {
+      const response = await fetch('/api/public/profile-status');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.hasProfile) {
+          setPublicProfile(data.profile);
+        }
+      }
+    } catch (error) {
+      console.error('Error checking public profile:', error);
+    } finally {
+      setLoadingProfile(false);
+    }
+  };
 
   // Fetch entries for deletion selection
   const fetchEntries = async () => {
@@ -135,6 +158,79 @@ export default function Settings({ onClose, onDataCleared }: SettingsProps) {
                 <p className="text-blue-700 text-sm">
                   Premium plans with additional storage will be available soon.
                 </p>
+              </div>
+
+              {/* Public Platform Section */}
+              <div className="space-y-6">
+                <h3 className="font-serif text-xl font-semibold text-[#333F3C]">Public Platform</h3>
+                
+                {loadingProfile ? (
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-5 h-5 border-2 border-[#004838] border-t-transparent rounded-full animate-spin"></div>
+                      <span className="text-[#333F3C]">Checking public profile...</span>
+                    </div>
+                  </div>
+                ) : publicProfile ? (
+                  /* Existing Public Profile */
+                  <div className="bg-gradient-to-r from-[#004838] to-[#073127] text-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="text-2xl">✅</span>
+                      <div className="flex-1">
+                        <h4 className="font-semibold mb-2">Your Public Profile</h4>
+                        <p className="text-sm opacity-90 mb-2">
+                          <strong>@{publicProfile.username}</strong> - {publicProfile.fullName}
+                        </p>
+                        <p className="text-sm opacity-90 mb-3">
+                          {publicProfile.isJourneyPublic 
+                            ? "All your entries are public" 
+                            : "You can choose specific entries to make public"
+                          }
+                        </p>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => {
+                              window.location.href = `/public/profile/${publicProfile.username}`;
+                            }}
+                            className="px-4 py-2 bg-[#E2FB6C] text-[#004838] rounded-lg font-medium hover:bg-[#d4e85c] transition-colors text-sm"
+                          >
+                            View Public Profile
+                          </button>
+                          <button
+                            onClick={() => {
+                              window.location.href = '/public/discover';
+                            }}
+                            className="px-4 py-2 border border-[#E2FB6C] text-[#E2FB6C] rounded-lg font-medium hover:bg-[#E2FB6C] hover:text-[#004838] transition-colors text-sm"
+                          >
+                            Go to Public Platform
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  /* No Public Profile */
+                  <div className="bg-gradient-to-r from-[#004838] to-[#073127] text-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="text-2xl">🌍</span>
+                      <div className="flex-1">
+                        <h4 className="font-semibold mb-2">Share Your Journey Publicly</h4>
+                        <p className="text-sm opacity-90 mb-3">
+                          Create a public profile to share your memoir journey with others. 
+                          You can control which entries are public and connect with fellow memoir writers.
+                        </p>
+                        <button
+                          onClick={() => {
+                            window.location.href = '/public/setup';
+                          }}
+                          className="px-4 py-2 bg-[#E2FB6C] text-[#004838] rounded-lg font-medium hover:bg-[#d4e85c] transition-colors text-sm"
+                        >
+                          Create Public Profile
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Support Section */}

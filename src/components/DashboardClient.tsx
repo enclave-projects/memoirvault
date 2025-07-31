@@ -35,10 +35,13 @@ export default function DashboardClient() {
 
   const [showUpgradeMessage, setShowUpgradeMessage] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [publicProfile, setPublicProfile] = useState<any>(null);
+  const [loadingPublicProfile, setLoadingPublicProfile] = useState(true);
 
   useEffect(() => {
     fetchStats();
-    
+    checkPublicProfile();
+
     // Check for upgrade success or error in URL
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('upgraded') === 'true') {
@@ -85,6 +88,22 @@ export default function DashboardClient() {
     }
   };
 
+  const checkPublicProfile = async () => {
+    try {
+      const response = await fetch('/api/public/profile-status');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.hasProfile) {
+          setPublicProfile(data.profile);
+        }
+      }
+    } catch (error) {
+      console.error('Error checking public profile:', error);
+    } finally {
+      setLoadingPublicProfile(false);
+    }
+  };
+
   const handleNewEntrySuccess = () => {
     fetchStats(); // Refresh stats after creating new entry
   };
@@ -105,9 +124,9 @@ export default function DashboardClient() {
       {/* Header */}
       <header className="px-6 py-4 flex justify-between items-center max-w-7xl mx-auto border-b border-[#EBEDE8]">
         <div className="flex items-center space-x-2">
-          <img 
-            src="/logo/memoirvault.png" 
-            alt="MemoirVault Logo" 
+          <img
+            src="/logo/memoirvault.png"
+            alt="MemoirVault Logo"
             className="w-8 h-8"
           />
           <span className="font-serif text-xl font-semibold text-[#333F3C]">MemoirVault</span>
@@ -153,7 +172,7 @@ export default function DashboardClient() {
           <p className="text-[#333F3C] opacity-75">
             Start documenting your life story with complete privacy and control.
           </p>
-          
+
           {/* Success Message */}
           {showUpgradeMessage && (
             <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
@@ -163,7 +182,7 @@ export default function DashboardClient() {
               </p>
             </div>
           )}
-          
+
           {/* Error Message */}
           {showErrorMessage && (
             <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
@@ -237,6 +256,53 @@ export default function DashboardClient() {
             </div>
           </div>
         </div>
+
+        {/* Public Platform Status */}
+        {!loadingPublicProfile && (
+          <div className="mt-8 p-6 bg-gradient-to-r from-[#004838] to-[#073127] text-white rounded-xl">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">{publicProfile ? '🌍' : '🔒'}</span>
+                <div>
+                  <h3 className="font-semibold mb-1">
+                    {publicProfile ? 'Public Profile Active' : 'Private Mode Only'}
+                  </h3>
+                  <p className="text-sm opacity-90">
+                    {publicProfile
+                      ? `Your public profile @${publicProfile.username} is linked to this account`
+                      : 'Create a public profile to share your journey with others'
+                    }
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                {publicProfile ? (
+                  <>
+                    <button
+                      onClick={() => window.location.href = `/public/profile/${publicProfile.username}`}
+                      className="px-4 py-2 bg-[#E2FB6C] text-[#004838] rounded-lg font-medium hover:bg-[#d4e85c] transition-colors text-sm"
+                    >
+                      View Public Profile
+                    </button>
+                    <button
+                      onClick={() => window.location.href = '/public/discover'}
+                      className="px-4 py-2 border border-[#E2FB6C] text-[#E2FB6C] rounded-lg font-medium hover:bg-[#E2FB6C] hover:text-[#004838] transition-colors text-sm"
+                    >
+                      Public Platform
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    onClick={() => window.location.href = '/public/setup'}
+                    className="px-4 py-2 bg-[#E2FB6C] text-[#004838] rounded-lg font-medium hover:bg-[#d4e85c] transition-colors text-sm"
+                  >
+                    Create Public Profile
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Privacy Status */}
         <div className="mt-8 p-6 bg-[#EBEDE8] rounded-xl">

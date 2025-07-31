@@ -1,6 +1,6 @@
-# 🤝 Contributing to MemoirVault
+# 🤝 Contributing to MemoirVault v1.1.2
 
-Thank you for your interest in contributing to MemoirVault! We welcome contributions from the community and are grateful for any help you can provide.
+Thank you for your interest in contributing to MemoirVault! We welcome contributions from the community and are grateful for any help you can provide. With our recent addition of public sharing features and performance optimizations, there are many exciting areas to contribute to.
 
 ## 📋 Table of Contents
 

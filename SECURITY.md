@@ -12,6 +12,9 @@ MemoirVault is built with privacy and security as core principles. We take the s
 - **Database encryption** at rest and in transit
 - **No third-party tracking** or analytics
 - **GDPR compliance** with data export/deletion rights
+- **Granular privacy controls** for public sharing features
+- **User data isolation** with proper access controls
+- **Complete data cleanup** when profiles are deleted
 
 ### Authentication & Authorization
 - **Multi-factor authentication** support
@@ -39,7 +42,7 @@ We appreciate the security research community's efforts to help keep MemoirVault
 **Please DO NOT report security vulnerabilities through public GitHub issues.**
 
 Instead, please report security vulnerabilities to:
-- **Email**: security@memoirvault.com (or pranjal.ai.arena@gmail.com)
+- **Email**: pranjal.ai.arena@gmail.com
 - **Subject**: [SECURITY] Brief description of the issue
 - **GitHub Security Advisories**: Use our private vulnerability reporting feature
 
@@ -77,11 +80,12 @@ We maintain a security researchers hall of fame for those who have responsibly d
 
 We provide security updates for the following versions:
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 1.1.x   | ✅ Yes             |
-| 1.0.x   | ✅ Yes             |
-| < 1.0   | ❌ No              |
+| Version | Supported          | Notes                    |
+| ------- | ------------------ | ------------------------ |
+| 1.1.2   | ✅ Yes             | Current stable release   |
+| 1.1.x   | ✅ Yes             | Active support           |
+| 1.0.x   | ⚠️ Limited         | Security fixes only      |
+| < 1.0   | ❌ No              | End of life              |
 
 ## 🔧 Security Best Practices for Users
 
@@ -171,6 +175,6 @@ By using MemoirVault, you agree to our [Terms of Service](https://memoirvault.co
 
 ---
 
-**Last Updated**: January 25, 2025
+**Last Updated**: January 30, 2025
 
 Thank you for helping us keep MemoirVault secure! 🙏

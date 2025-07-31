@@ -1,6 +1,6 @@
-# 📖 MemoirVault
+# 📖 MemoirVault v1.1.2
 
-> A privacy-first web application for recording personal autobiographies in a secure digital space.
+> A privacy-first web application for recording personal autobiographies in a secure digital space with public sharing capabilities.
 
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
@@ -36,12 +36,21 @@
 - **Storage usage tracking** with 2GB free tier
 - **Comprehensive file management** preventing orphaned files
 
+### 🌐 Public Sharing & Social Features
+- **Public profiles** for sharing memoir journeys
+- **Follow system** to connect with other memoir writers
+- **Entry visibility control** - choose what to share publicly
+- **Social feed** to discover and follow interesting stories
+- **Optimistic UI updates** for instant user feedback
+- **Advanced settings** with granular privacy controls
+
 ### 🎨 Modern User Experience
 - **Responsive design** optimized for all devices
 - **Intuitive interface** with accessibility compliance
 - **Real-time upload progress** and error handling
 - **Backdrop blur effects** and smooth animations
-- **Dark/light theme** support (coming soon)
+- **Collapsible sidebar** with smooth navigation
+- **Performance optimized** with caching and batch operations
 
 ## 🚀 Quick Start
 
