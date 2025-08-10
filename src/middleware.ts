@@ -1,6 +1,26 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
+import { NextRequest, NextResponse } from 'next/server';
+import { checkAdminIPRestriction } from '@/lib/admin-security';
 
-export default clerkMiddleware();
+export default clerkMiddleware((auth, req: NextRequest) => {
+  // Check if this is an admin route
+  if (req.nextUrl.pathname.startsWith('/siteadminmemoirvault')) {
+    const ipCheck = checkAdminIPRestriction(req);
+    
+    if (!ipCheck.isAllowed) {
+      // For API routes, return JSON error
+      if (req.nextUrl.pathname.startsWith('/api/admin')) {
+        return ipCheck.response;
+      }
+      
+      // For page routes, redirect to a blocked page or show error
+      return NextResponse.redirect(new URL('/siteadminmemoirvault?error=ip_blocked', req.url));
+    }
+  }
+  
+  // Continue with normal Clerk middleware
+  return NextResponse.next();
+});
 
 export const config = {
     matcher: [

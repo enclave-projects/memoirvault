@@ -85,7 +85,76 @@ export type UserStorage = typeof userStorage.$inferSelect;
 export type NewUserStorage = typeof userStorage.$inferInsert;
 export type PublicProfile = typeof publicProfiles.$inferSelect;
 export type NewPublicProfile = typeof publicProfiles.$inferInsert;
+// Community posts system
+export const communityPosts = pgTable('community_posts', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  title: text('title').notNull(),
+  description: text('description').notNull(),
+  imageUrl: text('image_url'), // Optional image/video link
+  videoUrl: text('video_url'), // Optional video link
+  authorName: text('author_name').notNull(),
+  authorEmail: text('author_email'), // Optional for existing users
+  isExistingUser: boolean('is_existing_user').notNull().default(false),
+  userId: text('user_id'), // Only for existing users
+  isApproved: boolean('is_approved').notNull().default(true), // Auto-approve for now
+  likesCount: bigint('likes_count', { mode: 'number' }).notNull().default(0),
+  repliesCount: bigint('replies_count', { mode: 'number' }).notNull().default(0),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+// Contact messages from users
+export const contactMessages = pgTable('contact_messages', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: text('name').notNull(),
+  email: text('email').notNull(),
+  userId: text('user_id'), // Optional - if user is logged in
+  subject: text('subject').notNull().default('General Inquiry'),
+  message: text('message').notNull(),
+  status: text('status').notNull().default('new'), // 'new', 'read', 'replied', 'closed'
+  adminNotes: text('admin_notes'), // Internal notes for admin
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+// Site status management
+export const siteStatus = pgTable('site_status', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  serviceName: text('service_name').notNull(), // 'website', 'api', 'database', 'storage', etc.
+  status: text('status').notNull().default('operational'), // 'operational', 'degraded', 'partial_outage', 'major_outage', 'maintenance'
+  description: text('description'), // Status description
+  lastChecked: timestamp('last_checked').defaultNow().notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+}, (table) => ({
+  // Ensure unique service names
+  uniqueService: unique().on(table.serviceName),
+}));
+
+// Help center articles
+export const helpArticles = pgTable('help_articles', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  title: text('title').notNull(),
+  question: text('question').notNull(),
+  answer: text('answer').notNull(),
+  category: text('category').notNull().default('general'), // 'general', 'account', 'privacy', 'technical', etc.
+  tags: text('tags').array(), // Searchable tags
+  isPublished: boolean('is_published').notNull().default(true),
+  viewCount: bigint('view_count', { mode: 'number' }).notNull().default(0),
+  helpfulCount: bigint('helpful_count', { mode: 'number' }).notNull().default(0),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
 export type UserFollow = typeof userFollows.$inferSelect;
 export type NewUserFollow = typeof userFollows.$inferInsert;
 export type PublicEntryVisibility = typeof publicEntryVisibility.$inferSelect;
 export type NewPublicEntryVisibility = typeof publicEntryVisibility.$inferInsert;
+export type CommunityPost = typeof communityPosts.$inferSelect;
+export type NewCommunityPost = typeof communityPosts.$inferInsert;
+export type ContactMessage = typeof contactMessages.$inferSelect;
+export type NewContactMessage = typeof contactMessages.$inferInsert;
+export type SiteStatus = typeof siteStatus.$inferSelect;
+export type NewSiteStatus = typeof siteStatus.$inferInsert;
+export type HelpArticle = typeof helpArticles.$inferSelect;
+export type NewHelpArticle = typeof helpArticles.$inferInsert;
