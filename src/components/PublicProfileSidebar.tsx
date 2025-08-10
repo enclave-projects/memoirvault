@@ -11,13 +11,25 @@ interface PublicProfileSidebarProps {
 
 export default function PublicProfileSidebar({ isOwnProfile, onSettingsClick }: PublicProfileSidebarProps) {
     const { user, isLoaded } = useUser();
-    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isCollapsed, setIsCollapsed] = useState(true); // Start collapsed on mobile
     const [profileUrl, setProfileUrl] = useState('/public/setup');
     const [isClient, setIsClient] = useState(false);
 
     // Ensure we're on the client side to prevent hydration mismatch
     useEffect(() => {
         setIsClient(true);
+        // Set initial state based on screen size
+        const handleResize = () => {
+            if (window.innerWidth >= 1024) { // lg breakpoint
+                setIsCollapsed(false); // Show sidebar on desktop
+            } else {
+                setIsCollapsed(true); // Hide sidebar on mobile
+            }
+        };
+        
+        handleResize(); // Set initial state
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     useEffect(() => {

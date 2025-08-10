@@ -11,7 +11,7 @@ export async function DELETE(
   const params = await context.params;
   try {
     const { userId } = await auth();
-    
+
     if (!userId) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -49,12 +49,12 @@ export async function DELETE(
     const imageFiles = entryMedia.filter(m => m.fileType === 'image');
     const videoFiles = entryMedia.filter(m => m.fileType === 'video');
     const audioFiles = entryMedia.filter(m => m.fileType === 'audio');
-    
+
     console.log(`File breakdown - Images: ${imageFiles.length}, Videos: ${videoFiles.length}, Audio: ${audioFiles.length}`);
 
     // Delete all media files from R2 storage
     console.log(`Found ${entryMedia.length} media files to delete for entry ${entryId}`);
-    
+
     const deletePromises = entryMedia.map(async (mediaItem) => {
       try {
         console.log(`Attempting to delete file from R2: ${mediaItem.filePath}`);
@@ -68,7 +68,7 @@ export async function DELETE(
     });
 
     const deleteResults = await Promise.allSettled(deletePromises);
-    
+
     // Log results for debugging
     deleteResults.forEach((result, index) => {
       if (result.status === 'fulfilled') {
@@ -89,7 +89,7 @@ export async function DELETE(
     // Delete the entry from database
     await db.delete(entries).where(and(eq(entries.id, entryId), eq(entries.userId, userId)));
 
-    return Response.json({ 
+    return Response.json({
       message: "Entry and associated media have been permanently deleted",
       deletedEntry: entry[0].title,
       deletedMediaFiles: entryMedia.length
@@ -111,7 +111,7 @@ export async function GET(
   const params = await context.params;
   try {
     const { userId } = await auth();
-    
+
     if (!userId) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }

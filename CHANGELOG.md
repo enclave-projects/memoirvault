@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🎉 Initial Release
 
 #### Added
+
 - **Privacy-first architecture** with end-to-end encryption
 - **Multimedia journaling** support (text, images, audio, video)
 - **Clerk authentication** with biometric login support
@@ -25,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **GDPR compliance** features
 
 #### Technical Features
+
 - **Next.js 15** with App Router for optimal performance
 - **React 18** with modern hooks and patterns
 - **TypeScript** for type safety and better DX
@@ -35,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **API routes** for secure backend operations
 
 #### Security
+
 - **Multi-factor authentication** support
 - **Session management** with automatic expiry
 - **Input validation** and sanitization
@@ -44,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Rate limiting** for API endpoints
 
 #### UI/UX
+
 - **Clean, modern interface** with privacy-focused design
 - **Accessibility compliance** (WCAG 2.1 AA)
 - **Dark/light theme** support
@@ -55,12 +59,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🔧 Technical Details
 
 #### Database Schema
+
 - **entries** table for storing journal entries
 - **media** table for file metadata and references
 - **Foreign key relationships** with cascade delete
 - **Indexes** for optimal query performance
 
 #### File Storage
+
 - **Cloudflare R2** for global, cost-effective storage
 - **Public URL generation** for direct file access
 - **File type validation** and size limits
@@ -68,12 +74,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Metadata storage** for file information
 
 #### Authentication
+
 - **Clerk integration** for secure user management
 - **OAuth2 compliance** with multiple providers
 - **Session tokens** with proper expiration
 - **User profile management** and customization
 
 ### 📊 Performance
+
 - **Lighthouse score**: 95+ across all metrics
 - **Core Web Vitals**: Optimized for user experience
 - **Bundle size**: Optimized with code splitting
@@ -81,6 +89,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **CDN delivery**: Global content delivery via Cloudflare
 
 ### 🌍 Deployment
+
 - **Vercel deployment** ready with zero configuration
 - **Docker support** for containerized deployment
 - **Environment variables** for secure configuration
@@ -92,6 +101,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.0] - 2025-01-25
 
 ### 🤖 Added
+
 - **AI Helper Bot** with Google Gemini API integration for writing assistance
 - **GitHub Issue Reporting** system for user feedback and bug reports
 - **Individual Entry Deletion** functionality in Timeline component
@@ -99,6 +109,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Comprehensive Logging** for file upload and deletion processes
 
 ### 🔧 Fixed
+
 - **R2 File Deletion** issues for audio and video files
 - **Environment Variable Consistency** across all R2 operations
 - **File Path Generation** and storage consistency
@@ -106,6 +117,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Upload Timeout Handling** for large video files
 
 ### 🎨 Improved
+
 - **Timeline Component** with delete functionality and better UX
 - **Settings Page** with dedicated issue reporting section
 - **Error Handling** throughout the application
@@ -113,6 +125,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Storage Usage Tracking** with better percentage calculations
 
 ### 🛠️ Technical
+
 - **Enhanced R2 Client** with file existence checking
 - **Improved API Endpoints** with better error handling and logging
 - **Database Query Optimization** for media file operations
@@ -123,6 +136,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.1] - 2025-01-28
 
 ### 🔧 Fixed
+
 - **AI Helper Deployment Issues** - Fixed environment variable configuration for production
 - **Gemini API Integration** - Corrected API endpoint and model name (`gemma-3n-e2b-it`)
 - **Environment Variables** - Updated from `GOOGLE_GEMINI_API_KEY` to `GEMINI_API_KEY`
@@ -130,6 +144,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **TypeScript Issues** - Fixed component warnings and deprecated method usage
 
 ### 🎨 Improved
+
 - **AI Helper Component** - Simplified implementation by removing complex streaming logic
 - **Error Messages** - More specific and actionable error feedback for users
 - **Loading States** - Better visual feedback during AI response generation
@@ -137,12 +152,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Documentation** - Updated `.env.example` with correct variable names
 
 ### 🛠️ Technical
+
 - **API Error Logging** - Enhanced debugging information for production issues
 - **Component Optimization** - Removed unused code and improved performance
 - **Environment Configuration** - Standardized variable naming across all services
 - **Production Compatibility** - Ensured AI features work correctly in Vercel deployment
 
 ### 📚 Documentation
+
 - **Workflow Diagrams** - Created detailed Mermaid diagrams for system explanation
 - **Database Schema** - Complete SQL schema documentation with examples
 - **API Documentation** - Detailed endpoint documentation with request/response examples
@@ -153,6 +170,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.2] - 2025-01-30
 
 ### 🌐 Major Features Added
+
 - **Public Profile System** - Complete social sharing platform for memoir writers
 - **Follow/Unfollow System** - Connect with other memoir writers and follow their journeys
 - **Public Feed** - Discover and read public entries from people you follow
@@ -160,6 +178,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Social Discovery** - Find new people and stories through the discover page
 
 ### 🎛️ Advanced Settings & Controls
+
 - **Comprehensive Settings Modal** with tabbed interface:
   - **General Settings** - Profile name, bio, and basic information
   - **Privacy Settings** - Control entry visibility and public sharing
@@ -170,6 +189,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Profile Management** - Unlink or delete public profiles with proper cleanup
 
 ### 🚀 Performance Optimizations
+
 - **Optimistic UI Updates** - Instant feedback for follow/unfollow actions
 - **Batch Database Operations** - Reduced query count by 80% for better performance
 - **Caching Layer** - In-memory caching for frequently accessed data
@@ -177,6 +197,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Parallel Operations** - Simultaneous API calls using Promise.all()
 
 ### 🎨 UI/UX Improvements
+
 - **Collapsible Sidebar** - Space-efficient navigation with smooth animations
 - **Scrollable Navigation** - Fixed sidebar scrolling issues with proper flex layout
 - **Backdrop Blur Effects** - Modern modal designs with glass morphism
@@ -185,6 +206,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Error Handling** - Comprehensive error states with user-friendly messages
 
 ### 🔧 Technical Improvements
+
 - **Follow Count Accuracy** - Fixed negative count issues with proper recalculation
 - **Database Consistency** - Automatic count updates and orphaned data cleanup
 - **Hydration Fixes** - Resolved SSR/client-side rendering mismatches
@@ -193,6 +215,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Data Integrity** - Comprehensive cleanup when profiles are deleted
 
 ### 🛠️ New API Endpoints
+
 - `/api/public/follow-optimized` - High-performance follow/unfollow operations
 - `/api/public/batch-update-counts` - Batch count updates for multiple users
 - `/api/entries/bulk-visibility-optimized` - Optimized bulk entry visibility updates
@@ -201,6 +224,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `/api/public/profile-status` - Dynamic profile status checking
 
 ### 🔐 Security & Privacy
+
 - **Mutually Exclusive Settings** - Prevent conflicting privacy configurations
 - **Data Cleanup** - Complete removal of related data when profiles are deleted
 - **User Isolation** - Proper data separation between users
@@ -208,6 +232,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Rate Limiting** - Protection against abuse of new social features
 
 ### 🐛 Bug Fixes
+
 - **Sidebar Scrolling** - Fixed unscrollable navigation with proper flex layout
 - **Count Synchronization** - Resolved follower/following count inconsistencies
 - **Profile Deletion** - Fixed transaction errors with sequential operations
@@ -216,6 +241,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Mobile Navigation** - Fixed responsive behavior on small screens
 
 ### 📱 Mobile Enhancements
+
 - **Touch-Friendly Interface** - Optimized button sizes and touch targets
 - **Mobile Sidebar** - Collapsible navigation with overlay for mobile devices
 - **Responsive Modals** - Properly sized settings and selection popups
@@ -223,6 +249,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Performance** - Optimized for mobile network conditions
 
 ### 🎯 User Experience
+
 - **Onboarding Flow** - Smooth introduction to public profile features
 - **Contextual Help** - Tooltips and descriptions for new features
 - **Confirmation Dialogs** - Clear warnings for destructive actions
@@ -234,6 +261,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.2.0] - 2025-01-31
 
 ### 🚀 Major Performance Overhaul
+
 - **Landing Page Optimization** - Complete performance rewrite for 60fps smooth experience
 - **Animation System Redesign** - Removed heavy WebGL and GSAP animations
 - **CSS Performance** - Hardware-accelerated animations using only transform and opacity
@@ -241,6 +269,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Core Web Vitals** - Improved LCP, FID, and CLS scores significantly
 
 ### 🎨 Landing Page Improvements
+
 - **Simplified Background** - Replaced complex WebGL LightRays with CSS gradients
 - **Optimized Animations** - Performance-first fade-in animations with staggered timing
 - **Mobile Performance** - Touch-optimized interactions without heavy JavaScript
@@ -248,6 +277,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Accessibility** - Improved text rendering and reduced motion for sensitive users
 
 ### 🔧 Technical Optimizations
+
 - **Hardware Acceleration** - Strategic use of translate3d() and will-change properties
 - **Animation Timing** - Longer, smoother animations to reduce CPU usage
 - **Image Optimization** - Proper loading attributes (eager/lazy) for critical resources
@@ -255,6 +285,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Memory Management** - Removed continuous rendering loops and GPU strain
 
 ### 🛡️ Security Enhancements
+
 - **IP-Restricted Admin Panel** - Complete admin access control system
 - **Environment Security** - Moved admin credentials to secure environment variables
 - **Multi-Layer Protection** - Middleware, API, and component-level IP verification
@@ -262,6 +293,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Credential Management** - Secure admin authentication via API routes
 
 ### 🔐 Admin Panel Features
+
 - **IP Whitelist System** - Configurable IP address restrictions
 - **Real-time IP Verification** - Continuous IP checking during admin sessions
 - **Secure Login Flow** - Server-side credential validation with IP restrictions
@@ -269,6 +301,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Session Security** - 2-hour timeout with IP change detection
 
 ### 🐛 Bug Fixes
+
 - **Help Center Markdown** - Fixed raw markdown display in help articles
 - **Animation Performance** - Eliminated janky scrolling and laggy interactions
 - **TypeScript Issues** - Resolved NextRequest IP property errors
@@ -276,12 +309,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Mobile Responsiveness** - Improved touch interactions and viewport handling
 
 ### 📚 Documentation Updates
+
 - **Environment Configuration** - Updated .env.example with secure placeholders
 - **Performance Guide** - Added optimization documentation and best practices
 - **Security Documentation** - Comprehensive admin panel setup instructions
 - **Deployment Notes** - Updated deployment considerations for new features
 
 ### 🎯 Performance Metrics
+
 - **Page Load Speed** - 40% faster initial page load
 - **Animation Smoothness** - Consistent 60fps across all devices
 - **Bundle Size** - 30% reduction in JavaScript bundle size
@@ -293,6 +328,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned Features
+
 - AI-powered story suggestions and insights
 - Collaborative features for family sharing
 - Mobile applications (iOS/Android)

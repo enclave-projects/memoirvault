@@ -121,32 +121,68 @@ export default function Settings({ onClose, onDataCleared }: SettingsProps) {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 p-4" style={{ backdropFilter: 'blur(4px)', backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
-      <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        {/* Header */}
-        <div className="p-6 border-b border-[#EBEDE8] flex justify-between items-center">
-          <h2 className="font-serif text-2xl font-semibold text-[#333F3C]">Settings & Security</h2>
-          <button
-            onClick={onClose}
-            className="text-[#333F3C] hover:text-[#004838] text-2xl"
-          >
-            ×
-          </button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-in">
+      {/* Modern Backdrop */}
+      <div 
+        className="absolute inset-0 bg-black/40 backdrop-blur-md"
+        onClick={onClose}
+      ></div>
+      
+      {/* Modal Container */}
+      <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-2xl border border-white/20 animate-slide-up">
+        {/* Modern Header */}
+        <div className="bg-gradient-to-r from-[#004838] via-[#073127] to-[#004838] p-6 text-white">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-[#E2FB6C]/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+                <svg className="w-6 h-6 text-[#E2FB6C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <div>
+                <h2 className="font-serif text-2xl font-bold">Settings & Security</h2>
+                <p className="text-[#E2FB6C]/80 text-sm">Manage your account and privacy</p>
+              </div>
+            </div>
+            <button
+              onClick={onClose}
+              className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-xl flex items-center justify-center text-white hover:text-[#E2FB6C] transition-all duration-200 backdrop-blur-sm"
+              aria-label="Close settings"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
         </div>
 
-        {/* Content */}
-        <div className="p-6">
+        {/* Scrollable Content */}
+        <div className="overflow-y-auto max-h-[calc(90vh-120px)] p-6 space-y-8">
           {!showConfirmation && !showEntryList && (
             <>
-              {/* User Info */}
-              <div className="mb-8 p-4 bg-[#EBEDE8] rounded-lg">
-                <h3 className="font-semibold text-[#333F3C] mb-2">Account Information</h3>
-                <p className="text-[#333F3C] text-sm">
-                  Email: {user?.emailAddresses[0]?.emailAddress}
-                </p>
-                <p className="text-[#333F3C] text-sm">
-                  Member since: {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Unknown'}
-                </p>
+              {/* Modern User Info */}
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-200/30">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+                    <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                  <h3 className="font-bold text-[#1A1D29] text-lg">Account Information</h3>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-[#6B7280]">Email:</span>
+                    <span className="text-sm text-[#1A1D29] font-medium">{user?.emailAddresses[0]?.emailAddress}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-[#6B7280]">Member since:</span>
+                    <span className="text-sm text-[#1A1D29] font-medium">
+                      {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Unknown'}
+                    </span>
+                  </div>
+                </div>
               </div>
 
               {/* Storage Information */}
