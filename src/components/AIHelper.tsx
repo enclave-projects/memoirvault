@@ -144,25 +144,39 @@ export default function AIHelper({ onClose }: AIHelperProps) {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 p-4" style={{ backdropFilter: 'blur(4px)', backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
-      <div className="bg-white rounded-2xl w-full max-w-2xl h-[600px] flex flex-col shadow-2xl">
-        {/* Header */}
-        <div className="p-4 border-b border-[#EBEDE8] flex justify-between items-center bg-gradient-to-r from-[#004838] to-[#073127] text-white rounded-t-2xl">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-[#E2FB6C] rounded-full flex items-center justify-center">
-              <span className="text-[#004838] text-xl">🤖</span>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-in">
+      {/* Modern Backdrop */}
+      <div 
+        className="absolute inset-0 bg-black/40 backdrop-blur-md"
+        onClick={onClose}
+      ></div>
+      
+      {/* Modal Container */}
+      <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl w-full max-w-2xl h-[600px] flex flex-col shadow-2xl border border-white/20 animate-slide-up">
+        {/* Modern Header */}
+        <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 p-6 text-white rounded-t-3xl">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+                </svg>
+              </div>
+              <div>
+                <h2 className="font-serif text-2xl font-bold">AI Writing Assistant</h2>
+                <p className="text-white/80 text-sm">Get help with your memoir writing</p>
+              </div>
             </div>
-            <div>
-              <h2 className="font-serif text-xl font-semibold">AI Assistant</h2>
-              <p className="text-sm opacity-90">Powered by Google Gemini</p>
-            </div>
+            <button
+              onClick={onClose}
+              className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-xl flex items-center justify-center text-white transition-all duration-200 backdrop-blur-sm"
+              aria-label="Close AI assistant"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
-          <button
-            onClick={onClose}
-            className="text-white hover:text-[#E2FB6C] text-2xl transition-colors"
-          >
-            ×
-          </button>
         </div>
 
         {/* Messages */}
