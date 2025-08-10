@@ -5,9 +5,10 @@ import { eq, sql } from 'drizzle-orm';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const params = await context.params;
     const articleId = params.id;
 
     // Increment helpful count and view count
