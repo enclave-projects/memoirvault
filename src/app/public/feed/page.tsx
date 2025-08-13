@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 import PublicProfileSidebar from '@/components/PublicProfileSidebar';
+import MediaViewer from '@/components/MediaViewer';
 
 interface FeedEntry {
     id: string;
@@ -34,6 +35,9 @@ export default function FeedPage() {
     const [entries, setEntries] = useState<FeedEntry[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [showMediaViewer, setShowMediaViewer] = useState(false);
+    const [selectedMediaIndex, setSelectedMediaIndex] = useState(0);
+    const [selectedEntryMedia, setSelectedEntryMedia] = useState<any[]>([]);
 
     useEffect(() => {
         if (user) {
@@ -80,6 +84,12 @@ export default function FeedPage() {
         if (diffInHours < 24) return `${diffInHours}h ago`;
         if (diffInHours < 168) return `${Math.floor(diffInHours / 24)}d ago`;
         return formatDate(dateString);
+    };
+
+    const handleMediaClick = (entryMedia: any[], mediaIndex: number) => {
+        setSelectedEntryMedia(entryMedia);
+        setSelectedMediaIndex(mediaIndex);
+        setShowMediaViewer(true);
     };
 
     if (!user) {
@@ -292,8 +302,12 @@ export default function FeedPage() {
                                         {/* Modern Media Gallery */}
                                         {entry.media.length > 0 && (
                                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                                                {entry.media.slice(0, 3).map((mediaItem) => (
-                                                    <div key={mediaItem.id} className="group/media relative bg-white/40 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/30 hover:shadow-xl transition-all duration-300">
+                                                {entry.media.slice(0, 3).map((mediaItem, mediaIndex) => (
+                                                    <button
+                                                        key={mediaItem.id}
+                                                        onClick={() => handleMediaClick(entry.media, mediaIndex)}
+                                                        className="group/media relative bg-white/40 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/30 hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-[#004838]/30 w-full text-left"
+                                                    >
                                                         {mediaItem.fileType === 'image' && (
                                                             <div className="relative">
                                                                 <img
@@ -302,6 +316,15 @@ export default function FeedPage() {
                                                                     className="w-full h-56 object-cover group-hover/media:scale-105 transition-transform duration-500"
                                                                 />
                                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover/media:opacity-100 transition-opacity"></div>
+                                                                {/* Click to view overlay */}
+                                                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/media:opacity-100 transition-opacity">
+                                                                    <div className="w-16 h-16 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center">
+                                                                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                                        </svg>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         )}
 
@@ -343,7 +366,7 @@ export default function FeedPage() {
                                                         <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm text-white text-xs px-3 py-1 rounded-xl font-medium">
                                                             View Only
                                                         </div>
-                                                    </div>
+                                                    </button>
                                                 ))}
 
                                                 {entry.media.length > 3 && (
@@ -393,6 +416,15 @@ export default function FeedPage() {
                     )}
                 </div>
             </div>
+
+            {/* Media Viewer */}
+            {showMediaViewer && (
+                <MediaViewer
+                    media={selectedEntryMedia}
+                    initialIndex={selectedMediaIndex}
+                    onClose={() => setShowMediaViewer(false)}
+                />
+            )}
         </div>
     );
 }

@@ -5,6 +5,7 @@ import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 import PublicProfileSettings from '@/components/PublicProfileSettings';
 import PublicProfileSidebar from '@/components/PublicProfileSidebar';
+import MediaViewer from '@/components/MediaViewer';
 
 interface PublicProfileClientProps {
     profile: {
@@ -52,6 +53,9 @@ export default function PublicProfileClient({ profile, entries }: PublicProfileC
     const [followActionLoading, setFollowActionLoading] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
     const [currentProfile, setCurrentProfile] = useState(profile);
+    const [showMediaViewer, setShowMediaViewer] = useState(false);
+    const [selectedMediaIndex, setSelectedMediaIndex] = useState(0);
+    const [selectedEntryMedia, setSelectedEntryMedia] = useState<any[]>([]);
 
     const isOwnProfile = user?.id === profile.userId;
 
@@ -130,6 +134,12 @@ export default function PublicProfileClient({ profile, entries }: PublicProfileC
             month: 'long',
             day: 'numeric',
         });
+    };
+
+    const handleMediaClick = (entryMedia: any[], mediaIndex: number) => {
+        setSelectedEntryMedia(entryMedia);
+        setSelectedMediaIndex(mediaIndex);
+        setShowMediaViewer(true);
     };
 
     return (
@@ -311,8 +321,8 @@ export default function PublicProfileClient({ profile, entries }: PublicProfileC
                                                 <button
                                                     onClick={handleFollowToggle}
                                                     className={`group relative inline-flex items-center px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 ${isFollowing
-                                                            ? 'bg-white/80 backdrop-blur-sm border-2 border-[#E5E7EB] text-[#6B7280] hover:bg-red-50 hover:border-red-200 hover:text-red-600 focus:ring-red-500/20'
-                                                            : 'bg-gradient-to-r from-[#004838] to-[#073127] text-[#E2FB6C] hover:scale-105 focus:ring-[#004838]/30'
+                                                        ? 'bg-white/80 backdrop-blur-sm border-2 border-[#E5E7EB] text-[#6B7280] hover:bg-red-50 hover:border-red-200 hover:text-red-600 focus:ring-red-500/20'
+                                                        : 'bg-gradient-to-r from-[#004838] to-[#073127] text-[#E2FB6C] hover:scale-105 focus:ring-[#004838]/30'
                                                         }`}
                                                 >
                                                     {isFollowing ? (
@@ -462,8 +472,12 @@ export default function PublicProfileClient({ profile, entries }: PublicProfileC
                                             {/* Modern Media Gallery */}
                                             {entry.media.length > 0 && (
                                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                                    {entry.media.slice(0, 3).map((mediaItem) => (
-                                                        <div key={mediaItem.id} className="group/media relative bg-white/40 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/30 hover:shadow-xl transition-all duration-300">
+                                                    {entry.media.slice(0, 3).map((mediaItem, mediaIndex) => (
+                                                        <button
+                                                            key={mediaItem.id}
+                                                            onClick={() => handleMediaClick(entry.media, mediaIndex)}
+                                                            className="group/media relative bg-white/40 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/30 hover:shadow-xl transition-all duration-300 cursor-pointer w-full"
+                                                        >
                                                             {mediaItem.fileType === 'image' && (
                                                                 <div className="relative">
                                                                     <img
@@ -472,6 +486,15 @@ export default function PublicProfileClient({ profile, entries }: PublicProfileC
                                                                         className="w-full h-56 object-cover group-hover/media:scale-105 transition-transform duration-500"
                                                                     />
                                                                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover/media:opacity-100 transition-opacity"></div>
+                                                                    {/* Click to View Overlay */}
+                                                                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/media:opacity-100 transition-opacity bg-black/20">
+                                                                        <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                                                                            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                                            </svg>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             )}
 
@@ -490,11 +513,15 @@ export default function PublicProfileClient({ profile, entries }: PublicProfileC
                                                                             </svg>
                                                                         </div>
                                                                     </div>
+                                                                    {/* Click to Play Text */}
+                                                                    <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-lg opacity-0 group-hover/media:opacity-100 transition-opacity">
+                                                                        Click to Play
+                                                                    </div>
                                                                 </div>
                                                             )}
 
                                                             {mediaItem.fileType === 'audio' && (
-                                                                <div className="p-6 text-center h-56 flex flex-col justify-center bg-gradient-to-br from-purple-50 to-blue-50">
+                                                                <div className="p-6 text-center h-56 flex flex-col justify-center bg-gradient-to-br from-purple-50 to-blue-50 relative">
                                                                     <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover/media:scale-110 transition-transform">
                                                                         <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
@@ -503,17 +530,21 @@ export default function PublicProfileClient({ profile, entries }: PublicProfileC
                                                                     <p className="text-sm font-bold text-[#1A1D29] truncate mb-2">
                                                                         {mediaItem.originalName}
                                                                     </p>
-                                                                    <p className="text-xs text-[#6B7280] font-medium">
-                                                                        Audio file (view only)
+                                                                    <p className="text-xs text-[#6B7280] font-medium mb-2">
+                                                                        Audio file
                                                                     </p>
+                                                                    {/* Click to Play Text */}
+                                                                    <div className="absolute bottom-3 left-3 bg-purple-500/80 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-lg opacity-0 group-hover/media:opacity-100 transition-opacity">
+                                                                        Click to Play
+                                                                    </div>
                                                                 </div>
                                                             )}
 
-                                                            {/* View Only Badge */}
-                                                            <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm text-white text-xs px-3 py-1 rounded-xl font-medium">
-                                                                View Only
+                                                            {/* Click to View Badge */}
+                                                            <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm text-white text-xs px-3 py-1 rounded-xl font-medium opacity-0 group-hover/media:opacity-100 transition-opacity">
+                                                                Click to View
                                                             </div>
-                                                        </div>
+                                                        </button>
                                                     ))}
 
                                                     {entry.media.length > 3 && (
@@ -545,6 +576,15 @@ export default function PublicProfileClient({ profile, entries }: PublicProfileC
                         setCurrentProfile(updatedProfile);
                         // Update the profile data in the parent component if needed
                     }}
+                />
+            )}
+
+            {/* Media Viewer */}
+            {showMediaViewer && (
+                <MediaViewer
+                    media={selectedEntryMedia}
+                    initialIndex={selectedMediaIndex}
+                    onClose={() => setShowMediaViewer(false)}
                 />
             )}
         </div>
