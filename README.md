@@ -1,6 +1,6 @@
-# 📖 MemoirVault v1.2.0
+# 📖 MemoirVault v1.3.0
 
-> A privacy-first web application for recording personal autobiographies in a secure digital space with public sharing capabilities.
+> A privacy-first web application for recording personal autobiographies in a secure digital space with public sharing capabilities and comprehensive changelog system.
 
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
@@ -53,6 +53,17 @@
 - **Optimized performance** with reduced bundle size and faster load times
 - **Collapsible sidebar** with smooth navigation and proper scrolling
 - **Mobile-first design** with touch-optimized interactions
+- **Interactive Media Viewer** with fullscreen capabilities for images, videos, and audio
+- **Modern Modal System** with backdrop blur effects and smooth transitions
+- **Enhanced Mobile Navigation** with slide-out menu and touch gestures
+
+### 📋 Changelog & Transparency
+- **Beautiful Changelog Page** with glassmorphism design and version timeline
+- **Release Documentation** with detailed feature breakdowns and improvements
+- **What's New Navigation** with visual indicators for latest features
+- **Coming Soon Roadmap** for future feature visibility
+- **Professional Development Communication** with transparent progress updates
+- **User Feedback Integration** through changelog and issue reporting system
 
 ## 🚀 Quick Start
 
@@ -118,12 +129,33 @@
 6. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
+## 🆕 What's New in v1.3.0
+
+### 📋 Changelog System
+- **Interactive Changelog Page** - Beautiful `/changelog` route with glassmorphism design
+- **Version Timeline** - Comprehensive release documentation with feature breakdowns
+- **Navigation Integration** - "What's New" links in header and footer with visual indicators
+- **Coming Soon Roadmap** - Transparency about upcoming features and improvements
+
+### 🎨 Enhanced UI/UX
+- **Interactive Media Viewer** - Fullscreen image, video, and audio playback with modal system
+- **Modern Modal Design** - Backdrop blur effects and smooth transitions throughout the app
+- **Enhanced Mobile Navigation** - Slide-out menu with touch gestures and improved accessibility
+- **Professional Landing Page** - Updated navigation with changelog integration and visual indicators
+
+### 🔧 Technical Improvements
+- **Performance Optimizations** - Reduced bundle size and improved Core Web Vitals
+- **Enhanced Error Handling** - Comprehensive logging and user feedback systems
+- **Code Quality** - TypeScript improvements and better component architecture
+- **Documentation Updates** - Comprehensive README and changelog documentation
+
 ## 📚 Documentation
 
 - **[About Project](ABOUT-PROJECT.md)** - Detailed project overview and architecture
 - **[Deployment Guide](DEPLOYMENT.md)** - Step-by-step deployment instructions
 - **[Security Policy](SECURITY.md)** - Security features and vulnerability reporting
 - **[Changelog](CHANGELOG.md)** - Version history and updates
+- **[Live Changelog](/changelog)** - Interactive changelog page with latest features
 
 ## 🛠️ Development
 
@@ -149,8 +181,11 @@ memoirvault/
 ├── src/
 │   ├── app/                 # Next.js App Router
 │   │   ├── api/            # API routes
+│   │   ├── changelog/      # Interactive changelog page
 │   │   ├── dashboard/      # Dashboard pages
-│   │   └── debug/          # Debug tools
+│   │   ├── debug/          # Debug tools
+│   │   ├── public/         # Public profile system
+│   │   └── support/        # Support pages
 │   ├── components/         # React components
 │   ├── lib/               # Utilities and configurations
 │   │   ├── db/            # Database schema and client
@@ -235,12 +270,24 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ![GitHub issues](https://img.shields.io/github/issues/enclave-projects/memoirvault)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/enclave-projects/memoirvault)
 
+## 🎯 Key Highlights
+
+- **🔐 Privacy-First**: End-to-end encryption with no tracking or analytics
+- **📱 Modern UI**: Glassmorphism design with 60fps animations and responsive layout
+- **🤖 AI-Powered**: Google Gemini integration for writing assistance and story prompts
+- **🌐 Social Features**: Public profiles, follow system, and social feed for memoir sharing
+- **📋 Transparent Development**: Interactive changelog with comprehensive release documentation
+- **⚡ High Performance**: Optimized for Core Web Vitals with hardware-accelerated animations
+- **🛡️ Secure Storage**: Cloudflare R2 with comprehensive file management and cleanup
+- **📊 Usage Tracking**: Real-time storage monitoring with 2GB free tier
+
 ---
 
 <div align="center">
   <p>Built with ❤️ for privacy-conscious storytellers</p>
   <p>
     <a href="https://memoirvault.vercel.app">Live Demo</a> •
+    <a href="https://memoirvault.vercel.app/changelog">What's New</a> •
     <a href="https://github.com/enclave-projects/memoirvault/issues">Report Bug</a> •
     <a href="https://github.com/enclave-projects/memoirvault/discussions">Request Feature</a>
   </p>
