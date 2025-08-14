@@ -35,6 +35,13 @@ export default function Home() {
           <span className="font-serif text-xl font-semibold text-[#333F3C]">MemoirVault</span>
         </div>
         <div className="flex items-center space-x-4">
+          <a
+            href="/changelog"
+            className="text-[#333F3C] hover:text-[#004838] transition-colors duration-200 font-medium flex items-center gap-2"
+          >
+            What's New
+            <span className="bg-[#E2FB6C] text-[#004838] text-xs px-2 py-1 rounded-full font-bold animate-pulse">NEW</span>
+          </a>
           <SignedOut>
             <SignInButton
               mode="modal"
@@ -300,6 +307,10 @@ export default function Home() {
                 <li><a href="/support/help-center" className="hover:opacity-100 transition-opacity">Help Center</a></li>
                 <li><a href="/support/contact" className="hover:opacity-100 transition-opacity">Contact Us</a></li>
                 <li><a href="/support/community" className="hover:opacity-100 transition-opacity">Community</a></li>
+                <li><a href="/changelog" className="hover:opacity-100 transition-opacity flex items-center gap-2">
+                  Changelog
+                  <span className="bg-[#E2FB6C] text-[#004838] text-xs px-2 py-1 rounded-full font-bold">NEW</span>
+                </a></li>
                 <li><a href="/support/status" className="hover:opacity-100 transition-opacity">Status</a></li>
               </ul>
             </div>
