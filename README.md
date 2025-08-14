@@ -11,12 +11,14 @@
 ## ✨ Features
 
 ### 🔐 Privacy-First Design
+
 - **End-to-end encryption** for sensitive data
 - **No tracking or analytics** - your data stays yours
 - **GDPR compliant** with full data export/deletion rights
 - **Secure authentication** with Clerk (OAuth2)
 
 ### 📝 Rich Multimedia Journaling
+
 - **Text entries** with rich formatting
 - **Image uploads** with drag & drop support
 - **Audio recordings** for voice diaries
@@ -24,12 +26,14 @@
 - **Timeline view** for chronological browsing
 
 ### 🤖 AI-Powered Assistance
+
 - **Writing helper** using Google Gemini API
 - **Context-aware suggestions** for memoir writing
 - **Story prompts** and creative assistance
 - **Integrated feedback system** with GitHub issue reporting
 
 ### 🗄️ Robust Data Management
+
 - **Cloudflare R2 storage** for cost-effective file storage
 - **NeonDB database** for scalable metadata management
 - **Individual entry deletion** with complete cleanup
@@ -37,6 +41,7 @@
 - **Comprehensive file management** preventing orphaned files
 
 ### 🌐 Public Sharing & Social Features
+
 - **Public profiles** for sharing memoir journeys
 - **Follow system** to connect with other memoir writers
 - **Entry visibility control** - choose what to share publicly
@@ -45,6 +50,7 @@
 - **Advanced settings** with granular privacy controls
 
 ### 🎨 Modern User Experience
+
 - **High-performance landing page** with 60fps smooth animations
 - **Responsive design** optimized for all devices and screen sizes
 - **Intuitive interface** with accessibility compliance (WCAG 2.1 AA)
@@ -58,6 +64,7 @@
 - **Enhanced Mobile Navigation** with slide-out menu and touch gestures
 
 ### 📋 Changelog & Transparency
+
 - **Beautiful Changelog Page** with glassmorphism design and version timeline
 - **Release Documentation** with detailed feature breakdowns and improvements
 - **What's New Navigation** with visual indicators for latest features
@@ -68,6 +75,7 @@
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js 18+ and npm
 - A Clerk account for authentication
 - A NeonDB database
@@ -76,39 +84,43 @@
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/enclave-projects/memoirvault.git
    cd memoirvault
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.example .env.local
    ```
-   
+
    Fill in your environment variables:
+
    ```env
    # Clerk Authentication
    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
    CLERK_SECRET_KEY=sk_test_...
-   
+
    # Cloudflare R2
    BUCKET_NAME=your-bucket-name
    ACCESS_KEY_ID=your-r2-access-key
    SECRET_ACCESS_KEY=your-r2-secret-key
    PUBLIC_DEVELOPMENT_URL=https://pub-your-bucket-id.r2.dev
-   
+
    # NeonDB
    DATABASE_URL=postgresql://username:password@host/database
-   
+
    # Optional: AI Features
    GEMINI_API_KEY=your-gemini-api-key
-   
+
    # Optional: GitHub Integration
    GITHUB_TOKEN=your-github-token
    GITHUB_REPO_OWNER=your-username
@@ -116,12 +128,14 @@
    ```
 
 4. **Set up the database**
+
    ```bash
    npm run db:generate
    npm run db:migrate
    ```
 
 5. **Start the development server**
+
    ```bash
    npm run dev
    ```
@@ -132,18 +146,21 @@
 ## 🆕 What's New in v1.3.0
 
 ### 📋 Changelog System
+
 - **Interactive Changelog Page** - Beautiful `/changelog` route with glassmorphism design
 - **Version Timeline** - Comprehensive release documentation with feature breakdowns
 - **Navigation Integration** - "What's New" links in header and footer with visual indicators
 - **Coming Soon Roadmap** - Transparency about upcoming features and improvements
 
 ### 🎨 Enhanced UI/UX
+
 - **Interactive Media Viewer** - Fullscreen image, video, and audio playback with modal system
 - **Modern Modal Design** - Backdrop blur effects and smooth transitions throughout the app
 - **Enhanced Mobile Navigation** - Slide-out menu with touch gestures and improved accessibility
 - **Professional Landing Page** - Updated navigation with changelog integration and visual indicators
 
 ### 🔧 Technical Improvements
+
 - **Performance Optimizations** - Reduced bundle size and improved Core Web Vitals
 - **Enhanced Error Handling** - Comprehensive logging and user feedback systems
 - **Code Quality** - TypeScript improvements and better component architecture
@@ -199,16 +216,19 @@ memoirvault/
 ## 🔧 Configuration
 
 ### Clerk Authentication
+
 1. Create a Clerk application at [clerk.com](https://clerk.com)
 2. Configure your domain and authentication methods
 3. Add your publishable and secret keys to `.env.local`
 
 ### Cloudflare R2 Storage
+
 1. Create an R2 bucket in Cloudflare dashboard
 2. Generate R2 API tokens with read/write permissions
 3. Configure public access for file serving
 
 ### NeonDB Database
+
 1. Create a database at [neon.tech](https://neon.tech)
 2. Copy the connection string to your environment variables
 3. Run migrations to set up the schema
@@ -223,6 +243,7 @@ vercel deploy --prod
 ```
 
 **Features:**
+
 - Full Next.js features with serverless functions
 - Automatic deployments from Git
 - Edge functions and middleware support
@@ -235,6 +256,7 @@ For detailed deployment instructions, see [Deployment Guide](DEPLOYMENT.md)
 We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
 
 ### Development Workflow
+
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes
