@@ -188,7 +188,7 @@ export default function ChangelogPage() {
                 </div>
                 <div>
                   <h2 className="font-serif text-3xl font-bold text-[#1A1D29]">Version 1.2.1</h2>
-                  <p className="text-[#6B7280] font-medium">February 13, 2025 - Dashboard Modernization</p>
+                  <p className="text-[#6B7280] font-medium">August 21, 2025 - Dashboard Modernization</p>
                 </div>
               </div>
 
@@ -311,7 +311,7 @@ export default function ChangelogPage() {
                 </div>
                 <div>
                   <h2 className="font-serif text-3xl font-bold text-[#1A1D29]">Version 1.2.0</h2>
-                  <p className="text-[#6B7280] font-medium">January 31, 2025 - Performance Overhaul</p>
+                  <p className="text-[#6B7280] font-medium">August 18, 2025 - Performance Overhaul</p>
                 </div>
               </div>
 
@@ -341,7 +341,7 @@ export default function ChangelogPage() {
           </div>
         </div>
 
-        {/* Version 1.1.0 */}
+        {/* Version 1.1.2 */}
         <div className="mb-12">
           <div className="relative bg-white/60 backdrop-blur-xl rounded-3xl border border-white/20 shadow-xl p-8 overflow-hidden">
             <div className="absolute inset-0 opacity-5">
@@ -356,29 +356,122 @@ export default function ChangelogPage() {
                 </div>
                 <div>
                   <h2 className="font-serif text-3xl font-bold text-[#1A1D29]">Version 1.1.2</h2>
-                  <p className="text-[#6B7280] font-medium">January 30, 2025 - Public Platform Launch</p>
+                  <p className="text-[#6B7280] font-medium">August 5, 2025 - Public Platform Launch</p>
+                </div>
+              </div>
+
+              <div className="space-y-8">
+                {/* Major Features */}
+                <div>
+                  <h3 className="font-bold text-xl text-[#1A1D29] mb-4 flex items-center gap-2">
+                    <span className="text-2xl">🌐</span>
+                    Major Social Features
+                  </h3>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="bg-white/40 backdrop-blur-sm rounded-2xl p-6 border border-white/30">
+                      <h4 className="font-bold text-[#004838] mb-3">✨ Public Profile System</h4>
+                      <ul className="space-y-2 text-[#1A1D29]">
+                        <li>• Complete social sharing platform for memoir writers</li>
+                        <li>• Follow/unfollow system to connect with others</li>
+                        <li>• Public feed to discover and read entries</li>
+                        <li>• Entry visibility control (public/private)</li>
+                        <li>• Social discovery through discover page</li>
+                      </ul>
+                    </div>
+                    <div className="bg-white/40 backdrop-blur-sm rounded-2xl p-6 border border-white/30">
+                      <h4 className="font-bold text-[#004838] mb-3">🎛️ Advanced Settings</h4>
+                      <ul className="space-y-2 text-[#1A1D29]">
+                        <li>• Comprehensive settings modal with tabs</li>
+                        <li>• Entry selection popup for public sharing</li>
+                        <li>• Bulk operations for entry visibility</li>
+                        <li>• Profile management and deletion</li>
+                        <li>• Danger zone with data cleanup</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Performance & UX */}
+                <div>
+                  <h3 className="font-bold text-xl text-[#1A1D29] mb-4 flex items-center gap-2">
+                    <span className="text-2xl">🚀</span>
+                    Performance & UX Improvements
+                  </h3>
+                  <div className="bg-gradient-to-br from-blue-50 to-green-50 rounded-2xl p-6 border border-blue-200/30">
+                    <div className="grid md:grid-cols-3 gap-6">
+                      <div>
+                        <h4 className="font-bold text-[#004838] mb-3">⚡ Performance</h4>
+                        <ul className="space-y-2 text-[#1A1D29] text-sm">
+                          <li>• Optimistic UI updates</li>
+                          <li>• 80% query reduction</li>
+                          <li>• In-memory caching</li>
+                          <li>• Connection pooling</li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-[#004838] mb-3">🎨 UI/UX</h4>
+                        <ul className="space-y-2 text-[#1A1D29] text-sm">
+                          <li>• Collapsible sidebar</li>
+                          <li>• Backdrop blur effects</li>
+                          <li>• Loading animations</li>
+                          <li>• Mobile optimization</li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-[#004838] mb-3">🔧 Technical</h4>
+                        <ul className="space-y-2 text-[#1A1D29] text-sm">
+                          <li>• API optimization</li>
+                          <li>• Data consistency</li>
+                          <li>• Transaction handling</li>
+                          <li>• Security enhancements</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Version 1.1.1 */}
+        <div className="mb-12">
+          <div className="relative bg-white/60 backdrop-blur-xl rounded-3xl border border-white/20 shadow-xl p-8 overflow-hidden">
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500 rounded-full translate-x-16 -translate-y-16"></div>
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-red-500 rounded-full -translate-x-12 translate-y-12"></div>
+            </div>
+            
+            <div className="relative z-10">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg">
+                  <span className="text-white text-xl">🔧</span>
+                </div>
+                <div>
+                  <h2 className="font-serif text-3xl font-bold text-[#1A1D29]">Version 1.1.1</h2>
+                  <p className="text-[#6B7280] font-medium">August 1, 2025 - AI Helper Fixes</p>
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <h3 className="font-bold text-lg text-[#1A1D29] mb-4">🌐 Public Profile System</h3>
+                  <h3 className="font-bold text-lg text-[#1A1D29] mb-4">🔧 AI Helper Fixes</h3>
                   <ul className="space-y-2 text-[#1A1D29]">
-                    <li>• Complete social sharing platform</li>
-                    <li>• Follow/unfollow system</li>
-                    <li>• Public feed for discovering content</li>
-                    <li>• Entry visibility control</li>
-                    <li>• Social discovery features</li>
+                    <li>• Fixed AI Helper deployment issues</li>
+                    <li>• Corrected Gemini API integration</li>
+                    <li>• Updated environment variable configuration</li>
+                    <li>• Improved error handling for AI service failures</li>
+                    <li>• Fixed TypeScript component warnings</li>
                   </ul>
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg text-[#1A1D29] mb-4">🤖 AI Integration</h3>
+                  <h3 className="font-bold text-lg text-[#1A1D29] mb-4">📚 Documentation</h3>
                   <ul className="space-y-2 text-[#1A1D29]">
-                    <li>• AI Helper Bot with Google Gemini</li>
-                    <li>• Writing assistance and prompts</li>
-                    <li>• GitHub issue reporting system</li>
-                    <li>• Debug tools for storage testing</li>
-                    <li>• Enhanced error handling</li>
+                    <li>• Workflow diagrams with Mermaid</li>
+                    <li>• Complete database schema documentation</li>
+                    <li>• API documentation with examples</li>
+                    <li>• Comprehensive feature breakdown</li>
+                    <li>• Updated environment configuration</li>
                   </ul>
                 </div>
               </div>
@@ -401,7 +494,7 @@ export default function ChangelogPage() {
                 </div>
                 <div>
                   <h2 className="font-serif text-3xl font-bold text-[#1A1D29]">Version 1.1.0</h2>
-                  <p className="text-[#6B7280] font-medium">January 25, 2025 - AI Integration & Debug Tools</p>
+                  <p className="text-[#6B7280] font-medium">July 21, 2025 - AI Integration & Debug Tools</p>
                 </div>
               </div>
 
@@ -446,7 +539,7 @@ export default function ChangelogPage() {
                 </div>
                 <div>
                   <h2 className="font-serif text-3xl font-bold text-[#1A1D29]">Version 1.0.0</h2>
-                  <p className="text-[#6B7280] font-medium">January 22, 2025 - Initial Release</p>
+                  <p className="text-[#6B7280] font-medium">July 15, 2025 - Initial Release</p>
                 </div>
               </div>
 
