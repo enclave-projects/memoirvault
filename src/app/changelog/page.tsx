@@ -87,7 +87,7 @@ export default function ChangelogPage() {
                   </div>
                   <div>
                     <h2 className="font-serif text-3xl font-bold text-[#1A1D29]">Version 1.3.0</h2>
-                    <p className="text-[#6B7280] font-medium">February 14, 2025 - Latest Release</p>
+                    <p className="text-[#6B7280] font-medium">August 29, 2025 - Latest Release</p>
                   </div>
                 </div>
                 <div className="bg-green-100 text-green-800 px-4 py-2 rounded-2xl font-bold text-sm">
@@ -100,27 +100,29 @@ export default function ChangelogPage() {
                 <div>
                   <h3 className="font-bold text-xl text-[#1A1D29] mb-4 flex items-center gap-2">
                     <span className="text-2xl">📋</span>
-                    Changelog System & Transparency
+                    Changelog System & Documentation
                   </h3>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="bg-white/40 backdrop-blur-sm rounded-2xl p-6 border border-white/30">
                       <h4 className="font-bold text-[#004838] mb-3">✨ Added</h4>
                       <ul className="space-y-2 text-[#1A1D29]">
-                        <li>• Beautiful Changelog Page with glassmorphism design</li>
-                        <li>• Version timeline with detailed feature breakdowns</li>
-                        <li>• Interactive navigation from landing page</li>
-                        <li>• Coming Soon section for roadmap visibility</li>
-                        <li>• Professional release documentation</li>
+                        <li>• Interactive Changelog Page (/changelog) with modern design</li>
+                        <li>• Comprehensive version timeline with feature breakdowns</li>
+                        <li>• "What's New" navigation links with animated badges</li>
+                        <li>• Coming Soon roadmap section for transparency</li>
+                        <li>• Updated README.md with v1.3.0 features</li>
+                        <li>• Enhanced ABOUT-PROJECT.md documentation</li>
                       </ul>
                     </div>
                     <div className="bg-white/40 backdrop-blur-sm rounded-2xl p-6 border border-white/30">
                       <h4 className="font-bold text-[#004838] mb-3">🔧 Improved</h4>
                       <ul className="space-y-2 text-[#1A1D29]">
-                        <li>• Landing page navigation with "What's New" link</li>
+                        <li>• Landing page header with changelog navigation</li>
                         <li>• Footer integration with changelog access</li>
-                        <li>• Visual indicators for new features</li>
-                        <li>• User communication and transparency</li>
-                        <li>• Professional development documentation</li>
+                        <li>• Visual indicators for new features and updates</li>
+                        <li>• Professional development communication</li>
+                        <li>• User transparency and feature discovery</li>
+                        <li>• Project documentation and technical achievements</li>
                       </ul>
                     </div>
                   </div>
@@ -353,8 +355,8 @@ export default function ChangelogPage() {
                   <span className="text-white text-xl">🌐</span>
                 </div>
                 <div>
-                  <h2 className="font-serif text-3xl font-bold text-[#1A1D29]">Version 1.1.0</h2>
-                  <p className="text-[#6B7280] font-medium">January 25, 2025 - Public Platform Launch</p>
+                  <h2 className="font-serif text-3xl font-bold text-[#1A1D29]">Version 1.1.2</h2>
+                  <p className="text-[#6B7280] font-medium">January 30, 2025 - Public Platform Launch</p>
                 </div>
               </div>
 
@@ -377,6 +379,51 @@ export default function ChangelogPage() {
                     <li>• GitHub issue reporting system</li>
                     <li>• Debug tools for storage testing</li>
                     <li>• Enhanced error handling</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Version 1.1.0 */}
+        <div className="mb-12">
+          <div className="relative bg-white/60 backdrop-blur-xl rounded-3xl border border-white/20 shadow-xl p-8 overflow-hidden">
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute top-0 left-0 w-32 h-32 bg-blue-500 rounded-full -translate-x-16 -translate-y-16"></div>
+              <div className="absolute bottom-0 right-0 w-24 h-24 bg-green-500 rounded-full translate-x-12 translate-y-12"></div>
+            </div>
+            
+            <div className="relative z-10">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-green-500 rounded-2xl flex items-center justify-center shadow-lg">
+                  <span className="text-white text-xl">🤖</span>
+                </div>
+                <div>
+                  <h2 className="font-serif text-3xl font-bold text-[#1A1D29]">Version 1.1.0</h2>
+                  <p className="text-[#6B7280] font-medium">January 25, 2025 - AI Integration & Debug Tools</p>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="font-bold text-lg text-[#1A1D29] mb-4">🤖 AI Integration</h3>
+                  <ul className="space-y-2 text-[#1A1D29]">
+                    <li>• AI Helper Bot with Google Gemini API</li>
+                    <li>• Writing assistance and creative prompts</li>
+                    <li>• Context-aware memoir suggestions</li>
+                    <li>• GitHub issue reporting system</li>
+                    <li>• User feedback integration</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg text-[#1A1D29] mb-4">🔧 Debug & Improvements</h3>
+                  <ul className="space-y-2 text-[#1A1D29]">
+                    <li>• Debug tools for R2 storage testing</li>
+                    <li>• Individual entry deletion functionality</li>
+                    <li>• Enhanced file upload and deletion</li>
+                    <li>• Comprehensive logging system</li>
+                    <li>• Improved error handling</li>
                   </ul>
                 </div>
               </div>
