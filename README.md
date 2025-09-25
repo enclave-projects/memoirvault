@@ -1,4 +1,4 @@
-# 📖 MemoirVault v1.3.0
+# 📖 MemoirVault v1.2.1
 
 > A privacy-first web application for recording personal autobiographies in a secure digital space with public sharing capabilities and comprehensive changelog system.
 

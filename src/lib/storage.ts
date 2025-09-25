@@ -1,6 +1,7 @@
 import { db } from '@/lib/db';
 import { userStorage, media } from '@/lib/db/schema';
 import { eq, sum } from 'drizzle-orm';
+import { formatFileSize } from '@/lib/utils';
 
 // Storage limits in bytes
 export const STORAGE_LIMITS = {
@@ -66,7 +67,7 @@ export async function canUploadFile(userId: string, fileSize: number): Promise<S
     if (fileSize > available) {
       return {
         canUpload: false,
-        reason: `File size (${formatBytes(fileSize)}) exceeds available storage (${formatBytes(available)}). Please upgrade your plan or delete some files.`,
+        reason: `File size (${formatFileSize(fileSize)}) exceeds available storage (${formatFileSize(available)}). Please upgrade your plan or delete some files.`,
         currentUsage: userStorageInfo.storageUsed,
         limit: userStorageInfo.storageLimit,
         available,
@@ -179,18 +180,9 @@ export async function getUserStorage(userId: string) {
   }
 }
 
-// Utility function to format bytes
-export function formatBytes(bytes: number): string {
-  if (bytes === 0) return '0 Bytes';
-  const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-}
-
 // Check if user is approaching storage limit
 export function isApproachingLimit(usagePercentage: number): boolean {
-  return usagePercentage >= 80;
+  return usagePercentage >= 90;
 }
 
 // Check if user has exceeded storage limit

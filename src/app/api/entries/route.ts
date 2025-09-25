@@ -4,7 +4,7 @@ import { db } from '@/lib/db';
 import { entries, media } from '@/lib/db/schema';
 import { uploadToR2, deleteFromR2 } from '@/lib/r2';
 import { eq, desc, sql } from 'drizzle-orm';
-import { formatBytes } from '@/lib/utils';
+import { formatFileSize } from '@/lib/utils';
 import { updateStorageUsage, initializeUserStorage } from '@/lib/storage';
 
 // Create a Map to store recent submissions to prevent duplicates
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
             if (totalFileSize > availableStorage) {
                 return NextResponse.json({ 
                     error: 'Storage limit exceeded', 
-                    message: `File size (${formatBytes(totalFileSize)}) exceeds available space (${formatBytes(availableStorage)})` 
+                    message: `File size (${formatFileSize(totalFileSize)}) exceeds available space (${formatFileSize(availableStorage)})` 
                 }, { status: 413 });
             }
         }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { formatFileSize } from '@/lib/utils';
 
 interface StorageInfo {
   plan: string;
@@ -9,12 +10,14 @@ interface StorageInfo {
   storageUsed: number;
   storageAvailable: number;
   usagePercentage: number;
+  formattedUsed: string;
+  formattedLimit: string;
+  formattedAvailable: string;
 }
 
 export default function StorageManager() {
   const [storageInfo, setStorageInfo] = useState<StorageInfo | null>(null);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     fetchStorageInfo();
   }, []);
@@ -31,14 +34,6 @@ export default function StorageManager() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const formatBytes = (bytes: number): string => {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
   const getPlanColor = (plan: string) => {
@@ -91,8 +86,8 @@ export default function StorageManager() {
       {/* Storage Progress Bar */}
       <div className="mb-4">
         <div className="flex justify-between text-sm text-[#333F3C] mb-2">
-          <span>{formatBytes(storageInfo.storageUsed)} used</span>
-          <span>{formatBytes(storageInfo.storageLimit)} total</span>
+          <span>{formatFileSize(storageInfo.storageUsed)} used</span>
+          <span>{formatFileSize(storageInfo.storageLimit)} total</span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-3">
           <div
@@ -139,7 +134,7 @@ export default function StorageManager() {
       {/* Available Storage */}
       <div className="text-center mb-4">
         <p className="text-[#333F3C] text-sm">
-          <span className="font-medium">{formatBytes(storageInfo.storageAvailable)}</span> available
+          <span className="font-medium">{formatFileSize(storageInfo.storageAvailable)}</span> available
         </p>
       </div>
 

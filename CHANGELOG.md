@@ -5,7 +5,7 @@ All notable changes to MemoirVault will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - 2025-01-22
+## [1.0.0] - 2025-7-15
 
 ### 🎉 Initial Release
 
@@ -98,7 +98,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.1.0] - 2025-01-25
+## [1.1.0] - 2025-07-21
 
 ### 🤖 Added
 
@@ -133,7 +133,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.1.1] - 2025-01-28
+## [1.1.1] - 2025-08-1
 
 ### 🔧 Fixed
 
@@ -167,7 +167,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.1.2] - 2025-01-30
+## [1.1.2] - 2025-08-05
 
 ### 🌐 Major Features Added
 
@@ -258,7 +258,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.2.0] - 2025-01-31
+## [1.2.0] - 2025-08-18
 
 ### 🚀 Major Performance Overhaul
 
@@ -325,11 +325,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.2.1] - 2025-02-13
+## [1.2.1] - 2025-08-21
 
 ### 🎨 Dashboard & Modal System Modernization
 
 #### Added
+
 - **Modern Dashboard UI** - Complete visual overhaul with glassmorphism design
 - **Enhanced Modal System** - Fixed awkward modal positioning with proper backdrop blur
 - **Interactive Media Viewer** - Fullscreen image viewing, video playback, and audio controls
@@ -337,6 +338,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Responsive Sidebar** - Smart collapse/expand behavior for mobile and desktop
 
 #### Improved
+
 - **Settings Modal** - Modern gradient header with organized content sections
 - **AI Assistant Modal** - Beautiful purple gradient theme with proper content hierarchy
 - **Public Profile Pages** - Complete redesign with modern card layouts and animations
@@ -345,6 +347,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Following Page** - Beautiful connection cards with stats and interaction tracking
 
 #### Technical Enhancements
+
 - **Hardware-Accelerated Animations** - Smooth 60fps transitions using CSS transforms
 - **Glassmorphism Effects** - Modern backdrop blur and transparency throughout
 - **Mobile-First Design** - Responsive layouts optimized for all screen sizes
@@ -354,6 +357,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🎬 Interactive Media System
 
 #### Added
+
 - **MediaViewer Component** - Comprehensive modal for all media types
 - **Fullscreen Image Viewing** - Click to view with zoom in/out capabilities
 - **Video Playback Modal** - Native video controls in professional modal interface
@@ -362,6 +366,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **File Information Display** - Shows file size, upload date, and gallery position
 
 #### Features
+
 - **Keyboard Navigation** - ESC to close, arrow keys to navigate between files
 - **Touch-Friendly Controls** - Optimized for mobile and tablet interactions
 - **Professional Design** - Modern glassmorphism modal with backdrop blur
@@ -371,6 +376,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 📱 Mobile Experience Enhancement
 
 #### Fixed
+
 - **Mobile Menu Accessibility** - All public pages now have accessible navigation
 - **Sidebar Toggle Functionality** - Proper mobile/desktop state management
 - **Touch Target Optimization** - Larger, more accessible touch areas
@@ -378,6 +384,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Navigation Consistency** - Unified mobile experience across all pages
 
 #### Added
+
 - **Slide-Out Mobile Menu** - Professional navigation panel with backdrop
 - **Touch Gestures** - Improved mobile interaction patterns
 - **Mobile-First Headers** - Optimized header layouts for small screens
@@ -386,6 +393,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🎯 User Experience Improvements
 
 #### Enhanced
+
 - **Visual Hierarchy** - Better content organization and typography
 - **Interactive Elements** - Hover states, animations, and visual feedback
 - **Loading States** - Smooth loading animations and progress indicators
@@ -393,6 +401,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Navigation Flow** - Intuitive user journeys across all platform features
 
 #### Design System
+
 - **Consistent Branding** - Unified MemoirVault colors and styling
 - **Modern Typography** - Improved font hierarchy and readability
 - **Color Scheme** - Enhanced contrast ratios for better accessibility
@@ -401,12 +410,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🔧 Technical Improvements
 
 #### Performance
+
 - **Animation Optimization** - Hardware-accelerated CSS animations
 - **Bundle Efficiency** - Optimized component imports and code splitting
 - **Rendering Performance** - Reduced layout shifts and improved paint times
 - **Memory Management** - Efficient state management and cleanup
 
 #### Code Quality
+
 - **TypeScript Fixes** - Resolved duplicate imports and variable declarations
 - **Component Architecture** - Reusable MediaViewer component across pages
 - **Error Handling** - Comprehensive error boundaries and fallbacks

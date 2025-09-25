@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { media } from "@/lib/db/schema";
 import { eq, sum } from "drizzle-orm";
+import { formatFileSize } from "@/lib/utils";
 
 // Get user storage information
 export async function GET() {
@@ -39,9 +40,9 @@ export async function GET() {
       storageUsed,
       storageAvailable: storageLimit - storageUsed,
       usagePercentage,
-      formattedUsed: formatBytes(storageUsed),
-      formattedLimit: formatBytes(storageLimit),
-      formattedAvailable: formatBytes(storageLimit - storageUsed),
+      formattedUsed: formatFileSize(storageUsed),
+      formattedLimit: formatFileSize(storageLimit),
+      formattedAvailable: formatFileSize(storageLimit - storageUsed),
     };
     
     console.log('Storage API response:', responseData);
@@ -54,21 +55,11 @@ export async function GET() {
     return Response.json({
       plan: 'free',
       storageLimit,
-      storageUsed: 0,
       storageAvailable: storageLimit,
       usagePercentage: 0,
       formattedUsed: '0 Bytes',
-      formattedLimit: '2 GB',
-      formattedAvailable: '2 GB',
+      formattedLimit: formatFileSize(storageLimit),
+      formattedAvailable: formatFileSize(storageLimit),
     });
   }
-}
-
-// Format bytes to human readable format
-function formatBytes(bytes: number): string {
-  if (bytes === 0) return '0 Bytes';
-  const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
