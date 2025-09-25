@@ -2,24 +2,23 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { db } from '@/lib/db';
 import { entries, media } from '@/lib/db/schema';
-import { uploadToR2, deleteFromR2 } from '@/lib/r2';
+import { deleteFromR2 } from '@/lib/r2';
 import { eq, desc, sql } from 'drizzle-orm';
 import { formatFileSize } from '@/lib/utils';
 import { updateStorageUsage, initializeUserStorage } from '@/lib/storage';
 
-// Create a Map to store recent submissions to prevent duplicates
 const recentSubmissions = new Map<string, { userId: string, timestamp: number }>();
 
-// Clean up old submissions every 10 minutes
 setInterval(() => {
     const now = Date.now();
     for (const [id, data] of recentSubmissions.entries()) {
-        // Remove entries older than 10 minutes
         if (now - data.timestamp > 10 * 60 * 1000) {
             recentSubmissions.delete(id);
         }
     }
 }, 10 * 60 * 1000);
+
+const PUBLIC_R2_BASE_URL = process.env.PUBLIC_R2_URL ?? process.env.PUBLIC_DEVELOPMENT_URL ?? '';
 
 export async function POST(request: NextRequest) {
     try {
@@ -28,23 +27,29 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        const formData = await request.formData();
-        const title = formData.get('title') as string;
-        const description = formData.get('description') as string;
-        const submissionId = formData.get('submissionId') as string;
-        const files = formData.getAll('files') as File[];
+        const body = await request.json().catch(() => null) as RequestPayload | null;
+        if (!body) {
+            return NextResponse.json({ error: 'Invalid request payload' }, { status: 400 });
+        }
 
-        if (!title) {
+        const { title, description, submissionId, files } = body;
+
+        if (!isNonEmptyString(title)) {
             return NextResponse.json({ error: 'Title is required' }, { status: 400 });
         }
 
-        // Initialize user storage if not exists
+        const sanitizedFiles = sanitizeFiles(files, userId);
+        if (sanitizedFiles.invalid.length > 0) {
+            return NextResponse.json({
+                error: 'Invalid file metadata provided',
+                details: sanitizedFiles.invalid,
+            }, { status: 400 });
+        }
+
         await initializeUserStorage(userId);
 
-        // Check storage limits for all files
-        const totalFileSize = files.reduce((total, file) => total + file.size, 0);
+        const totalFileSize = sanitizedFiles.valid.reduce((total, file) => total + file.size, 0);
         if (totalFileSize > 0) {
-            // Calculate current storage usage
             let currentUsage = 0;
             try {
                 const result = await db.execute(sql`
@@ -56,140 +61,99 @@ export async function POST(request: NextRequest) {
             } catch (error) {
                 console.error('Error calculating storage usage:', error);
             }
-            
-            // Fixed 2GB storage limit
+
             const storageLimit = 2 * 1024 * 1024 * 1024; // 2GB
             const availableStorage = storageLimit - currentUsage;
-            
+
             if (totalFileSize > availableStorage) {
-                return NextResponse.json({ 
-                    error: 'Storage limit exceeded', 
-                    message: `File size (${formatFileSize(totalFileSize)}) exceeds available space (${formatFileSize(availableStorage)})` 
+                return NextResponse.json({
+                    error: 'Storage limit exceeded',
+                    message: `File size (${formatFileSize(totalFileSize)}) exceeds available space (${formatFileSize(availableStorage)})`
                 }, { status: 413 });
             }
         }
-        
-        // Check for duplicate submission
-        if (submissionId) {
+
+        if (isNonEmptyString(submissionId)) {
             const existingSubmission = recentSubmissions.get(submissionId);
             if (existingSubmission && existingSubmission.userId === userId) {
-                console.log(`Detected duplicate submission: ${submissionId}`);
                 return NextResponse.json({ error: 'Duplicate submission detected' }, { status: 409 });
             }
-            
-            // Store this submission to prevent duplicates
-            recentSubmissions.set(submissionId, { 
-                userId, 
-                timestamp: Date.now() 
+
+            recentSubmissions.set(submissionId, {
+                userId,
+                timestamp: Date.now()
             });
         }
-        
-        // Check for recent identical submissions (within last 30 seconds)
+
         const recentEntries = await db
             .select()
             .from(entries)
             .where(eq(entries.userId, userId))
             .orderBy(desc(entries.createdAt))
             .limit(5);
-            
+
         const now = new Date();
         const thirtySecondsAgo = new Date(now.getTime() - 30 * 1000);
-        
-        const duplicateEntry = recentEntries.find(entry => 
-            entry.title === title && 
+
+        const duplicateEntry = recentEntries.find(entry =>
+            entry.title === title &&
             entry.description === description &&
             new Date(entry.createdAt) > thirtySecondsAgo
         );
-        
+
         if (duplicateEntry) {
-            console.log(`Detected duplicate entry with title "${title}" created within last 30 seconds`);
             return NextResponse.json({ error: 'A similar entry was just created. Please wait a moment before creating another.' }, { status: 409 });
         }
 
-        // Create entry
         const [entry] = await db.insert(entries).values({
             userId,
             title,
             description,
         }).returning();
 
-        // Upload files and create media records
         const mediaRecords = [];
-        const uploadedFiles = []; // Track successfully uploaded files for cleanup in case of error
-        
-        try {
-            for (const file of files) {
-                if (file.size > 0) {
-                    const buffer = Buffer.from(await file.arrayBuffer());
-                    const fileExtension = file.name.split('.').pop();
-                    // Use a more consistent naming pattern
-                    const fileName = `${entry.id}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExtension}`;
-                    
-                    console.log(`🔧 Processing file: ${file.name}, extension: ${fileExtension}, generated fileName: ${fileName}`);
-                    
-                    try {
-                        // Upload to R2
-                        const publicUrl = await uploadToR2(buffer, fileName, file.type);
-                        uploadedFiles.push(fileName); // Track for potential cleanup
-    
-                        // Determine file type
-                        let fileType = 'other';
-                        if (file.type.startsWith('image/')) fileType = 'image';
-                        else if (file.type.startsWith('video/')) fileType = 'video';
-                        else if (file.type.startsWith('audio/')) fileType = 'audio';
-    
-                        console.log(`📁 Uploading file: ${file.name}, type: ${fileType}, mimeType: ${file.type}, fileName: ${fileName}`);
-    
-                        // Create media record
-                        const [mediaRecord] = await db.insert(media).values({
-                            entryId: entry.id,
-                            userId, // Add userId for easier querying
-                            fileName,
-                            originalName: file.name,
-                            fileType,
-                            mimeType: file.type,
-                            fileSize: file.size,
-                            filePath: fileName, // Use filePath instead of r2Key
-                            publicUrl,
-                        }).returning();
 
-                        console.log(`💾 Stored media record: ${mediaRecord.id}, filePath: ${mediaRecord.filePath}, fileType: ${mediaRecord.fileType}`);
-    
-                        mediaRecords.push(mediaRecord);
-                    } catch (uploadError) {
-                        console.error(`Failed to upload file ${file.name}:`, uploadError);
-                        // Continue with other files even if one fails
-                    }
-                }
+        try {
+            for (const file of sanitizedFiles.valid) {
+                const fileType = determineFileType(file.mimeType);
+
+                const [mediaRecord] = await db.insert(media).values({
+                    entryId: entry.id,
+                    userId,
+                    fileName: file.fileKey,
+                    originalName: file.originalName,
+                    fileType,
+                    mimeType: file.mimeType,
+                    fileSize: file.size,
+                    filePath: file.fileKey,
+                    publicUrl: file.publicUrl,
+                    metadata: file.metadata,
+                }).returning();
+
+                mediaRecords.push(mediaRecord);
             }
         } catch (error) {
-            console.error('Error during file processing:', error);
-            
-            // If we have an error after creating the entry but before completing all uploads,
-            // clean up by deleting the entry and any uploaded files
+            console.error('Error while saving media metadata:', error);
+
             if (entry && entry.id) {
                 try {
-                    // Delete the entry (cascade will delete media records)
                     await db.delete(entries).where(eq(entries.id, entry.id));
-                    
-                    // Delete uploaded files from R2
-                    for (const fileName of uploadedFiles) {
+
+                    await Promise.all(sanitizedFiles.valid.map(async (file) => {
                         try {
-                            await deleteFromR2(fileName);
-                            console.log(`Cleaned up file ${fileName} after error`);
+                            await deleteFromR2(file.fileKey);
                         } catch (deleteError) {
-                            console.error(`Failed to delete file ${fileName}:`, deleteError);
+                            console.error(`Failed to delete R2 object ${file.fileKey} during rollback:`, deleteError);
                         }
-                    }
+                    }));
                 } catch (cleanupError) {
-                    console.error('Failed to clean up after error:', cleanupError);
+                    console.error('Failed to clean up after metadata error:', cleanupError);
                 }
             }
-            
-            throw error; // Re-throw to be caught by the outer try/catch
+
+            throw error;
         }
 
-        // Update user storage usage after successful upload
         await updateStorageUsage(userId);
 
         return NextResponse.json({
@@ -250,12 +214,12 @@ export async function GET() {
                     } else {
                         // If user_id column doesn't exist, use a raw query
                         const result = await db.execute(sql`
-                            SELECT id, entry_id, file_name, original_name, file_type, 
+                            SELECT id, entry_id, file_name, original_name, file_type,
                                    mime_type, file_size, public_url, metadata, created_at
                             FROM media
                             WHERE entry_id = ${entry.id}
                         `);
-                        
+
                         entryMedia = result.rows.map(row => ({
                             id: row.id,
                             entryId: row.entry_id,
@@ -287,4 +251,94 @@ export async function GET() {
         console.error('Error fetching entries:', error);
         return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
+}
+
+interface RequestPayload {
+    title: string;
+    description?: string;
+    submissionId?: string;
+    files?: IncomingFile[];
+}
+
+interface IncomingFile {
+    fileKey?: string;
+    originalName?: string;
+    mimeType?: string;
+    size?: number;
+    publicUrl?: string;
+    metadata?: unknown;
+}
+
+interface SanitizedFile {
+    fileKey: string;
+    originalName: string;
+    mimeType: string;
+    size: number;
+    publicUrl: string;
+    metadata?: unknown;
+}
+
+interface SanitizedResult {
+    valid: SanitizedFile[];
+    invalid: string[];
+}
+
+function isNonEmptyString(value: unknown): value is string {
+    return typeof value === 'string' && value.trim().length > 0;
+}
+
+function sanitizeFiles(files: IncomingFile[] | undefined, userId: string): SanitizedResult {
+    if (!Array.isArray(files) || files.length === 0) {
+        return { valid: [], invalid: [] };
+    }
+
+    const invalid: string[] = [];
+    const valid: SanitizedFile[] = [];
+
+    files.forEach((raw, index) => {
+        if (!raw || !isNonEmptyString(raw.fileKey)) {
+            invalid.push(`files[${index}] is missing a valid fileKey`);
+            return;
+        }
+
+        if (!raw.fileKey.startsWith(`${userId}/`)) {
+            invalid.push(`files[${index}] has an unexpected key prefix`);
+            return;
+        }
+
+        const size = typeof raw.size === 'number' && Number.isFinite(raw.size) && raw.size >= 0 ? raw.size : 0;
+        const mimeType = isNonEmptyString(raw.mimeType) ? raw.mimeType : 'application/octet-stream';
+        const originalName = isNonEmptyString(raw.originalName)
+            ? raw.originalName
+            : (raw.fileKey.split('/').pop() ?? raw.fileKey);
+
+        const providedPublicUrl = isNonEmptyString(raw.publicUrl) ? raw.publicUrl : null;
+        const fallbackPublicUrl = isNonEmptyString(PUBLIC_R2_BASE_URL) ? `${PUBLIC_R2_BASE_URL}/${raw.fileKey}` : null;
+        const publicUrl = providedPublicUrl ?? fallbackPublicUrl;
+
+        if (!isNonEmptyString(publicUrl)) {
+            invalid.push(`files[${index}] is missing publicUrl and no PUBLIC_R2_URL is configured`);
+            return;
+        }
+
+        const metadata = typeof raw.metadata === 'object' && raw.metadata !== null ? raw.metadata : undefined;
+
+        valid.push({
+            fileKey: raw.fileKey,
+            originalName,
+            mimeType,
+            size,
+            publicUrl,
+            metadata,
+        });
+    });
+
+    return { valid, invalid };
+}
+
+function determineFileType(mimeType: string): string {
+    if (mimeType.startsWith('image/')) return 'image';
+    if (mimeType.startsWith('video/')) return 'video';
+    if (mimeType.startsWith('audio/')) return 'audio';
+    return 'other';
 }

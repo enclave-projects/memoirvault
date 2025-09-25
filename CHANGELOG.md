@@ -425,20 +425,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased]
+## [1.3.0] - 2025-09-25
 
-### Planned Features
+### 🔧 Fixed
 
-- AI-powered story suggestions and insights
-- Collaborative features for family sharing
-- Mobile applications (iOS/Android)
-- Offline mode with synchronization
-- Advanced search with full-text indexing
-- Export to multiple formats (PDF, EPUB)
-- Backup automation to external services
-- API access for third-party integrations
-- Themes and customization options
-- Multi-language support
+- **Production Upload Issue** - Resolved 413 "Request Entity Too Large" error in production deployments
+- **Direct-to-R2 Uploads** - Implemented presigned URL system to bypass Vercel's 4.5MB serverless function limit
+- **Upload Flow Refactor** - Files now upload directly to Cloudflare R2, then metadata is sent to API
+- **Storage Limit Enforcement** - Maintained quota validation using file size metadata
+- **Error Handling** - Enhanced cleanup and rollback for failed upload operations
+
+### 🚀 Added
+
+- **Presigned URL API** - New `/api/uploads/presign` endpoint for generating secure upload URLs
+- **Metadata-Based Entry Creation** - Refactored `/api/entries` to accept file metadata instead of raw file payloads
+- **File Validation** - Enhanced client-side validation for file metadata and security checks
+- **Upload Progress Tracking** - Improved user feedback during multi-step upload process
+
+### 🛠️ Technical
+
+- **Upload Architecture** - Complete rewrite of upload system for production scalability
+- **Security Enhancement** - Presigned URLs with time-limited access and proper file key validation
+- **Performance Optimization** - Eliminated server-side file processing bottlenecks
+- **Type Safety** - Added comprehensive TypeScript interfaces for upload metadata
+- **Error Recovery** - Robust rollback mechanisms for partial upload failures
+
+### 🎯 Impact
+
+- **Production Compatibility** - Uploads now work seamlessly in production environments
+- **Scalability** - No more file size limits imposed by serverless function constraints
+- **User Experience** - Faster uploads with better progress feedback and error handling
+- **Cost Efficiency** - Reduced server load and improved resource utilization
 
 ---
 
