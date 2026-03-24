@@ -323,8 +323,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 =======
   <p>Built with ❤️ for privacy-conscious storytellers</p>
   <p>
-    <a href="https://memoirvault.vercel.app">Live Demo</a> •
-    <a href="https://memoirvault.vercel.app/changelog">What's New</a> •
+    <a href="#">Live Demo</a> •
+    <a href="#">What's New</a> •
     <a href="https://github.com/enclave-projects/memoirvault/issues">Report Bug</a> •
     <a href="https://github.com/enclave-projects/memoirvault/discussions">Request Feature</a>
   </p>
